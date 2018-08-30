@@ -1,0 +1,801 @@
+[ 2018-08-30T10:45:50+08:00 ] 39.104.172.9 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.016959s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.020341s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.037842s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0131s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0094s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+NOTIC: [8] unserialize(): Error at offset 0 of 11 bytes C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 207 行.
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 322 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0115s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0113s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0081s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0001s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0178s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000171s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000223s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.157952s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.158006s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.010662s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.011059s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.021799s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.010110s ]
+INFO: [ app_end ] --END-- [ RunTime:0.010166s ]
+
+[ 2018-08-30T14:16:28+08:00 ] 113.251.21.183 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.022861s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.022689s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.059655s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0381s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0129s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0146s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0144s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0109s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0120s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000166s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000219s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.213768s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.213824s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.026525s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.014996s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.041650s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.011184s ]
+INFO: [ app_end ] --END-- [ RunTime:0.011259s ]
+
+[ 2018-08-30T14:16:39+08:00 ] 113.251.21.183 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000844s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001783s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0144s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0093s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0088s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0088s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0110s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0001s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0092s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0001s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000194s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000233s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.057634s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.057678s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000475s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000504s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001042s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000683s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000727s ]
+
+[ 2018-08-30T14:16:42+08:00 ] 113.251.21.183 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000685s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000852s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001995s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0152s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0093s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0089s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0096s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0084s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0002s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0089s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000163s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000205s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.061347s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.061402s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000554s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000551s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001181s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000652s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000704s ]
+
+[ 2018-08-30T14:16:55+08:00 ] 113.251.21.183 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000609s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000832s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001831s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0168s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0011s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0093s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0091s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0089s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0107s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0092s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000203s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000243s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.058162s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.058237s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000620s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000525s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001217s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000753s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000809s ]
+
+[ 2018-08-30T14:17:30+08:00 ] 39.104.172.9 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000714s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001019s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002228s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0159s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0093s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0089s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0103s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0085s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0099s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000228s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000279s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.073995s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.074056s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000602s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000627s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001310s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000746s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000816s ]
+
+[ 2018-08-30T17:47:16+08:00 ] 113.251.21.183 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000502s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000959s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001917s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0205s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0013s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0156s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0128s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0194s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0130s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0003s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0179s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000273s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000338s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.077544s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.077598s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000435s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000355s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000851s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000639s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000684s ]
+
+[ 2018-08-30T17:48:08+08:00 ] 113.251.21.183 /index.php?g=mobile&m=index&a=login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000571s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000932s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002022s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0182s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0011s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0128s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0113s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0121s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0011s ]
+NOTIC: [8] Undefined index: HTTP_REFERER C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 779 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000151s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000206s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.038202s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.038274s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000342s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000382s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000808s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000598s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000658s ]
+
+[ 2018-08-30T17:48:16+08:00 ] 101.91.60.106 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000503s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000623s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001457s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0176s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0012s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0117s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0115s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0112s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0103s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0106s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000167s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000210s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.074857s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.074910s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000291s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000313s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000659s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000466s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000506s ]
+
+[ 2018-08-30T17:48:51+08:00 ] 113.251.21.183 /Index/login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000505s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000647s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001543s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0152s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0108s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0099s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0117s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000141s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000193s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.041766s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.041840s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000305s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000427s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000793s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000524s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000563s ]
+
+[ 2018-08-30T17:48:53+08:00 ] 113.251.21.183 /Index/login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000788s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001634s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002928s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0163s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0313s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0005s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0176s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0111s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000150s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000215s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.043280s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.043357s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000456s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000471s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000989s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000662s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000706s ]
+
+[ 2018-08-30T17:48:54+08:00 ] 113.251.21.183 /Index/login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000551s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000651s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001598s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0154s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0094s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0091s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0098s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000103s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000154s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.038808s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.038878s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000447s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000381s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000908s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000678s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000745s ]
+
+[ 2018-08-30T17:48:59+08:00 ] 113.251.21.183 /Index/login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000845s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001825s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0167s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0135s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0105s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0108s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [8] Undefined index: HTTP_REFERER C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 779 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000100s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000145s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.035737s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.035813s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000358s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000406s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000842s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000646s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000698s ]
+
+[ 2018-08-30T17:49:04+08:00 ] 113.251.21.183 /
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000471s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000626s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001437s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0175s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0107s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0122s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0109s ]
+SQL: SHOW COLUMNS FROM `ehecd_member_lab` [ RunTime:0.0098s ]
+SQL: SELECT `lab` FROM `ehecd_member_lab` WHERE `uid` = null LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [8] Undefined index: lablist C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 547 行.
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SELECT `id`,`name` FROM `ehecd_label` WHERE `is_del` = 0 AND `status` = 1  [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `ehecd_member` [ RunTime:0.0087s ]
+SQL: SELECT `status` FROM `ehecd_member` WHERE `id` = null LIMIT 1   [ RunTime:0.0002s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000194s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000236s ]
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 84 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined index: color C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 162 行.
+NOTIC: [8] Undefined variable: member_id C:\www\dzjk\data\runtime\Cache\Mobile\6d618a87475e5a1cad77f6cdb4102506.php 第 200 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.066953s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.067015s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000388s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000414s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000883s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000613s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000696s ]
+
+[ 2018-08-30T17:49:05+08:00 ] 113.251.21.183 /Public/index
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000553s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000825s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001825s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0177s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0091s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+
+[ 2018-08-30T17:49:07+08:00 ] 113.251.21.183 /Index/index
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000879s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001379s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002753s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0170s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0114s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0091s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0102s ]
+NOTIC: [8] Uninitialized string offset: 0 C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 85 行.
+NOTIC: [8] Undefined variable: isdl C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 217 行.
+SQL: SHOW COLUMNS FROM `ehecd_article` [ RunTime:0.0145s ]
+SQL: SELECT `id` FROM `ehecd_article` ORDER BY id desc LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT AC.id,AC.isyc,AC.author,AC.id as aid,AC.type,AC.title,AC.author,AC.create_time,AC.content,AC.label,M.zy,AC.thumb,AC.dzs,AC.pls,AC.fxs,M.nickname,M.avatar,MI.hosp,MI.zw FROM ehecd_article AC LEFT JOIN ehecd_member M on M.id = AC.author LEFT JOIN ehecd_member_intro MI on M.id = MI.pid  WHERE AC.tj = 1 AND AC.is_delete = 0 ORDER BY AC.create_time desc,AC.dzs desc LIMIT 0,8   [ RunTime:0.3022s ]
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0142s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0011s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0001s ]
+NOTIC: [8] Uninitialized string offset: 0 C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 480 行.
+SQL: SHOW COLUMNS FROM `ehecd_adve` [ RunTime:0.0139s ]
+SQL: SELECT `id`,`links`,`pic`,`title` FROM `ehecd_adve` WHERE `st` < 1535622547 AND `ent` > 1535622547 AND `status` = 1 AND `is_delete` = 0 AND `zsqy` LIKE '%1%' ORDER BY id desc LIMIT 1   [ RunTime:0.0011s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0001s ]
+SQL: SELECT `name` FROM `ehecd_label` WHERE `id` = 86 LIMIT 1   [ RunTime:0.0001s ]
+
+[ 2018-08-30T17:49:08+08:00 ] 61.151.225.135 /index.php?g=mobile&m=index&a=login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000638s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001048s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002094s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0171s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0009s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0206s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0012s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0105s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0111s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [8] Undefined index: HTTP_REFERER C:\www\dzjk\application\Mobile\Controller\IndexController.class.php 第 779 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000137s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000194s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.045230s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.045285s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000452s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000374s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000887s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000578s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000619s ]
+
+[ 2018-08-30T17:49:08+08:00 ] 113.251.21.183 /Index/login
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000424s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000612s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001388s ]
+SQL: SHOW COLUMNS FROM `ehecd_options` [ RunTime:0.0119s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Common\Model\DestinationModel::_before_write() should be compatible with Common\Model\CommonModel::_before_write(&$data) C:\www\dzjk\application\Common\Model\DestinationModel.class.php 第 13 行.
+SQL: SHOW COLUMNS FROM `ehecd_destination` [ RunTime:0.0074s ]
+SQL: SELECT `id` FROM `ehecd_destination` WHERE `city` = 0 AND `is_delete` = 0 AND `pid` > 0 ORDER BY sort asc LIMIT 1   [ RunTime:0.0003s ]
+NOTIC: [2] unlink(C:\www\dzjk/data/runtime/Temp/ce8cd3bd49c327fce0dc03f91039d49f.php): No such file or directory C:\www\dzjk\simplewind\Core\Library\Think\Cache\Driver\File.class.php 第 313 行.
+SQL: SHOW COLUMNS FROM `ehecd_label` [ RunTime:0.0062s ]
+NOTIC: [2048] Declaration of Common\Model\HelpModel::deleteBatch() should be compatible with Common\Model\CommonModel::deleteBatch($ids, $field = 'id') C:\www\dzjk\application\Common\Model\HelpModel.class.php 第 131 行.
+SQL: SHOW COLUMNS FROM `ehecd_help` [ RunTime:0.0063s ]
+SQL: SELECT * FROM `ehecd_options` WHERE ( option_name='site_options' ) LIMIT 1   [ RunTime:0.0008s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000135s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000202s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.035800s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.035858s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000263s ]
+INFO: Run Common\Behavior\TmplStripSpaceBehavior [ RunTime:0.000287s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000605s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000451s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000500s ]
+

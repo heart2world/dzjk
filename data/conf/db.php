@@ -7,7 +7,7 @@ return array(
     'DB_HOST' => 'localhost',
     'DB_NAME' => 'dzjk',
     'DB_USER' => 'root',
-    'DB_PWD' => 'root',
+    'DB_PWD' => 'Test1235',
     'DB_PORT' => '3306',
     'DB_PREFIX' => 'ehecd_',
     'DB_CHARSET' => 'utf8mb4',
