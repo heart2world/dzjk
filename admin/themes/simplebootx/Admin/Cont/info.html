@@ -1,0 +1,152 @@
+<admintpl file="header" />
+<style>
+    .form-required{ color: red}
+    body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {margin:0;padding:0;-webkit-text-size-adjust: none}
+    h1, h2, h3, h4, h5, h6{font-size:12px;font-weight:normal}
+    body>div{margin:0 auto}
+    div {text-align:left}
+    a img {border:0}
+    body { color: #333; text-align: center; font: 12px "宋体"; }
+    ul, ol, li {list-style-type:none;vertical-align:0}
+    a {outline-style:none;color:#535353;text-decoration:none}
+    a:hover { color: #D40000; text-decoration: none}
+    .selectbox{width:600px;height:220px;margin:0px auto;}
+    .selectbox div{float:left;}
+    .selectbox .select-bar{padding:0 20px;}
+    .selectbox .select-bar select{width:200px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
+    .btn-bar{}
+    .btn-bar p{margin-top:16px;}
+    .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-family:simsun;font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li ><a href="javascript:history.back()">内容列表</a></li>
+        <li class="active"><a>详情</a></li>
+    </ul>
+    <form class="form-horizontal  js-ajax-form"  method="post" id="thisForm">
+
+        <div class="control-group">
+            <label class="control-label">消息标题：</label>
+            <div class="controls">
+                 {$data.title}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">消息内容：</label>
+            <div class="controls">
+                {$data.content}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">操作员：</label>
+            <div class="controls">
+                {$data.admi}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">发送时间：</label>
+            <div class="controls">
+                {$data.create_time}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">接收数量：</label>
+            <div class="controls">
+                {$data.jss}
+            </div>
+        </div>
+    <if condition="$data['jss'] gt 0">
+        <div style="margin-left: 11%;border-radius: 4px;border: 1px solid #e1e1e8;padding-top:10px;width:55%; margin-bottom: 14px;"  >
+            <div class="control-group" >
+                <label class="control-label">类型：</label>
+                <div class="controls">
+                    <select class="select_2" id="type_s" name="cate_id"  style="width:70px">
+                        <option value="all">全部</option>
+                        <option value="1" >普通用户</option>
+                        <option value="2">医生</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group" >
+                <label class="control-label">昵称：</label>
+                <div class="controls">
+                    <input type="text" name="nickname" style="width: 150px;" placeholder="昵称"  value="" id="nickname">
+                    <input type="button" class="btn btn-primary" @click="get_user" value="查询" >
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="selectbox">
+                    <table  class="table table-hover table-bordered table-list">
+                        <thead>
+                    <tr id="tr">
+                        <th>类型</th>
+                        <th>用户昵称</th>
+                    </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="tr2" v-cloak v-for="item in users">
+                            <td>{{item.type}}</td>
+                            <td>{{item.name}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <vue-pager :conf.sync="pagerConf"></vue-pager>
+                </div>
+            </div>
+        </div>
+    </if>
+    </form>
+
+</div>
+</body>
+<input type="hidden" class="id" value="{$data.id}">
+</html>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+
+<script>
+    var vm = new Vue({
+        el:'#seckill',
+        data:{
+            users:[],
+            all_id:[],
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function ()
+            {
+                this.get_user(false);
+            }
+        },
+        methods:{
+            get_user:function(search)
+            {
+                var p = search == true ? 1 : this.pagerConf.currPage;
+                var nickname = $('#nickname').val();
+                var type_s = $('#type_s').val();
+                var id = $('.id').val();
+                $.getJSON("{:U('get_info_user')}",{p:p,id:id,nickname:nickname,type_s:type_s},function(res){
+                    vm.users = res.info.list;
+                    vm.pagerConf.totalPage = res.info.total_page;
+
+                })
+            },
+        },
+        created:function()
+        {
+            this.get_user(true);
+        }
+    })
+
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>

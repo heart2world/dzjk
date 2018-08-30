@@ -1,0 +1,149 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#J" data-toggle="tab">裸机/配件配送范围</a></li>
+            <li><a href="#O" data-toggle="tab">合约机配送范围</a></li>
+		</ul>
+		<form class="form-horizontal" action="{:U('setting/range_post')}" method="post" id="thisForm">
+			<fieldset>
+				<div class="tabbable">
+					<div class="tab-content">
+						<php>if($option_id):</php>
+						<input type="hidden" name="option_id" value="{$option_id}">
+						<php>endif;</php>
+						<div class="tab-pane active" id="J">
+							<fieldset>
+								<div class="control-group">
+									<label class="control-label">
+										<input type="radio" checked value="1" name="options[is_all]"
+										<if condition="$is_all eq 1">checked</if>
+											>全国 </label>
+									<div class="controls">
+
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label"><input type="radio" value="0" name="options[is_all]"
+										<if condition="$is_all eq 0">checked</if>
+											>成都 </label>
+									<div class="controls">
+
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label"></label>
+									<div class="controls">
+										<div id="area_list">
+											<table class="table">
+												<tr>
+													<volist name="region_list" id="vo">
+														<td>
+															<label class="checkbox inline">
+																<input value="{$vo.region_id}" <if condition="in_array_string($vo['region_id'],$luoji_area_id)"> checked</if> type="checkbox" name="options[luoji_area_id][]" > {$vo.region_name}
+															</label>
+														</td>
+														<php>
+															if( ($key+1) % 5 == 0 ){
+														</php>
+															</tr><tr>
+														<php>
+															}
+														</php>
+													</volist>
+
+												</tr>
+											</table>
+
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+                        <div class="tab-pane" id="O">
+                            <fieldset>
+								<div class="control-group">
+									<label class="control-label"></label>
+									<div class="controls">
+
+											<table class="table">
+												<tr>
+													<volist name="region_list" id="vo">
+														<td>
+															<label class="checkbox inline">
+																<input value="{$vo.region_id}" <if condition="in_array_string($vo['region_id'],$heyueji_area_id)"> checked</if> type="checkbox" name="options[heyueji_area_id][]" > {$vo.region_name}
+															</label>
+														</td>
+														<php>
+															if( ($key+1) % 5 == 0 ){
+														</php>
+												</tr><tr>
+												<php>
+													}
+												</php>
+												</volist>
+
+											</tr>
+											</table>
+
+									</div>
+								</div>
+
+                            </fieldset>
+                        </div>
+
+					</div>
+				</div>
+
+				<div class="form-actions">
+					<button type="button" id="btn_submit" class="btn btn-primary">{:L("SAVE")}</button>
+				</div>
+			</fieldset>
+		</form>
+
+	</div>
+	<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+	<script>
+		$("#btn_submit").click(function(){
+			$("#btn_submit").prop("disabled",true);
+			$.ajax({
+				url:"{:U('setting/range_post')}",
+				type:"POST",
+				data:$("#thisForm").serialize(),
+				dataType:"json",
+				success:function (data) {
+					if(data.status == 1){
+						Wind.use('artDialog', function () {
+							art.dialog({
+								content:'保存成功',
+								icon: 'succeed',
+								id: 'popup',
+								lock: true,
+								ok:function(){
+									location.reload();
+								}
+							});
+
+						})
+					}else{
+						Wind.use('artDialog', function () {
+							art.dialog({
+								content:data.info,
+								icon: 'error',
+								id: 'popup',
+								lock: true,
+								time: 2
+							});
+
+						});
+						$("#btn_submit").prop("disabled",false);
+					}
+				}
+
+			})
+		})
+	</script>
+</body>
+</html>

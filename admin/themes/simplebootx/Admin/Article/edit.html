@@ -1,0 +1,334 @@
+<admintpl file="header" />
+<style>
+    .form-required{ color: red}
+    body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {margin:0;padding:0;-webkit-text-size-adjust: none}
+    h1, h2, h3, h4, h5, h6{font-size:12px;font-weight:normal}
+    body>div{margin:0 auto}
+    div {text-align:left}
+    a img {border:0}
+    body { color: #333; text-align: center; font: 12px "宋体"; }
+    ul, ol, li {list-style-type:none;vertical-align:0}
+    a {outline-style:none;color:#535353;text-decoration:none}
+    a:hover { color: #D40000; text-decoration: none}
+    .selectbox{width:600px;height:220px;margin:0px auto;}
+    .selectbox div{float:left;}
+    .selectbox .select-bar{padding:0 20px;}
+    .selectbox .select-bar select{width:200px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
+    .btn-bar{}
+    .btn-bar p{margin-top:16px;}
+    .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-family:simsun;font-size:14px;}
+    .spec-sub {
+        margin-right: 20px;
+        float: left;
+    }
+    .controls span{
+        margin-right: 10px;
+    }
+    .ueditorbox{
+        height: auto;
+    }
+    .ueditorbox .ued
+    {
+        width: 800px;
+        height: 500px;
+        overflow-y:scroll;
+        margin-bottom: 200px;
+    }
+    .delchildbox {
+        color: red;
+        cursor: pointer;
+    }
+    .inputboxlist{
+        width: 100px;
+    }
+    .addhybtn
+    {
+        display: inline-block;padding: 4px 12px;margin-bottom: 0;font-size: 14px;
+        line-height: 20px;color: #333;text-align: center;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.75);    vertical-align: middle;
+        cursor: pointer;
+        background-color: #2fa4e7;
+        color: #FFF;
+        margin-bottom: 1px;
+    }
+    .delchildbox {
+        color: red;
+        cursor: pointer;
+    }
+    #photos li{ float: left; margin: 10px;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li ><a href="javascript:history.back()">文章列表</a></li>
+        <li class="active"><a><if condition="ACTION_NAME eq 'add'">添加<else/>编辑</if>文章</a></li>
+    </ul>
+    <form  class="form-horizontal"  method="post" @submit.prevent="submit_form">
+
+        <div class="control-group" >
+            <label class="control-label">所属标签：</label>
+            <div class="controls">
+                <select class="select_2 labellist" name="cate_id" style="width:100px">
+                    <if condition="$info">
+                        <option value="{$label.id}">{$label.name}</option>
+                        <else/>
+                        <option value="0">请选择标签</option>
+                    </if>
+                    <if condition="lab neq null">
+                        <volist name="lab" id="vo">
+                            <option value="{$vo.id}" >{$vo.name}</option>
+                        </volist>
+                    </if>
+                </select>
+               <span style="margin-left: 10%;font-size: 14px;font-weight: normal;line-height: 20px;">
+                       推荐到首页：
+                        <input <if condition="$info.tj eq q">checked</if> type="checkbox" id="checkbox-id" class="istjshouye"> 是
+               </span>
+            </div>
+        </div>
+
+        <div class="control-group" >
+            <label class="control-label">作者：</label>
+            <div class="controls">
+                <select class="select_2 zzp" name="cate_id"  style="width:100px">
+                    <if condition="$info">
+                        <option value="{$author.id}">{$author.nickname}</option>
+                        <else/>
+                        <option value="0">平台发布</option>
+                    </if>
+
+                    <if condition="count($yslist) neq null">
+                    <volist name="yslist" id="ys">
+
+                        <option value="{$ys.id}" >{$ys.nickname}</option>
+                    </volist>
+                    </if>
+
+                </select>
+            </div>
+        </div>
+        <div class="control-group" >
+            <label class="control-label">标题：</label>
+            <div class="controls">
+                <input type="text" value="{$info.title}" class="title" name="keywords" placeholder="30字以内" style="width: 200px;"  >&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="control-group" >
+            <label class="control-label">列表展示图：
+                <br>(建议尺寸:500*500)
+            </label>
+            <div class="controls">
+                <fieldset>
+                    <legend>图片列表</legend>
+                    <ul id="photos" class="pic-list unstyled">
+                        <foreach name="picarr" item="picitem">
+                            <li>
+                                <img  onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'"
+                                      src="{$picitem}"  class="ttt"  style="cursor: hand;width: 100px;height: 100px" ondblclick="image_priview('{$picitem}');"/>
+                                <input required readonly title='双击查看' type="hidden" value="{$picitem}"  style="width:310px;" ondblclick="image_priview('{$picitem}');" class="input image-url-input picurl">
+                                <a href="javascript:;" onclick="removepic(this)">移除</a>
+                            </li>
+                        </foreach>
+                        <li  v-for="photo in goods.photos">
+                            <img  onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'"
+                                  src="{{photo}}"  class="ttt"  style="cursor: hand;width: 100px;height: 100px" ondblclick="image_priview('{{photo}}');"/>
+                            <input required readonly title='双击查看' type="hidden" value="{{photo}}"  style="width:310px;" ondblclick="image_priview('{{photo}}');" class="input image-url-input picurl">
+                            <a href="javascript:;" @click="remove_image(photo)">移除</a>
+                        </li>
+                    </ul>
+                    <div style="clear: both"></div>
+                </fieldset>
+                <a href="javascript:;" id="photos_upload_btn" class="btn btn-small">选择图片</a>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">消息内容：</label>
+            <div class="controls">
+                <textarea type="text/plain" id="content" name="content">{$info.content}</textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button  type="submit"  class="btn btn-primary  js-ajax-submit">保存</button>
+            <a  href="javascript:history.back();" class="btn btn-primary">取消</a>
+        </div>
+        <input id="id" type="hidden" name="id" value="{$info.id}"  >
+    </form>
+</div>
+</body>
+</html>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vue1.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script>
+    function removepic(obj) {
+        $(obj).parent().remove();
+    }
+    var app = new Vue({
+        el:'#seckill',
+        data:{
+            id:'{$id}',
+            goods: {
+                photos: [],
+            }
+        },
+        methods:{
+
+            remove_image: function (image) {
+                this.goods.photos.$remove(image);
+            },
+            submit_form:function ()
+            {
+                var label =  $('.labellist').children('option:selected').val();
+
+                if(parseInt(label) <= 0)
+                {
+                    Wind.use('artDialog', function () {
+                        art.dialog({
+                            content: '必须选择一个标签',
+                            icon: 'error',
+                            id: 'popup',
+                            lock: true,
+                            time: 2
+                        });
+                    })
+                    return false;
+                }
+
+                if($('#checkbox-id').is(':checked')) {
+                    var tj = 1;
+                }else
+                {
+                    var tj = 0;
+                }
+                var zzp =  $('.zzp').children('option:selected').val();
+
+                var title = $('.title').val();
+
+                if(title.length == 0)
+                {
+                    Wind.use('artDialog', function () {
+                        art.dialog({
+                            content: '必须填标题',
+                            icon: 'error',
+                            id: 'popup',
+                            lock: true,
+                            time: 2
+                        });
+                    })
+                    return false;
+                }
+
+                if(title.length > 30)
+                {
+
+                    Wind.use('artDialog', function () {
+                        art.dialog({
+                            content: '标题30字以内',
+                            icon: 'error',
+                            id: 'popup',
+                            lock: true,
+                            time: 2
+                        });
+                    })
+                    return false;
+                }
+                var contents = content.getContent();
+                var c = this.goods;
+                var imgarr=[];
+                var index=0;
+                $(".picurl").each(function () {
+                    imgarr[index]=$(this).val();
+                    index++;
+                });
+                c.photos=imgarr;
+                var id=this.id;
+                $.ajax({
+                    url: "{:U('edit_content')}",
+                    type: "POST",
+                    data: {goods: c,label:label,tj:tj,zzp:zzp,title:title,contents:contents,id:id},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 1)
+                        {
+                            Wind.use('noty', 'noty', function () {
+                                var n = noty({
+                                    text: data.info,
+                                    type: 'success'
+                                });
+                            });
+                            setTimeout(function () {
+                                location.href = "{:U('index')}";
+                            }, 2000)
+                        } else {
+                            Wind.use('artDialog', function () {
+                                art.dialog({
+                                    content: data.info,
+                                    icon: 'error',
+                                    id: 'popup',
+                                    lock: true,
+                                    time: 2
+                                });
+                            })
+                        }
+                    }
+                })
+            }
+        },
+
+    })
+
+    var content = new baidu.editor.ui.Editor(
+        {
+            initialFrameWidth : 900,
+            initialFrameHeight  : 400,
+        });
+    content.render('content');
+    content.ready(function (editor) {
+        try {
+            content.sync();
+        } catch (err) {
+
+        }
+    });
+
+
+    $(function ()
+    {
+        $("#photos_upload_btn").click(function () {
+            var num= app.goods.photos.length;
+            if(num>=3){
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        content: '最多只能添加三张',
+                        icon: 'error',
+                        id: 'popup',
+                        lock: true,
+                        time: 2
+                    });
+                })
+                return false;
+            }
+            var ready_photos_num = 3- $("#photos li").length;
+            var args = ready_photos_num + ",gif|jpg|jpeg|png|bmp,0";
+            flashupload('albums_images', '图片上传', 'photos', change_images2, args, '', '', '')
+        })
+    })
+    function change_images2(uploadid, returnid) {
+        var d = uploadid.iframe.contentWindow;
+        var in_content = d.$("#att-status").html().substring(1);
+        var in_filename = d.$("#att-name").html().substring(1);
+        var str = $('#' + returnid).html();
+        var contents = in_content.split('|');
+        var filenames = in_filename.split('|');
+        $('#' + returnid + '_tips').css('display', 'none');
+        if (contents == '') return true;
+        for(i in contents){
+            app.goods.photos.splice(app.goods.photos.length,0,contents[i]);
+        }
+    }
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>

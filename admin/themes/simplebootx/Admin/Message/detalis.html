@@ -1,0 +1,36 @@
+<admintpl file="header" />
+<style>
+    .form-required{ color: red}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li ><a href="javascript:history.back()">消息列表</a></li>
+        <li class="active"><a>消息详情</a></li>
+    </ul>
+
+
+    <form class="form-horizontal  js-ajax-form">
+        <div class="control-group">
+            <label class="control-label">收信人: </label>
+            <div class="controls">
+                <span>{$data.receive_member_type}</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">标题：</label>
+            <div class="controls">
+              <span>{$data.title}</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">内容：</label>
+            <div class="controls">
+              <span>{$data.content}</span>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

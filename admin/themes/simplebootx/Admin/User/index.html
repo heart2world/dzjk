@@ -1,0 +1,147 @@
+<admintpl file="header" />
+
+</head>
+
+<body>
+
+<div class="wrap js-check-wrap">
+
+	<ul class="nav nav-tabs">
+
+		<li class="active"><a href="{:U('user/index')}">{:L('ADMIN_USER_INDEX')}</a></li>
+
+		<li><a href="{:U('user/add')}">添加后台用户</a></li>
+
+	</ul>
+	<form class="well form-search" method="post" action="/Admin/User/index" >
+		关键词：
+		<input type="text" name="keyword" style="width: 200px;" placeholder="账号/姓名/手机号"  value="{$search.keyword}">&nbsp;&nbsp;
+		所属角色：
+		<select name="role_id" id="role_id">
+			<option value="">全部</option>
+			<volist name="all_roles" id="vo">
+				<option value="{$vo.id}" <if condition="$role_id == $vo['id']">selected</if>	>{$vo.title}</option>
+			</volist>
+		</select>
+
+		<input type="submit" class="btn btn-primary"  value="搜索">
+	</form>
+	<table class="table table-hover table-bordered">
+
+		<thead>
+
+		<tr>
+			<th>姓名</th>
+			<th>登录账号</th>
+			<th>手机号</th>
+			<th>所属角色</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+
+		<tbody>
+
+		<php>$user_statuses=array("0"=>L('USER_STATUS_BLOCKED'),"1"=>L('USER_STATUS_ACTIVATED'),"2"=>L('USER_STATUS_UNVERIFIED'));</php>
+
+		<foreach name="users" item="vo">
+
+			<tr>
+				<td>{$vo.user_nicename}</td>
+				<td>{$vo.user_login}</td>
+				<td>{$vo.mobile}</td>
+				<td>{$vo.title}</td>
+				<!--<td>{$vo.mobile}</td>-->
+				<td>{$vo.user_status_text}</td>
+				<td>
+					<if condition="$vo['id'] eq 1 || $vo['title'] eq '医生'">
+						<font color="#cccccc">{:L('EDIT')}</font> | <font color="#cccccc">{:L('DELETE')}</font><!-- |
+							<if condition="$vo['user_status'] eq 1">
+								<font color="#cccccc">{:L('BLOCK_USER')}</font>
+							<else />
+								<font color="#cccccc">{:L('ACTIVATE_USER')}</font>
+							</if>-->
+
+					<else/>
+						<a href='{:U("user/edit",array("id"=>$vo["id"]))}'>{:L('EDIT')}</a>
+						<if condition="$vo['id'] neq session('ADMIN_ID')">
+							|<a class="js-ajax-delete" href="{:U('user/delete',array('id'=>$vo['id']))}">{:L('DELETE')}</a>
+							<!--|
+                            <if condition="$vo['user_status'] eq 1">
+
+                                <a href="{:U('user/cancelban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="{:L('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:L('ACTIVATE_USER')}</a>
+                            </if>-->
+							|<a href="javascript:;" onclick="resetting({$vo['id']})" >重置密码</a>
+
+							|<a href="javascript:;" onclick="dongjie({$vo['id']})" ><if condition="$vo['user_status'] eq 1">冻结<else />解冻</if></a>
+						</if>
+
+					</if>
+
+				</td>
+				<td>
+				</td>
+			</tr>
+		</foreach>
+		</tbody>
+
+	</table>
+
+
+	<div class="pagination pagination-centered" ><ul>{$page}</ul></div>
+
+
+</div>
+
+<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+
+</html>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script>
+	// window.location.reload();
+	function resetting(id){
+		Wind.use('artDialog', function () {
+			art.dialog({
+				title: false,
+				icon: 'question',
+				content: "确定要重置密码？重置后为123456",
+				ok: function () {
+					$.getJSON("{:U('resetting_pwd')}",{id:id},function (res) {
+						if(res.status == 1){
+							$.dialog({id: 'popup', lock: true,icon:"succeed", content: "重置成功", time: 2});
+
+						}else{
+							$.dialog({id: 'popup', lock: true,icon:"error", content:"重置失败,原密码为123456", time: 2});
+						}
+					})
+				},
+				cancelVal: '关闭',
+				cancel: true
+			});
+		});
+	}
+	
+	function dongjie(id) {
+        Wind.use('artDialog', function () {
+            art.dialog({
+                title: false,
+                icon: 'question',
+                content: "确定要执行此操作吗?",
+                ok: function () {
+                    $.getJSON("{:U('djAction')}",{id:id},function (res) {
+                        if(res.status == 1){
+                            $.dialog({id: 'popup', lock: true,icon:"succeed", content: "操作成功", time: 2});
+                            window.location.reload();
+                        }else{
+                            $.dialog({id: 'popup', lock: true,icon:"error", content:"操作失败", time: 2});
+                        }
+                    })
+                },
+                cancelVal: '关闭',
+                cancel: true
+            });
+        });
+    }
+</script>

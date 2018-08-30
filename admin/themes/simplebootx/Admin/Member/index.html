@@ -1,0 +1,230 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">用户列表</a></li>
+    </ul>
+
+    <div class="well form-search " >
+        用户昵称/电话：
+        <input type="text" name="nickname" style="width: 200px;" v-model="search.nickname" placeholder="昵称/电话"  @keyup.enter="mySearch">&nbsp;&nbsp;
+         状态：
+        <select class="select_2" name="cate_id" v-model="search.status" style="width:70px">
+            <option value="100">全部</option>
+            <option value="1" >正常</option>
+            <option value="0">冻结中</option>
+        </select> &nbsp;
+        省 ：
+        <select class="select_2 prov" id="departure_province" name="prov" style="width:70px" v-model="search.prov"   @change="get_city()">
+            <option value="all">全部</option>
+            <volist name="province" id="vo">
+                <option value="{$vo.region_id}">{$vo.region_name}</option>
+            </volist>
+        </select>
+        市：
+        <select class="select_2 city" name="city" id="departure_city" style="width:70px">
+            <option value="all">全部</option>
+            <option v-for="it in city" :value="it.region_id">{{it.region_name}}</option>
+        </select>
+
+          <input type="button" class="btn btn-primary" @click="mySearch()" value="查询">
+        <!--<input type="button" class="btn btn-info" @click="export_excel()" value="导出Excel">-->
+    </div>
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+
+    </table>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <!--<th style="width: 5%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>-->
+            <th>首次登录时间</th>
+            <th>头像</th>
+            <th>昵称</th>
+            <th>电话</th>
+            <th>积分</th>
+            <th>省（直辖市）</th>
+            <th>市</th>
+            <th>最后登录时间</th>
+            <th style="text-align: center;">提问数量</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="tr2" v-cloak v-for="item in list">
+            <!--<td><input  style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>-->
+            <td style="text-align: left;">{{item.first}}</td>
+            <td><img :src="item.avatar" width="60" style="height: 60px !important;"></td>
+            <td>{{item.nickname}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.integral}}</td>
+            <td>{{item.prov}}</td>
+            <td>{{item.city}}</td>
+            <td>{{item.last_login_time}}</td>
+            <td style="text-align: center;">{{item.number}}</td>
+            <td>{{item.status==1?'正常':'冻结中'}}</td>
+            <td>
+                <a v-if="item.status==0" href="javascript:void(0);" @click="openBatch(item.id)" class="btn btn-small btn-warning">解冻</a>
+                <a v-if="item.status==1" href="javascript:void(0);" @click="frozenBtn(item.id)" class="btn btn-small btn-warning">冻结</a>
+                <a class="btn btn-small btn-info" :href="'{:U('Member/answerlist')}&mid='+ item.id">查看提问记录</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+    <input type="hidden" value="1" id="currPage" />
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+
+
+    var vm = new Vue({
+        el:"#seckill",
+        data: {
+            city:[],
+            pagerConf:{
+                totalPage : 0,
+                currPage : $("#currPage").val()?$("#currPage").val():1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            list: null,
+            search: { p: 1,nickname:'',status:100,prov:'all',city:'all'}
+
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.getData();
+            }
+        },
+        methods:{
+            get_city:function(){
+                $.getJSON("/Admin/Doctor/get_city",{parent_id:$('#departure_province').val()},function (res) {
+                    if(res.status==1){
+                        vm.city = res.list;
+                        if(!res.list){
+                            $.dialog({id: 'popup',icon: 'error', lock: true, content: '未获取到城市', ok:function(){}});
+                        }
+                    }else{
+                        $.dialog({id: 'popup',icon: 'error', lock: true, content: res.msg, ok:function(){}});
+                    }
+                })
+            },
+            export_excel: function () {
+                var data = vm.search;
+                var str='';
+                for(var key in data){
+                    str+=key+'='+data[key]+'&';
+                }
+                location.href="{:U('export')}?"+str;
+            },
+            sort_order:function(order){
+                vm.search.order=order;
+                this.getData();
+            },
+            frozenBtn:function (id)
+            {
+                if(!id)
+                {
+                    $.dialog({id: 'popup', lock: true,icon:"error", content: '参数不存在', time: 2});
+                }else{
+                    var url = "/Admin/Member/frozenAction1/"+"/id/"+id;
+                    $.getJSON(url,function (res) {
+                        if(res.status == 1){
+                            vm.getData();
+                            $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                        }else{
+                            $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                        }
+                    })
+                }
+            },
+
+            //启用支持批量
+            openBatch:function(id){
+                if(id==''){
+                    id=vm.get_select_id();
+                    if(id==''){
+                        return false;
+                    }
+                }
+                var url = "/Admin/Member/open_member1/"+"/id/"+id;
+                Wind.use('artDialog', function () {
+                    $.getJSON(url,function (res) {
+                        if(res.status == 1){
+                            vm.getData();
+                            setTimeout(function(){
+                                $(".checkbox").prop('checked',false)
+                            },2000);
+                            $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+
+                        }else{
+                            $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                        }
+                    })
+                })
+            },
+            get_select_id:function(){
+                var id="";
+                $(".checkbox").each(function(){
+                    if($(this).prop("checked")){
+                        id += $(this).val()+',';
+                    }
+                });
+                if(id==''){
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: "请至少选择一条信息", time: 2});
+                    return false;
+                }
+                return id;
+            },
+
+
+            getData:function () {
+                var data = this.search;
+                data.st_time=$("#st_time").val();
+                data.end_time=$("#end_time").val();
+                data.p = this.pagerConf.currPage;
+                $.getJSON("{:U('index')}",data,function (res) {
+                    if(res.status==1){
+                        vm.list = res.info.list;
+                        vm.pagerConf.totalPage = res.info.total_page;
+                        $("#currPage").val(res.info.p);
+
+                    }else{
+                        $.dialog({id: 'popup',icon: 'error', lock: true, content: res.msg, ok:function(){}});
+                    }
+                })
+            },
+            mySearch:function(){
+                this.getData(true);
+            },
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+
+
+
+        },
+        created: function () {
+            this.mySearch();
+        }
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

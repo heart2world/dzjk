@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{:L('ADMIN_CENTER')}管理系统</title>
+    <link href="__TMPL__Public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__Public/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!-- Toastr style -->
+    <link href="__TMPL__Public/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    <link href="__TMPL__Public/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="__TMPL__Public/css/animate.css" rel="stylesheet">
+    <link href="__TMPL__Public/css/style.css" rel="stylesheet">
+    <style>
+        .content-tabs{
+            border-bottom: solid 2px #2f4050;
+            position: relative;
+            height: 42px;
+            background: #fafafa;
+            line-height: 40px;
+        }
+        .content-tabs .roll-left{
+            left: 0;
+            border-right: solid 1px #eee;
+        }
+        .content-tabs .roll-nav, .page-tabs-list {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            color: #999;
+            z-index: 2;
+            top: 0;
+        }
+        .content-tabs button {
+            background: #fff;
+            border: 0;
+            height: 40px;
+            width: 40px;
+            outline: 0;
+        }
+        nav.page-tabs {
+            margin-left: 40px;
+            width: 100000px;
+            height: 40px;
+            overflow: hidden;
+        }
+        nav.page-tabs .page-tabs-content {
+            float: left;
+        }
+        .page-tabs a {
+            color: #999;
+        }
+        .page-tabs a {
+            display: block;
+            float: left;
+            border-right: solid 1px #eee;
+            padding: 0 15px;
+        }
+        .J_menuTab {
+            -webkit-transition: all .3s ease-out 0s;
+            transition: all .3s ease-out 0s;
+        }
+        .page-tabs a i {
+            color: #ccc;
+        }
+        .page-tabs a.active {
+            background: #2f4050;
+            color: #a7b1c2;
+        }
+        .roll-right.J_tabRight {
+            right: 140px;
+        }
+        .content-tabs .roll-right {
+            right: 0;
+            border-left: solid 1px #eee;
+        }
+
+        .content-tabs .roll-nav, .page-tabs-list {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            color: #999;
+            z-index: 2;
+            top: 0;
+        }
+        style.min.css?v=4.1.0:1
+        .content-tabs button {
+            background: #fff;
+            border: 0;
+            height: 40px;
+            width: 40px;
+            outline: 0;
+        }
+        .roll-right.btn-group {
+            right: 60px;
+            width: 80px;
+            padding: 0;
+        }
+        .roll-right.J_tabExit {
+            background: #fff;
+            height: 40px;
+            width: 60px;
+            outline: 0;
+        }
+        .roll-right.btn-group button {
+            width: 80px;
+        }
+
+        .dropdown-menu-right {
+            left: auto;
+        }
+        .dropdown-menu {
+            border: medium none;
+            display: none;
+            float: left;
+            font-size: 12px;
+            left: 0;
+            list-style: none outside none;
+            padding: 0;
+            position: absolute;
+            text-shadow: none;
+            top: 100%;
+            z-index: 1000;
+            border-radius: 0;
+            box-shadow: 0 0 3px rgba(86,96,117,.3);
+        }
+        .roll-right.J_tabRight {
+            right: 140px;
+        }
+        /*@media (max-width: 768px) #content-main {*/
+                /*height: calc(100% - 100px);*/
+            /*}*/
+            #content-main {
+                height: calc(100% - 140px);
+                overflow: hidden;
+            }
+    </style>
+</head>

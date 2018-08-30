@@ -1,0 +1,226 @@
+<include file="Public:header" title="个人中心"/>
+<body>
+<section class="flex_column w-height100">
+    <input type="radio" id="box1" name="nav" class="hide" checked="checked"/>
+    <input type="radio" id="box2" name="nav" class="hide" />
+    <div class="w-bgcolor44D397 top_div">
+        <a href="javascritp:;" class="headLeft"></a>
+        <a href="javascritp:; " class="headRight "></a>
+        <div class="headTit">
+            <div class="choice_swicth">
+                <label data-id="1" @click="change_show(0)" :class="show==0?'foreBtnBoxAce':''"  for="box1">评论消息</label>
+                <label data-id="2" @click="change_show(1)" :class="show==1?'foreBtnBoxAce':''"   for="box2">站内信</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-flexitem1 w-section back-f7f7f7" id="htmlId" v-cloak>
+        <div class="msg_pingjia">
+
+            <div class="msg_pingjiaBox back-fff p_both15">
+
+
+                <div class="pingjia_item flex_dom p-v-15">
+                    <div class="left">
+                        <a href="javascript:;"><img src="../image/slice/touxiang1.png"/></a>
+                    </div>
+                    <div class="pingjia_con flex_1">
+                        <h4 class="flex_dom flex_item_between flex_item_mid"><span>kkkman<em></em><b class="font12 color-999">回复了我</b></span><a href="javascript:;">回复</a></h4>
+                        <div class="text_con">
+                            “羊城名医”、家庭医生在线专家顾问、肾内科专家、中国科学院院士侯凡凡自认是个平凡的女人，但是她用用心、绎出她认为她的坚韧与动力来源于…   全文
+                        </div>
+                        <div class="huifu_list">
+                            <div class="huifu_item">
+                                <span>我:</span>你是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                            <div class="huifu_item">
+                                <span>kkkman:</span>你才是是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                            <div class="huifu_item">
+                                <span>我:</span>你是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                        </div>
+                        <div class="time flex_dom flex_item_between flex_item_mid">
+                            <span class="color-999">2小时</span> <label><input type="checkbox" /><span><img src="../image/slice/dianzan1.png"/><img src="../image/slice/dianzan2.png"/></span><em>1112</em></label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="pingjia_item flex_dom p-v-15">
+                    <div class="left">
+                        <a href="javascript:;"><img src="../image/slice/touxiang1.png"/></a>
+                    </div>
+                    <div class="pingjia_con flex_1">
+                        <h4 class="flex_dom flex_item_between flex_item_mid"><span>kkkman<em></em><b class="font12 color-999">回复了我</b></span><a href="javascript:;">回复</a></h4>
+                        <div class="text_con">
+                            “羊城名医”、家庭医生在线专家顾问、肾内科专家、中国科学院院士侯凡凡自认是个平凡的女人，但是她用用心、绎出她认为她的坚韧与动力来源于…   全文
+                        </div>
+                        <div class="huifu_list">
+                            <div class="huifu_item">
+                                <span>我:</span>你是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                            <div class="huifu_item">
+                                <span>kkkman:</span>你才是是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                            <div class="huifu_item">
+                                <span>我:</span>你是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                        </div>
+                        <div class="time flex_dom flex_item_between flex_item_mid">
+                            <span class="color-999">12.22 10:20</span> <label><input type="checkbox" /><span><img src="../image/slice/dianzan1.png"/><img src="../image/slice/dianzan2.png"/></span><em>1112</em></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pingjia_item flex_dom p-v-15">
+                    <div class="left">
+                        <a href="javascript:;"><img src="../image/slice/touxiang1.png"/></a>
+                    </div>
+                    <div class="pingjia_con flex_1">
+                        <h4 class="flex_dom flex_item_between flex_item_mid"><span>kkkman<em></em><b class="font12 color-999">回复了我</b></span><a href="javascript:;">回复</a></h4>
+                        <div class="text_con">
+                            “羊城名医”、家庭医生在线专家顾问、肾内科专家、中国科学院院士侯凡凡自认是个平凡的女人，但是她用用心、绎出她认为她的坚韧与动力来源于…   全文
+                        </div>
+                        <div class="huifu_list">
+                            <div class="huifu_item">
+                                <span>我:</span>你是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                            <div class="huifu_item">
+                                <span>kkkman:</span>你才是是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                            <div class="huifu_item">
+                                <span>我:</span>你是猪你是猪你是猪你是猪你是猪你是猪你是猪
+                            </div>
+                        </div>
+                        <div class="time flex_dom flex_item_between flex_item_mid">
+                            <span class="color-999">12.22 10:20</span> <label><input type="checkbox" /><span><img src="../image/slice/dianzan1.png"/><img src="../image/slice/dianzan2.png"/></span><em>1112</em></label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="msg_pingjiaBox p_both15 back-fff">
+
+                <a href="/Message/detail/id/22" class="msg_item">
+                    <h4 class="flex_dom"><span class="flex_1">这里标题</span><em>10:20</em></h4>
+                    <p>这里是消息大概内容展示，只展示一行，多余的表示...</p>
+                </a>
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<include file="Public:js"/>
+</html>
+
+<input type="hidden" class="type" value="{$_GET['type']}">
+
+ <script type="text/javascript">
+     window.onload = function () {
+         msg_list_loading = false;
+         //页面加载后替换
+         var vm = new Vue({
+             el: '#htmlId',
+             data: {
+                 list: [],
+                 show:$("#currPage").val() ? $("#currPage").val() : 0,
+                 page: {
+                     p: 0,
+                     totalPage: 1,
+                     loadContent: "加载更多"
+                 }
+             },
+             watch: {
+                 'show': function () {
+                     this.mySearch(true);
+                     $("#currPage").val(this.show);
+                 }
+             },
+             methods: {  //方法
+                 change_show:function(show){
+                     this.show=show;
+                 },
+                 mySearch: function (search) {
+                     if (search) {
+                         this.list = [];
+                         this.page.p = 0;
+                         this.page.totalPage = 1;
+                         this.page.loadContent = '加载更多';
+                     }
+                     msg_list_loading = true;
+                     if (this.page.p < this.page.totalPage) {
+                         var p = this.page.p == 0 ? this.page.p = 1 : this.page.p += 1;
+                         var url="{:U('index')}";
+                         if(this.show==1){
+                             url="{:U('Kflog/index')}";
+                         }
+                         $.getJSON(url+"/t/"+new Date().getTime(), { p: p}, function (data) {
+                             vm.list = vm.list.concat(data.info.list);
+                             vm.page.totalPage = data.info.total_page;
+                             $(".page_more_load").show();
+                             if (vm.page.p >= vm.page.totalPage) {
+                                 vm.page.loadContent = '没有更多了';
+                                 if (data.info.total_page == 1 || data.info.total_page == 0) {
+                                     vm.page.loadContent = '';
+                                     $(".page_more_load").hide();
+                                 }
+                             }
+                             if(!vm.list||vm.list.length==0){
+                                 $(".noData").show();
+                             }
+                             msg_list_loading = false;
+                         })
+                     }
+                 },
+                 detail:function(id){
+                     location.href="{:U('detail')}/id/"+id;
+                 },
+                 kf_detail:function(id){
+                     location.href="{:U('Kflog/detail')}/kf_id/"+id;
+                 },
+             },
+             //页面加载后调用ajax请求数据
+             created: function () {
+                 this.mySearch(true);
+             }
+         });
+
+         //下拉滚动分页
+         $("#scroll_content").scroll(function () {
+             //得到整个页面高度
+             var html_height = $(".list_content").height();
+
+             //加上底部导航的高度
+             //html_height = html_height + $("#foot").height();//1031
+
+             //得到当前屏幕高度
+             var screen_height = document.documentElement.clientHeight;//363
+
+             //得到滚动条到顶部的距离
+             var scroll_height = $("#scroll_content").scrollTop();//760
+
+             if (scroll_height >= html_height - screen_height) {
+                 $(document).scrollTop(scroll_height - 1);
+                 //调用请求数据
+                 if (!msg_list_loading) {
+                     vm.mySearch(false);
+                 }
+             };
+         });
+     }
+
+    $(function() {
+        $('.typeBtn').click(function () {
+            var type = $(this).attr('data-id');
+
+        });
+    });
+
+</script>

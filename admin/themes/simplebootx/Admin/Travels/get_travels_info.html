@@ -1,0 +1,87 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="user_withdrawals">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:history.back()">返回</a></li>
+    </ul>
+
+    <div style=" ">
+        <volist name="list" id="vo">
+            <div class="control-group" style="margin:20px">
+                <label class="control-label">游记标题：
+                    {$vo.title}
+                </label>
+            </div>
+
+            <div class="control-group" style="margin:20px">
+                <label class="control-label">发布者昵称：
+                    {$vo.nickname}
+                </label>
+            </div>
+
+            <div class="control-group" style="margin:20px">
+                <label class="control-label">发布者手机号：
+                    {$vo.mobile}
+                </label>
+            </div>
+            <div style="clear: both"></div>
+            <div class="control-group" style="margin:20px">
+                <label class="control-label">发布时间：
+                    {$vo.create_times}
+                </label>
+            </div>
+
+            <div class="control-group" style="margin:20px">
+                <label class="control-label">所属目的地：
+                    {$vo.province_name} - {$vo.city_name}
+                </label>
+            </div>
+
+            <div class="control-group" style="margin:20px">
+                <label class="control-label">目的地封面图：
+                </label>
+                <div class="controls" style="margin-left: 100px;">
+                    <img src="{$vo.logo}" alt="" width="20%">
+                </div>
+            </div>
+            <table class="table  table-bordered table-list" style="border: none;width:300px;margin-left: 120px;">
+                <tr >
+                    <td style="border: none">浏览量 : {$vo.browsing_count}</td>
+                    <td style="border: none">置顶数 : {$vo.top_num}</td>
+                </tr>
+                <tr style="border: none">
+                    <td style="border: none">评论数 : <a href="{:U('get_comment',array('id'=>$vo['id']))}">{$vo.comment_count}</a></td>
+                    <td style="border: none">打赏数 : <a href="{:U('gratuity_list',array('id'=>$vo['id']))}">{$vo.g_count}</a></td>
+                </tr>
+            </table>
+
+
+
+            <div class="control-group" style="margin:20px;" >
+                <label class="control-label">攻略详情 ：
+                </label>
+                <div class="controls" style="margin-left: 100px;margin-top: -24px;width: 600px">
+                    {$vo.content}
+                </div>
+                <div  style="margin-left: 100px;width: 500px;">
+                    <volist name="vo['content_img']" id="val">
+                        <img src="{$val}" alt="" width="120px;" style="margin: 8px;">
+                    </volist>
+                </div>
+            </div>
+
+
+
+
+        </volist>
+
+    </div>
+
+
+
+</div>
+</div>
+</body>
+
+</html>

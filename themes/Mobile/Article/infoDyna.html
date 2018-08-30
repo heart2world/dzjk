@@ -1,0 +1,379 @@
+<include file="Public:header" title="动态"/>
+<body>
+<style type="text/css">
+    .ygz{
+        display: block;padding-left: .4rem;height: .4rem;line-height: .4rem;font-size: 14px;color: #333;
+    }
+</style>
+<section class="flex_column w-height100 w-bgcolorf7f7f7">
+    <php>if(!is_weixin()){</php>
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">动态</span>
+    </div>
+    <php>}</php>
+    <div class="w-flexitem1 w-section">
+        <div class="w-padding02 w-bgcolorFFF">
+            <div class="w-flex w-marginBottom01">
+                <img  onclick="jumpDoctIndex({$data['author']})" src="{$data.avatar}" class="header1 w-marginRight02" alt="">
+                <div class="w-flexitem1">
+                    <h4 class="w-height03 w-font14 w-color000 w-onlyline">{$data.nickname}</h4>
+                    <span class="w-block w-height03 w-font12 w-color999 w-onlyline">{$data.hosp}{$data.zw}</span>
+                </div>
+                <if condition="$data.showgz eq 1">
+                    <label  class="iconCollect" >
+
+                        <if condition="$data.isgz eq 1">
+                            <input name="checkbox" disabled checked type="checkbox"/>
+                            <else />
+                            <input name="checkbox" disabled type="checkbox"  />
+                        </if>
+                        <span   id="gzbtn"></span>
+                    </label>
+                </if>
+            </div>
+            <div class="w-font14 w-line04 w-color333">
+                {$data.content}
+            </div>
+            <div class="w-font0 threeImgBox w-position swiper_clickLook">
+                <volist name="data.thumb" id="thumb">
+                    <if condition="$thumb neq null">
+                    <div class="threeImg"><img class="mypic" src="{$thumb}" alt=""></div>
+                    </if>
+                </volist>
+            </div>
+        </div>
+        <h4 class="w-paddingLeftRight02 flex_x_center w-height06 w-color333 w-font14">
+            <span  class="plsBtn">评论({$data.pls})</span>
+            <span class="ztest">{$data.dzs}赞</span>
+        </h4>
+        <div>
+            <div id="datalist">
+
+            </div>
+            <div style="display: none;" class="noData">暂无评论</div>
+            <!-- 暂无数据图-->
+        </div>
+    </div>
+    <div class="w-borderTeee w-bgcolorFFF w-font0" style="padding: .15rem .2rem">
+        <div class="talkBox">
+            <input type="text" class="w-placeholder-colorccc plBtn" placeholder="说点啥"/>
+        </div>
+
+        <label  class="iconZan w-marginLeft02">
+            <input id="zan4" class="imputBtn" type="checkbox" <if condition="$data['isz'] eq 1">disabled checked</if>/>
+            <span></span>
+        </label>
+
+        <a id="shareBoxBtn" href="javascript:;" class="iconShare w-marginLeft02"></a>
+    </div>
+</section>
+</body>
+
+
+<!--分享四按钮弹框-->
+<div class="shareBox" style="display: none;">
+    <div class="share">
+        <div class="w-borderBeee w-paddingTopBottom02">
+            <h4 class="w-height07 w-marginBottom02 w-textalignC w-font15 w-color333">分享</h4>
+            <div class="w-flex">
+                <a href="javascript:;" id="qq" class="w-flexitem1 w-textalignC">
+                    <b class="iconQQ w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">QQ好友</h4>
+                </a>
+                <a href="javascript:;"  id="wx"  class="w-flexitem1 w-textalignC">
+                    <b class="iconWechat w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">微信好友</h4>
+                </a>
+                <a href="javascript:;"  id="pyq"  class="w-flexitem1 w-textalignC">
+                    <b class="iconFriend w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">朋友圈</h4>
+                </a>
+                <a href="javascript:;"  id="qzone"  class="w-flexitem1 w-textalignC">
+                    <b class="iconQzone w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">QQ空间</h4>
+                </a>
+            </div>
+        </div>
+        <a href="javascript:;" class="w-block w-height08 w-font15 w-color333 w-textalignC" onclick="$('.shareBox').hide()">取消</a>
+    </div>
+</div>
+
+<input type="hidden" class="isz" value="{$data['isz']}">
+<input type="hidden" class="id" value="{$_GET['id']}">
+<input type="hidden" class="pls" value="{$data.pls}">
+<input type="hidden" class="dzs" value="{$data.dzs}">
+<input type="hidden" class="isgz" value="{$data.isgz}">
+
+
+
+<input type="hidden" class="ids" value="{$data.id}">
+<input type="hidden" class="title" value="{$data.content}">
+
+<input type="hidden" class="isdj" value="{$isdj}">
+
+
+<include file="Public:js"/>
+<script>
+    //点赞提示框直接调用go_alert2('点赞<br/>+5积分')
+
+
+    // /Index/share?type=qqhy&title={$data.content}&id={$data.id}&url=/Article/infoDyna/id/{$data.id}
+    // /Index/share?type=wxhy&title={$data.content}&id={$data.id}&url=/Article/infoDyna/id/{$data.id}
+    // /Index/share?type=pyq&title={$data.content}&id={$data.id}&url=/Article/infoDyna/id/{$data.id}
+    // /Index/share?type=qzone&title={$data.content}&id={$data.id}&url=/Article/infoDyna/id/{$data.id}
+
+    function shareFuns(type) {
+        var arttitle='{$data.nickname}';
+        var title = $('.title').val();
+        var id = $('.ids').val();
+        var url = "http://dzjk.server.ehecd.com/Article/infoDyna/id/"+id;
+        var img='';
+        /*if($(".mypic").length>0){
+            img=$(".mypic").first().attr('src');
+        }*/
+        WebViewJavascriptBridge.shareAction(arttitle,title,id,url,type,2,img);
+    }
+
+    function shareBack(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Public/shareBack',
+            data: {id:id},
+            success: function (e) {
+                if(e.status == 1)
+                {
+                    setTimeout("",1000);
+                }
+            },
+        });
+    }
+
+
+    $('#qq').click(function () {
+        shareFuns('qq');
+    });
+    $('#wx').click(function () {
+        shareFuns('wx');
+
+    });
+    $('#pyq').click(function () {
+        shareFuns('pyq');
+
+    });
+    $('#qzone').click(function () {
+        shareFuns('qzone');
+    });
+
+
+
+
+    $('#shareBoxBtn').click(function () {
+
+        var isdj = $('.isdj').val();
+
+
+        if(isdj == 1) {
+            $('.shareBox').show();
+        }else
+        {
+            go_alert2('已被冻结，不能执行此操作!');
+
+        }
+    });
+
+
+
+    function jumpDoctIndex(id)
+    {
+        location.href = "/Doctor/index/id/"+id;
+    }
+
+    //关注
+    $('#gzbtn').click(function ()
+    {
+        var id = $('.id').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/Article/folloAction',
+            data: {id:id},
+            success: function (e) {
+                if(e.status == 1)
+                {
+
+                    if(e.info == '关注成功')
+                    {
+                        $("input[name='checkbox']").prop("checked","true");
+
+                    }else if(e.info == '取消关注成功')
+                    {
+                        $("input[name='checkbox']").removeAttr("checked","true");
+                    }
+
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                    if(e.info =='请先登录')
+                    {
+                        location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+
+                    }
+                }
+            },
+        });
+
+    })
+    //点赞
+    $('#zan4').click(function ()
+    {
+        $(this).prop('checked',false);
+        var id = $('.id').val();
+        var isz = $('.isz').val();
+        if(isz != 1)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '/Article/giveAction',
+                data: {id:id},
+                success: function (e) {
+                    if(e.status == 1)
+                    {
+                        $('.isz').val(1);
+                        $('#zan4').prop('checked',true);
+                        $('.dzs').val(parseInt($('.dzs').val()) + 1);
+                        $('.ztest').html($('.dzs').val()+'赞');
+                        $('.imputBtn').attr("disabled", true);
+                        $('#zan4').prop('disabled','disabled');
+                        go_alert2(e.info);
+                    }else
+                    {
+                        go_alert2(e.info);
+                    }
+                },
+            });
+        }
+    });
+
+    //点赞  二级
+    function zanerji(e,el) {
+        $(el).prop('checked',false);
+        var pid = e;
+        var id = $('.id').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Article/giveActionEj',
+            data: {id:id,pid:pid},
+            success: function (e)
+            {
+                if(e.status == 1)
+                {
+                    $(el).prop('checked',true);
+                    $(el).parent().children('span').html(parseInt($(el).parent().children('span').attr('data-id'))+1);
+                    $(el).prop("onclick",null).off("click");
+                    $(el).prop('disabled','disabled');
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                }
+            },
+        });
+
+
+    }
+
+    urlJump();
+    function urlJump()
+    {
+        var id = $('.id').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Article/getArtiComment',
+            data: {p:1,id:id,t:new Date().getTime()},
+            success: function (e) {
+                if(e.status == 1)
+                {
+                    console.log(e);
+                    $('.noData').hide();
+                    $('#datalist').html(e.info.info);
+                }else{
+                    $('.noData').show();
+                    $('#datalist').html('');
+                }
+            },
+        });
+    }
+
+
+    $('#moreData').click(function () {
+        urlJumpMore();
+    });
+
+    var isget = true;
+    var page = 1;
+    function urlJumpMore()
+    {
+        if(isget)
+        {
+            isget = false;
+            page = parseInt(page) +1;
+            var id = $('.id').val();
+            $.ajax({
+                type: 'POST',
+                url: '/Article/getArtiComment',
+                data: {p:page,id:id},
+                success: function (e) {
+                    if(e)
+                    {
+                        isget = true;
+                        $('#datalist').append(e);
+                    }else{
+                        $('#moreData').html('没有更多了');
+                        isget = false;
+                    }
+                },
+            });
+        }
+    }
+
+    $('.plBtn').bind('keypress',function(event){
+        if(event.keyCode == "13")
+        {
+            pl_submit();
+        }
+    });
+    function pl_submit(){
+        var pltext = $('.plBtn').val();
+        var id = $('.id').val();
+        if(!pltext)
+        {
+            go_alert2('评论内容不能为空');
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/Article/commentArti',
+            data: {pltext:pltext,id:id},
+            success: function (e) {
+                if(e.status == 1)
+                {
+
+                    $('.noData').hide();
+                    $('.pls').val(parseInt($('.pls').val()) + 1);
+                    $('.plsBtn').html('评论'+($('.pls').val()));
+                    go_alert2(e.info);
+                    $('.plBtn').val('');
+                    urlJump();
+                }else
+                {
+                    go_alert2(e.info);
+                }
+            },
+        });
+    }
+</script>
+</html>

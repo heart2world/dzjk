@@ -1,0 +1,57 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">开启咨询</span>
+    </div>
+
+    <div class="w-flexitem1 w-section  flex_column  back-fff">
+
+        <div class="open_zixun ">
+            <div class="open_btn  p_both15  flex_dom flex_item_between flex_item_mid">
+                开启状态<label class="haudong_open"><input type="checkbox" <if condition="$iszx neq 1">checked="checked"</if>><span></span></label>
+            </div>
+            <h3 class="p_both15">咨询说明</h3>
+            <div class="edit_area pad15 font14">
+                <p>
+                  {$info}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+</body> 
+<!--<script type="text/javascript" src="__TMPL__Public/Mobile/lib/jquery.1.11.3.min.js" ></script>-->
+<include file="Public:js" />
+</html>
+<script type="text/javascript">
+    $("input[type='checkbox']").click(function () {
+        var checked = $("input[type='checkbox']").is(':checked');
+        if(checked == true)
+        {
+            var isopen = 0;
+        }else
+        {
+            var isopen = 1
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Member/openzx',
+            data: {isopen:isopen},
+            success: function(e)
+            {
+                if(e.status == 1)
+                {
+                    // go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                }
+            },
+        });
+
+
+    });
+</script>

@@ -1,0 +1,233 @@
+<include file="Public:header" title="评论详情"/>
+<body>
+<section class="flex_column w-height100 w-bgcolorf7f7f7">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">评论详情</span>
+    </div>
+    <div class="w-flexitem1 w-section  w-sectionD">
+        <div class="w-bgcolorFFF w-padding02 w-flex">
+            <img src="{$data.avatar}" class="header1 w-marginRight02" alt="">
+            <div class="w-flexitem1 w-overflowH">
+                <h4 class="w-height04 w-flex">
+                    <span class="w-font14 w-color333 w-flexitem1 w-onlyline">{$data.nickname}</span>
+                    <label class="iconZan">
+                        <if condition="$isz eq 1">
+                            <input checked  disabled="disabled" type="checkbox"  />
+                            <else />
+                            <input class="checkAttr" onclick="zanerji(this)"  type="checkbox"  />
+                        </if>
+                        <span class="ylcomments"><if condition="$comments gt 0">{$comments}</if></span>
+                    </label>
+                </h4>
+                <div class="w-line04 w-font14 w-color333">{$data.content}</div>
+                <h4 class="w-height04 w-font13 w-color999">{$data.day}&nbsp;{$data.times}</h4>
+            </div>
+        </div>
+        <h4 class="w-paddingLeftRight02 w-height06 w-color333 w-font14 allcommentText">全部评论({$data.counts})</h4>
+        <div class="w-paddingLeftRight02 w-bgcolorFFF "   id="datalist">
+            <div style="display: none;" class="noData w-bgcolorFFF">暂无评论</div>
+        </div>
+    </div>
+    <div class="w-borderTeee w-bgcolorFFF w-font0" style="padding: .15rem .2rem">
+        <div class="talkBox">
+            <input type="text"  class="plBtn w-placeholder-colorccc" placeholder="写评论"/>
+        </div>
+        <label  class="iconZan w-marginLeft02">
+
+            <if condition="$isz eq 1">
+                <input disabled="disabled" checked type="checkbox"  />
+                <else />
+                <input  class="checkAttr"  onclick="zanerji(this)"  type="checkbox"  />
+            </if>
+            <span></span>
+        </label>
+    </div>
+</section>
+</body>
+<input type="hidden" class="id" value="{$_GET['id']}">
+<input type="hidden" class="mid" value="{$_GET['mid']}">
+<input type="hidden" class="aid" value="{$_GET['aid']}">
+<input type="hidden" class="allcomment" value="{$data['counts']}">
+<include file="Public:js"/>
+<script>
+    //评论成功提示框直接调用go_alert2('评论成功<br/>+5积分')
+    var page = 1;
+    var isget = true;
+
+    //点赞  二级
+    function zanerji(e) {
+        $(e).prop('checked', false);
+        var pid = $('.id').val();
+        var id = $('.aid').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Article/giveActionEj',
+            data: {id:id,pid:pid},
+            success: function (e)
+            {
+                if(e.status == 1)
+                {
+                    $(e).prop('checked', true);
+                    $('.checkAttr').prop("checked", true);
+                    $('.checkAttr').prop('disabled','disabled');
+                    $('.checkAttr').prop("onclick",null).off("click");
+                    $(e).prop('disabled','disabled');
+                    $('.ylcomments').html(parseInt($('.ylcomments').html()) + 1);
+
+
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                    if(e.info =='请先登录')
+                    {
+                        location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+                        //location.href ="/Index/login";
+                    }
+                }
+            },
+        });
+    }
+
+    //点赞  三级
+    function zanersanji(e,el) {
+        $(el).prop('checked', false);
+        var pid = e;
+        var id = $('.aid').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Article/giveActionSj',
+            data: {id:id,pid:pid},
+            success: function (e)
+            {
+                if(e.status == 1)
+                {
+                    $(el).parent().children('span').html(parseInt($(el).parent().children('span').attr('data-id')) + 1);
+                    $(el).prop('checked', true);
+                    $(el).prop("onclick",null).off("click");
+                    $(el).prop('disabled','disabled');
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                    if(e.info =='请先登录')
+                    {
+                        location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+                        // location.href ="/Index/login";
+                    }
+                }
+            },
+        });
+    }
+
+    urlJump();
+    function urlJump()
+    {
+        var id = $('.id').val();
+        var aid = $('.aid').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Article/commentMore',
+            data: {p:1,id:id,aid:aid},
+            success: function (e) {
+                if(e)
+                {
+                    $('#datalist').html(e);
+                }else{
+                    $('.noData').show();
+                    // $('#datalist').html('');
+                }
+            },
+        });
+    }
+
+    $(".w-sectionD").on('scroll',function()
+    {
+        var nScrollHight = 0;
+        var nScrollTop = 0;
+        var nDivHight = $(".w-sectionD").height();
+        nScrollHight = $(this)[0].scrollHeight;
+        nScrollTop = $(this)[0].scrollTop;
+        var paddingBottom = parseInt($(this).css('padding-bottom')), paddingTop = parseInt($(this).css('padding-top'));
+        if (nScrollTop + paddingBottom + paddingTop + nDivHight >= nScrollHight - 10) {
+            urlJumpMore();
+        }
+    });
+
+
+
+    function urlJumpMore()
+    {
+        if(isget)
+        {
+            isget = false;
+            page = parseInt(page) +1;
+            var id = $('.id').val();
+            var aid = $('.aid').val();
+            $.ajax({
+                type: 'POST',
+                url: '/Article/commentMore',
+                data: {p:page,id:id,aid:aid},
+                success: function (e) {
+                    if(e)
+                    {
+                        isget = true;
+                        $('#datalist').append(e);
+                    }else{
+                        $('#datalist').append('<li style="display: block;text-align:center;" class="loadMore">没有更多了...</li>');
+                        isget = false;
+                    }
+                },
+            });
+        }
+    }
+
+    $('.plBtn').bind('keypress',function(event){
+        if(event.keyCode == "13")
+        {
+            pl_submit();
+
+        }
+
+    });
+function pl_submit(){
+	var pltext = $.trim($('.plBtn').val());
+    var id = $('.id').val();
+    var aid = $('.aid').val();
+    var mid = $('.mid').val();
+    if(!pltext)
+    {
+        go_alert2('评论内容不能为空'); return false;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/Article/commentComment',
+        data: {pltext:pltext,id:id,aid:aid,mid:mid},
+        success: function (e) {
+            if(e.status == 1)
+            {
+                page = 1;
+                isget = true;
+                $('.plBtn').val('');
+                go_alert2(e.info);
+                $('.allcomment').val(parseInt($('.allcomment').val()) + 1);
+                var alls = $('.allcomment').val();
+                $('.allcommentText').html("全部评论("+alls+")");
+                urlJump();
+            }else
+            {
+                go_alert2(e.info);
+                if(e.info =='请先登录')
+                {
+                    location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+                    // location.href ="/Index/login";
+                }
+            }
+        },
+    });
+}
+</script>
+</html>

@@ -1,0 +1,216 @@
+<admintpl file="header" />
+<style>
+    .form-required{ color: red}
+    body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {margin:0;padding:0;-webkit-text-size-adjust: none}
+    h1, h2, h3, h4, h5, h6{font-size:12px;font-weight:normal}
+    body>div{margin:0 auto}
+    div {text-align:left}
+    a img {border:0}
+    body { color: #333; text-align: center; font: 12px "宋体"; }
+    ul, ol, li {list-style-type:none;vertical-align:0}
+    a {outline-style:none;color:#535353;text-decoration:none}
+    a:hover { color: #D40000; text-decoration: none}
+    .selectbox{width:600px;height:220px;margin:0px auto;}
+    .selectbox div{float:left;}
+    .selectbox .select-bar{padding:0 20px;}
+    .selectbox .select-bar select{width:200px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
+    .btn-bar{}
+    .btn-bar p{margin-top:16px;}
+    .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-family:simsun;font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li ><a href="javascript:history.back()">消息列表</a></li>
+        <li class="active"><a><if condition="ACTION_NAME eq 'create'">添加<else/>编辑</if>消息</a></li>
+    </ul>
+    <form class="form-horizontal  js-ajax-form"  method="post" id="thisForm">
+        <div class="control-group" >
+            <label class="control-label">选择接受对象：</label>
+            <div class="controls">
+                <input type="radio" name="receive_member_type" id="receive_member_type" value="0" checked @click="show_user(1)" > 所有会员
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="receive_member_type"  value="3" @click="show_user(2)" > <span style="" >部分会员</span>
+            </div>
+        </div>
+
+
+        <div style="border-radius: 4px;border: 1px solid #e1e1e8;padding-top:10px;width:45%; margin-bottom: 14px;" id="show_users"  >
+            <div class="control-group" >
+                <label class="control-label">注册时间：</label>
+                <div class="controls">
+                    <input type="text"  id="st_time" style="width: 85px" name="st_time"  class="js-date" autocomplete="off" placeholder="开始时间" />&nbsp;到
+                    <input type="text"  id="end_time" style="width: 85px" name="end_time"  class="js-date" autocomplete="off" placeholder="结束时间" />
+                </div>
+            </div>
+            <div class="control-group" >
+                <label class="control-label">手机号：</label>
+                <div class="controls">
+                    <input type="text" name="mobile" style="width: 150px;" placeholder=""  value="" id="mobile">
+                    <input type="button" class="btn btn-primary" @click="get_user" value="查找" >
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="selectbox">
+                    <div class="select-bar">
+                        <select multiple="multiple" id="select1" >
+                            <option :value="item.id" v-cloak v-for="item in users">{{item.nickname}} , {{item.mobile}}</option>
+                        </select>
+                    </div>
+
+                    <div class="btn-bar">
+                        <p><span id="add"><input type="button" class="btn btn-primary btn-xs" value=">" title="移动选择项到右侧"/></span></p>
+                        <p><span id="remove"><input type="button" class="btn btn-primary btn-xs" value="<" title="移动选择项到左侧"/></span></p>
+                    </div>
+                    <div class="select-bar">
+                        <select multiple="multiple" id="select2"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" :value="all_id" name="receive_member_id">
+        <div class="control-group">
+            <label class="control-label">消息标题：</label>
+            <div class="controls">
+                <input id='title' type="text" style="width: 320px" maxlength="50" placeholder="1-50个字"  name="title" value="{$info.title}"  >
+                <span class="form-required">*</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">消息内容：</label>
+            <div class="controls">
+                <textarea type="text/plain" id="content" name="content">{$info.content}</textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button  type="button"  class="btn btn-primary  js-ajax-submit">保存</button>
+            <a  href="javascript:history.back();" class="btn btn-primary">取消</a>
+        </div>
+        <input id="id" type="hidden" name="id" value="{$info.id}"  >
+    </form>
+
+</div>
+</body>
+</html>
+
+<script src="__PUBLIC__/js/vue.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#seckill',
+        data:{
+            users:[],
+            all_id:[]
+        },
+        methods:{
+            get_user:function(){
+                var mobile = $('#mobile').val();
+                var start_time = $('#st_time').val();
+                var end_time = $('#end_time').val();
+                $.getJSON("{:U('get_all_user')}",{mobile:mobile,start_time:start_time,end_time:end_time},function(res){
+                    vm.users = res.list
+                })
+            },
+            show_user:function(type){
+                if(type==3){
+                    $('#show_users').hide();
+                    $('#select2 option').appendTo('#select1');
+                    if(vm.all_id.length>0){
+                        vm.all_id.splice(0,vm.all_id.length);
+                        console.log(vm.all_id)
+                    }
+                }else {
+                    $('#show_users').show()
+                }
+            }
+        },
+        created:function(){
+            this.get_user();
+            $('#show_users').hide();
+        }
+    })
+    $(function(){
+        //移到右边
+        $('#add').click(function(){
+            if(!$("#select1 option").is(":selected")){
+                $.dialog({id: 'popup', lock: true, icon: "error", content:"请选择需要发送的人" , time: 1});
+            }
+            else{
+                $("#select1 option").each(function(){
+                    if($(this).is(":selected")){
+                        vm.all_id.push($(this).val());
+                    }
+                });
+                $('#select1 option:selected').appendTo('#select2');
+            }
+        });
+
+        //移到左边
+        $('#remove').click(function(){
+            if(!$("#select2 option").is(":selected")){
+                $.dialog({id: 'popup', lock: true, icon: "error", content:"请选择需要删除人" , time: 1});
+            }
+            else{
+
+                $("#select2 option").each(function(){
+                    if($(this).is(":selected")){
+                        var b = vm.all_id.indexOf($(this).val());
+                        if(b > -1){
+                            vm.all_id.splice(b,1)
+                        }
+                    }
+                });
+                $('#select2 option:selected').appendTo('#select1');
+            }
+        });
+
+        /*  //全部移到右边
+         $('#add_all').click(function(){
+         //获取全部的选项,删除并追加给对方
+         $('#select1 option').appendTo('#select2');
+         });
+
+         //全部移到左边
+         $('#remove_all').click(function(){
+         $('#select2 option').appendTo('#select1');
+         });
+         */
+        //双击选项
+        $('#select1').dblclick(function(){
+            var a = $("#select1 option:selected").val();
+            vm.all_id.push(a);
+            $("option:selected",this).appendTo('#select2');
+
+        });
+
+        $('#select2').dblclick(function(){
+            var a = $("#select2 option:selected").val();
+            var b = vm.all_id.indexOf(a);
+            if(b > -1){
+                vm.all_id.splice(b,1)
+            }
+            $("option:selected",this).appendTo('#select1');
+        });
+
+    });
+</script>
+
+<script>
+    var content = new baidu.editor.ui.Editor(
+            {
+                initialFrameWidth : 900,
+                initialFrameHeight  : 400,
+            });
+    content.render('content');
+    content.ready(function (editor) {
+        try {
+            content.sync();
+        } catch (err) {
+
+        }
+    });
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>

@@ -1,0 +1,104 @@
+<include file="Public:header" title="个人中心"/>
+<body>
+<section class="flex_column w-height100 w-bgcolorf7f7f7">
+    <div class="w-flexitem1 w-section">
+        <div class="personalBox2 w-marginBottom01">
+            <h4 class="w-textalignR"><a href="javascript:;" class="iconSet"></a></h4>
+            <div class="w-flex w-paddingLeftRight03">
+                <img src="__TMPL__Public/Mobile/image/slice/noLoginHead.png" alt="" class="header3 w-marginRight02"/>
+                <div class="w-flexitem1 w-overflowH" style="padding-top: .1rem;line-height: 1.5rem">
+                    <a href="/Index/login" class="xhLine2">请先登录</a>
+                </div>
+            </div>
+        </div>
+        <div class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01">
+            <a href="/Index/login">
+            <div class="rightLine w-font0 w-borderBeee">
+                <b class="iconMyNews w-marginRight02"></b>
+                <h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">
+                    <em class="w-verticalMiddle">我的消息</em>
+                </h4>
+            </div>
+            </a>
+        </div>
+        <div class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01">
+            <a href="/Index/login">
+            <div class="rightLine w-font0 w-borderBeee">
+                <b class="iconMyCollect w-marginRight02"></b>
+                <h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">
+                    <em class="w-verticalMiddle">我的收藏</em>
+                </h4>
+            </div>
+            </a>
+            <a href="/Index/login">
+            <div class="rightLine w-font0 w-borderBeee">
+                <b class="iconLove w-marginRight02"></b>
+                <h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">
+                    <em class="w-verticalMiddle">已关注医生</em>
+                </h4>
+            </div>
+            </a>
+        </div>
+        <div class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01">
+            <a href="/Index/login">
+            <div class="rightLine w-font0 w-borderBeee">
+                <b class="iconMyDocter w-marginRight02"></b>
+                <h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">
+                    <em class="w-verticalMiddle">我是医生</em>
+                </h4>
+            </div>
+            </a>
+            <a href="/Index/help">
+            <div class="rightLine w-font0 w-borderBeee">
+                <b class="iconHelpCenter w-marginRight02"></b>
+                <h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">
+                    <em class="w-verticalMiddle">帮助中心</em>
+                </h4>
+            </div>
+            </a>
+            <a href="/Index/about">
+            <div class="rightLine w-font0 w-borderBeee">
+                <b class="iconLookIm w-marginRight02"></b>
+                <h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">
+                    <em class="w-verticalMiddle">关于我们</em>
+                </h4>
+            </div>
+            </a>
+            <!--<div class="rightLine w-font0 w-borderBeee">-->
+                <!--<b class="iconLogOut w-marginRight02"></b>-->
+                <!--<h4 class="w-inlineblock w-verticalMiddle w-height05 w-font14 w-color000">-->
+                    <!--<em class="w-verticalMiddle">退出登录</em>-->
+                <!--</h4>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <footer class="footer w-flex">
+        <label for="home" class="w-flexitem1">
+            <a href="/index/index">
+                <input type="radio" name="footer" id="home" />
+                <span>首页</span>
+            </a>
+        </label>
+        <label for="doctor" class="w-flexitem1">
+            <a href="/DoctorSpec/index">
+                <input type="radio" name="footer" id="doctor" />
+                <span>医生专栏</span>
+            </a>
+        </label>
+        <label for="im" class="w-flexitem1">
+            <?php  if($member_id > 0)
+            { ?>
+
+
+            <?php }else{ ?>
+            <a href="/Index/login">
+                <?php } ?>
+                <input type="radio" name="footer" id="im" checked />
+                <span>我的</span>
+
+        </label>
+    </footer>
+</section>
+</body>
+<include file="Public:js"/>
+</html>

@@ -1,0 +1,270 @@
+<admintpl file="header" />
+<style type="text/css">
+   .table  tr th{text-align: center;}
+   .table  tr td{text-align: center;}
+    .fristtd{
+        padding-left: 80px;
+        padding-top: 10px;
+    }
+    .db{
+            display: block;
+    }
+    .weixinAudio {
+            line-height: 1.5;
+    }
+    .audio_area {
+            display: inline-block;
+            width: 100%;
+            vertical-align: top;
+            margin: 0px 1px 0px 0;
+            font-size: 0;
+            position: relative;
+            font-weight: 400;
+            text-decoration: none;
+            -ms-text-size-adjust: none;
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+        .audio_wrp {
+            border: 1px solid #ebebeb;
+            background-color: #fcfcfc;
+            overflow: hidden;
+            padding: 12px 20px 12px 12px;
+            border-radius: 15px;
+        }
+        .audio_play_area {
+            float: left;
+            margin: -7px 18px 3px 3px;
+            font-size: 0;
+        }
+        .playing .audio_play_area .icon_audio_default {
+            display: block;
+        }
+        .audio_play_area .icon_audio_default {
+            background: none;
+            width: 18px;
+            height: 25px;
+            vertical-align: middle;
+            display: inline-block;
+            -webkit-background-size: 54px 25px;
+            background-size: 54px 25px;
+            background-position: -36px center;
+        }
+        .audio_play_area .icon_audio_playing {
+            background: none;
+            width: 18px;
+            height: 25px;
+            vertical-align: middle;
+            display: inline-block;
+            -webkit-background-size: 54px 25px;
+            background-size: 54px 25px;
+            -webkit-animation: audio_playing 1s infinite;
+            background-position: 0px center;
+            display: none;
+        }
+        .audio_area .pic_audio_default {
+            display: none;
+            width: 18px;
+        }
+        .tips_global {
+            color: #8c8c8c;
+        }
+        .audio_area .audio_length {
+            float: right;
+            font-size: 14px;
+            line-height: 13px;
+        }
+        .audio_info_area {
+            overflow: hidden;
+        }
+        .audio_area .audio_title {
+            font-weight: 400;
+            font-size: 18px;
+            float: right;
+        }
+        .audio_area .audio_source {
+            font-size: 14px;
+        }
+        .audio_area .progress_bar {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: #0cbb08;
+            height: 2px;
+        }
+        .playing .audio_play_area .icon_audio_default {
+            display: none;
+        }
+        .playing .audio_play_area .icon_audio_playing {
+            display: inline-block;
+        }
+        @-webkit-keyframes audio_playing {
+            30% {
+                background-position: 0px center;
+            }
+            31% {
+                background-position: -18px center;
+            }
+            61% {
+                background-position: -18px center;
+            }
+            61.5% {
+                background-position: -36px center;
+            }
+            100% {
+                background-position: -36px center;
+            }
+        }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <audio src="" id="media" width="1" height="1"></audio>
+    <ul class="nav nav-tabs">
+        <li class="active"><a>问答详情</a></li>
+    </ul>
+    <fieldset class="form-horizontal"> 
+        <div class="control-group" >
+           <table>
+                <tr>  
+                    <td class="fristtd">提问人： {$info.mname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 被提问人：{$info.doctornicename}</td> 
+                </tr>
+                <tr> 
+                    <td class="fristtd">提问时间：{$info.questiontime|date='Y-m-d H:i:s',###}</td>
+                </tr>
+                <if condition="$info['createtime'] gt 0">
+                <tr><td class="fristtd">响应时间：{$info.createtime|date='Y-m-d H:i:s',###}</td></tr>
+                <else/>
+                <tr><td class="fristtd">响应时间：--</td></tr>
+                </if>
+                <if condition="$info['endtime'] gt 0">
+                <tr><td class="fristtd">结束时间：{$info.endtime|date='Y-m-d H:i:s',###}</td></tr>
+                <else/>
+                <tr><td class="fristtd">结束时间：--</td></tr>
+                </if>
+            </table>
+        </div>
+        <div class="control-group">
+            <label class="control-label" style="font-weight: bold;font-size: 16px;">问题描述：</label>
+            <div class="controls">
+                <label style="margin-top: 5px;">{$info.questionname}</label>
+                <if condition="$info['questionradio'] neq ''">
+                  <fieldset class="audio-item">
+                        <volist name="radio" id="va">
+                        <p class="weixinAudio">
+                           <span id="audio_area" class="db audio_area">
+                            <span class="audio_wrp db" style="width: 170px;height: 12px;">
+                                <span id="audio_length" style="float: left" class="audio_length tips_global">{$va.atime}s</span>
+                                <span class="db audio_info_area" style="line-height: 13px;">
+                                <strong class="db audio_title" data-src="{$va.text}">▶</strong>                  
+                                </span>
+                            </span>
+                        </span>
+                        </p>
+                        </volist>
+                    </fieldset>
+                </if>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" style="font-weight: bold;font-size: 16px;">图片/报告：</label>
+            <div class="controls">
+                <if condition="$info['filetype'] eq 1">
+                    <label style="margin-top: 5px;">
+                        <volist name="imgurl" id="val">
+                        <a href="{$val}" target="_blank"><img src="{$val}" style="width: 100px;"/></a>&nbsp;&nbsp;
+                        </volist>
+                    </label>
+                <else/>
+                    <label style="margin-top: 5px;"><img src="./data/upload/pdf.png" style="width: 100px;"><a href="{:U('report/detail',array('id'=>$info['fileurl']))}" class="btn">查看报告</a></label>
+                </if>
+            </div>
+        </div>        
+    </fieldset>
+    <fieldset>
+        <div class="control-group" style="border-radius: 5px;border:1px solid #ccc;margin-left: 70px;width: 700px;">
+            <label class="control-label" style="font-weight: bold;font-size: 16px;float: inherit;margin-left: 10px;margin-top:10px;">留言记录：</label>
+            <div class="controls">
+                <label style="margin-top: 10px;margin-left: 20px;">问题状态：{$info.statusname}</label>
+            </div>
+            <table class="table table-hover table-bordered table-list" style="margin-left: 20px;width: 600px;margin-bottom:20px;margin-top: 20px;">
+                 <thead>
+                    <tr>
+                        <td>发送时间</td>
+                        <td>发送人昵称</td>
+                        <td>发送人身份</td>
+                        <td>发送内容</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="gglist" id="va">
+                    <tr>
+                        <td>{$va.createtime}</td>
+                        <td>{$va.sendname}</td>
+                        <td>{$va.type}</td>
+                        <if condition="$va['atype'] eq 3">
+                        <td>{$va.content}</td>
+                        </if>
+                        <if condition="$va['atype'] eq 1">                           
+                            <td><a href="{$va.content}" target="_blank"><img src="{$va.content}" style="width: 100px;"></a></td>                            
+                        </if>
+                        <if condition="$va['atype'] eq 2">
+                            <td><fieldset class="audio-item">
+                                <volist name="va.content" id="vall">
+                                    <p class="weixinAudio">
+                                       <span id="audio_area" class="db audio_area">
+                                        <span class="audio_wrp db" style="width: 170px;height: 12px;">
+                                            <span id="audio_length" style="float: left" class="audio_length tips_global">{$vall.atime}s</span>
+                                            <span class="db audio_info_area" style="line-height: 13px;">
+                                            <strong class="db audio_title" data-src="{$vall.text}">▶</strong>                  
+                                            </span>
+                                        </span>
+                                    </span>
+                                    </p>
+                                </volist>
+                            </fieldset>
+                            </td>
+                        </if>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>
+</body>
+
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+var audio = document.getElementById("media");
+$(".wrap").on("click",".audio_title",function(evt){
+    evt.preventDefault();
+    var that = $(this);
+    var src = that.data("src");
+    that.parents(".audio-item").siblings().find(".audio_title").removeClass("playing").text("▶")
+    audio.src=src;
+    //判断语音是否可以正常播放
+    audio.addEventListener("error",function(){
+        //$.toast("语音错误",'cancel');
+        that.removeClass("playing");
+        that.text("▶");
+        audio.pause();
+    });
+
+    if($(this).hasClass('playing')){
+        $(this).removeClass("playing");
+        $(this).text("▶");
+        audio.pause();
+    }else{
+        $(this).addClass("playing");
+        $(this).text("■");
+        audio.play();
+    }
+    audio.addEventListener("ended",function(){
+        that.removeClass("playing");
+        that.text("▶");
+    });
+})
+</script>
+</html>

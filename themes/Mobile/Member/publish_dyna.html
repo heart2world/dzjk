@@ -1,0 +1,219 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<style type="text/css">
+    .p_upImgBtn
+    {
+        height: 90px;width: 90px;
+        background: url("/themes/Public/Mobile/image/slice/add_img1.png") no-repeat center center;
+    }
+    .pinglun_huifu .person_about{
+        position: relative;
+    }
+</style>
+<section class="flex_column w-height100" id="htmlId">
+    <div class="w-bgcolor44D397">
+        <a href="/Member/zjindex" class="headLeft"></a>
+        <a class="headRight tjBtn"  @click="submit_btn()">发布</a>
+        <span class="headTit">发布动态</span>
+    </div>
+
+    <div class="w-flexitem1 w-section flex_1 back-f7f7f7">
+        <div class="pinglun_huifu">
+            <textarea  rows="8" placeholder="说点什么" class="pad15 contents" maxlength="500"></textarea>
+            <p class="text-right">(<span class="shownum">0</span>/500)</p>
+            <p class="color-999">(限9张)</p>
+            
+            <style type="text/css">
+                .imglist,.add_img{
+                    float: left;
+                }
+            </style>
+            <div href="javascript:;" id="listimg" class="person_about pad15  back-fff clearfix">
+                <!--<div class="imglist">-->
+                <!--<div class="img">-->
+                <!--<span class="close">-->
+                <!--<img src="__TMPL__Public/Mobile/image/slice/dele.png"/>-->
+                <!--</span>-->
+                <!--<img src="__TMPL__Public/Mobile/image/tupian1.png"/>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<form id="thisForm">-->
+                <!--<div class="w-paddingTop02 imglist">-->
+                <!--<div class="p_upImgBtn flex_dom img wx_pic_upload_single">-->
+                <!--<div class="clearfix">-->
+                <!--<label class="fl wx_pic_upload" count="6"-->
+                <!--target="pic_list" module="team"-->
+                <!--temp="<div class='fl p_upImg w-marginRight02 [target]'><input type='hidden' name='[target][]' value='[img]'><img src='[img]' /><i class='imgDelete2'></i></div>">-->
+                <!--<div class="p_upImgBtn"></div>-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</form>-->
+
+
+                <div onclick="add_img()" class="add_img add_imgBtn">
+                    <img src="__TMPL__Public/Mobile/image/slice/add_img1.png" />
+                </div>
+
+            </div>
+
+        </div>
+        <div class="w-paddingLeftRight03 w-marginTop09 text-center">
+            <span style="-webkit-user-select: text;user-select: text; font-size:.25rem;">医生PC端登录地址：<br/> http://fqyx.server.ehecd.com/index.php?g=Admin 账号手机号,密码123456建议登录后修改密码</span>
+        </div>
+    </div>
+</section>
+</body>
+
+<input type="hidden" class="nums" value=9>
+
+<include file="Public:js"/>
+</html>
+<script type="text/javascript">
+
+    var nums = 9;
+
+
+    $(function ()
+    {
+        //改变字数
+        $(".contents").keydown(function()
+        {
+            if(parseInt($('.contents').val().length) == 500)
+            {
+                $('.shownum').html('500');
+            }else
+            {
+                $('.shownum').html(parseInt($('.contents').val().length)+1);
+            }
+
+        });
+    });
+
+
+
+
+
+    var vm = new Vue({
+        el: '#htmlId',
+        data: {
+            info: [],
+            my_child:[],
+            page: {
+                p: 0,
+                totalPage: 1,
+                loadContent: "加载更多"
+            },
+            content_img:''
+        },
+        methods: {  //方法
+
+            submit_btn:function(){
+                var cont = $('.contents').val();
+                var imglength = parseInt($('.imglist').length);
+
+                if(cont.length == 0 && imglength == 0)
+                {
+
+                }else
+                {
+                    var $current = $("#listimg .imglist");
+                    var imgList = '';
+                    $current.find(".tplists").each(function(i)
+                    {
+                        imgList += $(this).attr('src') + ',';
+
+                    });
+                    imgList = imgList.substring(0,imgList.length-1);
+
+                    // var content_img = $("#thisForm").serializeArray();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Member/publish_dyna',
+                        data: {cont:cont,imglength:imglength,content_img:imgList},
+                        success: function(e)
+                        {
+                            if(e.status == 1)
+                            {
+                                go_alert2(e.info);
+                                location.href = "/Article/arti_and_dyna/type/dt";
+                            }else
+                            {
+                                go_alert2(e.info);
+                            }
+                        },
+                    });
+                }
+            },
+        },
+
+    });
+
+    //添加图片
+    function add_img()
+    {
+        uploadAvatar();
+    }
+    function uploadAvatar() {
+        // var num = $('nums').val();
+        WebViewJavascriptBridge.uploadAvatar(nums,'dt');
+    }
+
+    function getImg(url,type)
+    {
+        // url = '__TMPL__Public/Mobile/image/tupian1.png,__TMPL__Public/Mobile/image/tupian1.png';
+        // type = 'dt';
+        if(url)
+        {
+            if(type == 'dt')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+                    str += '<div class="imglist">'+
+                        '<div class="img">'+
+                        '<span class="close">'+
+                        '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                        '</span>'+
+                        '<img class="tplists " src="'+val+'"/>'+
+                        '</div>'+
+                        '</div>'
+                });
+                //if(!$('.add_imgBtn').length){
+                //    str += '<div  onclick="add_img()"  class="add_img add_imgBtn">' +
+                //        '<img src="__TMPL__Public/Mobile/image/slice/add_img1.png"/>' +
+                //        '</div>';
+                //}
+
+                //if(nums == 9)
+                //{
+                //    $('#listimg').html(str);
+                //}else if(nums < 9)
+                //{
+                //    if ($('.add_imgBtn').length) {
+                //        $('.add_imgBtn').before(str);
+                //    } else {
+                //        $('#listimg').append(str);
+                //    }
+                    
+                //}
+                $('.add_imgBtn').before(str);
+                nums = 9 - parseInt($('.imglist').length);
+                if (nums == 0) {
+                    $('.add_imgBtn').hide();
+                }
+            }
+        }
+    }
+    $('body').on('click', '.close', function () {
+        $(this).parent().parent().remove();
+        nums = 9 - parseInt($('.imglist').length);
+        if (nums > 0) {
+            $('.add_imgBtn').show();
+        }
+    });
+
+
+</script>

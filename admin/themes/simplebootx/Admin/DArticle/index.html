@@ -1,0 +1,213 @@
+<admintpl file="header" />
+</head>
+<style type="text/css">
+    .delbtn{
+        color: #FFFFFF;background-image: -webkit-gradient(linear,0 0,0 100%,from(#FF0000),to(#FF0000));
+    }
+</style>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li class="active"><a >文章管理</a></li>
+    </ul>
+    <form class="well form-search " >
+
+        <span>发布时间：</span>
+        <input type="text" id="st_time" style="width: 130px" name="st_time" class="js-date" autocomplete="off"
+               placeholder="开始时间"/>到
+        <input type="text" id="end_time" style="width: 130px" name="end_time" class="js-date" autocomplete="off"
+               placeholder="结束时间"/>
+        &nbsp;
+        标签：
+        <select class="select_2" name="cate_id" v-model="search.label" style="width:70px">
+            <option value="a" checked>全部</option>
+            <volist name="lab" id="vo">
+                <option value="{$vo.id}" >{$vo.name}</option>
+            </volist>
+        </select>
+        文章性质：
+        <select class="select_2" name="cate_id" v-model="search.isyc" style="width:70px">
+            <option value="a" checked>全部</option>
+            <option value="0" >原创</option>
+            <option value="1">转发</option>
+        </select>
+        <input type="text" name="keywords" style="width: 200px;" v-model="search.keywords" placeholder="标题关键字" @keyup.enter="mySearch">&nbsp;&nbsp;
+        <input type="button" class="btn btn-primary" @click="mySearch()" value="查询">
+    </form>
+
+
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+        <thead>
+        <tr>
+            <td style="text-align: left" >
+                <!--<input type="button" class="btn btn-info" @click="tj('')" value="设置推荐">-->
+                <!--<input type="button" class="btn btn-info" @click="qxtj('')" value="取消推荐">-->
+                <input type="button" class="btn " @click="delbtn('')" value="删除">
+
+                <if condition="$status eq 1">
+                    <a   class="btn" href="{:U('add')}" >添加文章</a>
+                    <else/>
+                    <a   class="btn" >添加文章</a>
+                </if>
+
+
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <th style="width: 5%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>
+            <th>发布时间</th>
+            <th>所性标签</th>
+            <th>标题</th>
+            <th>浏览量</th>
+            <th>评论数量</th>
+            <th>点赞数量</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="tr2" v-cloak v-for="item in list">
+            <td><input  style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>
+            <td style="text-align: left;">{{item.create_time}}</td>
+            <td style="text-align: center;">{{item.label}}</td>
+            <td style="text-align: center;">{{item.title}}</td>
+            <td style="text-align: center;">{{item.shownum}}</td>
+            <td >{{item.pls}}</td>
+            <td>{{item.dzs}}</td>
+            <td>
+                <a class="btn btn-small btn-info" :href="'/Admin/DArticle/detail/id/'+ item.id">详情</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+    <input type="hidden" value="1" id="currPage" />
+</div>
+
+<input type="hidden" class="status" value="{$status}">
+
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var vm = new Vue({
+        el:"#seckill",
+        data: {
+            pagerConf:{
+                totalPage : 0,
+                currPage : $("#currPage").val()?$("#currPage").val():1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            list: null,
+            search: { p: 1,st_time:'',end_time:'',tj:'a',isyc:'a',label:'a'}
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.getData();
+            }
+        },
+        methods:{
+
+
+
+
+            delbtn:function(id) {
+                var status = $('.status').val();
+                if(status == 0)
+                {
+                    $.dialog({id: 'popup', lock: true, icon: "warning", content: "账号已被冻结！不能进行此操作!", t: 2});
+                    return false;
+
+                }else
+                {
+                    if (id == '') {
+                        $(".checkbox").each(function () {
+                            if ($(this).prop("checked")) {
+                                id += $(this).val() + ',';
+                            }
+                        });
+                        if (id == '') {
+                            $.dialog({id: 'popup', lock: true, icon: "warning", content: "请选择要操作的数据", time: 2});
+                            return false;
+                        }
+                    }
+                    var url = "/Admin/Article/delbtn/" + "/id/" + id;
+                    Wind.use('artDialog', function () {
+                        art.dialog({
+                            title: false,
+                            icon: 'question',
+                            content: "确定要删除这些文章吗？",
+                            ok: function () {
+                                $.getJSON(url, function (res)
+                                {
+                                    if (res.status == 1)
+                                    {
+                                        vm.getData();
+                                        $.dialog({id: 'popup', lock: true, icon: "succeed", content: res.info, time: 2});
+                                    } else {
+                                        $.dialog({id: 'popup', lock: true, icon: "error", content: res.info, time: 2});
+                                    }
+                                })
+                                $(".checkbox").attr("checked",false);
+                            },
+                            cancelVal: '关闭',
+                            cancel: true
+                        });
+                    })
+                }
+
+
+
+
+            },
+
+            getData:function () {
+                var data = this.search;
+                data.st_time=$("#st_time").val();
+                data.end_time=$("#end_time").val();
+                data.p = this.pagerConf.currPage;
+                $.getJSON("{:U('index')}",data,function (res) {
+                    if(res.status==1){
+                        vm.list = res.info.list;
+                        vm.pagerConf.totalPage = res.info.total_page;
+                        $("#currPage").val(res.info.p);
+
+                    }else{
+                        $.dialog({id: 'popup',icon: 'error', lock: true, content: res.msg, ok:function(){}});
+                    }
+                })
+            },
+            mySearch:function(){
+                this.getData(true);
+            },
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+
+
+
+        },
+        created: function () {
+            this.mySearch();
+        }
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

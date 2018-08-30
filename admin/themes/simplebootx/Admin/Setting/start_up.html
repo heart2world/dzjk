@@ -1,0 +1,93 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <div class="control-group">
+        <form class="form-horizontal" id="bannerForm">
+        <label class="control-label">启动页(298*382)：</label>
+        <div class="controls" style="margin-left: 30%">
+            <input type="hidden"  name="start_pic" value=""   id="pic" >
+            <a href="javascript:void(0);"
+               onclick="flashupload('thumb_images', '附件上传','start_pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,0','banner','','');return false;">
+                <if condition="$start_pic">
+                    <img src="{$start_pic['start_pic']}"
+                         onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'"  id="pic_preview"
+                         style="cursor: hand; height: 280px !important;"/>
+                    <else/>
+                    <img src="__TMPL__Public/assets/images/default-thumbnail.png"
+                         onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'"  id="pic_preview"
+                         style="cursor: hand; height: 280px !important;"/>
+                </if>
+
+            </a>
+        </div>
+        </form>
+        <div class="modal-footer text-center" style="text-align: center">
+            <button class="btn" id="bannerCancel">删除图片</button>
+            <button class="btn btn-success" id="bannerSubmit">保存</button>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script>
+    Wind.use('artDialog', function () {});
+    function thumb_images2(uploadid, returnid) {
+        //取得iframe对象
+        var d = uploadid.iframe.contentWindow;
+        //取得选择的图片
+        var in_content = d.$("#att-status").html().substring(1);
+        if (in_content == '') return false;
+        if (!IsImg(in_content)) {
+            isalert('选择的类型必须为图片类型！');
+            return false;
+        }
+        $("#pic").val(in_content);
+        $("#pic_preview").attr('src',in_content);
+    }
+    $('#bannerCancel').click(function(){
+        Wind.use('artDialog', function () {
+            art.dialog({
+                title: false,
+                icon: 'question',
+                content: "确定要删除启动页图片？",
+                ok: function () {
+                    $.getJSON("{:U('delete_img')}",'',function (res) {
+                        if(res.status == 1){
+                            $.dialog({id: 'popup', lock: true,icon:"succeed", content: "删除成功", time: 2});
+                            setTimeout(function(){
+                                location.href = location.href;
+                            },1000)
+                        }else if(res.status == 0){
+                            $.dialog({id: 'popup', lock: true,icon:"error", content:"删除失败", time: 2});
+                        }else {
+                            $.dialog({id: 'popup', lock: true,icon:"error", content:"您还未设置图片", time: 2});
+                        }
+                    })
+                },
+                cancelVal: '关闭',
+                cancel: true
+            });
+        });
+    })
+    $("#bannerSubmit").click(function(){
+        $.ajax({
+            type: 'POST',
+            url: "{:U('start_up')}",
+            dataType: 'json',
+            data:$("#bannerForm").serialize(),
+
+            success: function (res) {
+                if(res.status==1){
+                    $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                }else{
+                    $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                }
+            },
+        });
+    });
+</script>

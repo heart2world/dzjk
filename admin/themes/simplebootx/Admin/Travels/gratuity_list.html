@@ -1,0 +1,84 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="travels_comment">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:history.back()">返回</a></li>
+    </ul>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <th>打赏人头像</th>
+            <th>打赏人昵称</th>
+            <th>打赏时间</th>
+            <th>打赏类型</th>
+            <th>打赏数额</th>
+            <th>平台抵扣</th>
+        </tr>
+        </thead>
+        <thead>
+        <tr v-cloak v-for="item in list">
+            <td style="text-align: left; width: 80px">
+                <img :src="item.headimg" style="width: 80px; height: 80px !important;border-radius: 50%" />
+            </td>
+            <td style="text-align: left; width: 120px">{{item.nickname}}</td>
+            <td style="text-align: left;width: 120px">{{item.create_times}}</td>
+            <td v-if="item.money_type==1">积分</td>
+            <td v-if="item.money_type==0">金额</td>
+
+            <td v-if="item.money_type==1">{{item.integral}}</td>
+            <td v-if="item.money_type==0">{{item.money}}</td>
+            <td>{{item.platform_money}}</td>
+        </tr>
+        </thead>
+
+
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+</div>
+</body>
+
+</html>
+
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#travels_comment",
+        data: {
+            pagerConf: {
+                totalPage: 0,
+                currPage: 1,
+                prevShow: 3,
+                nextShow: 3,
+                pageRange: []
+            },
+            list: [],
+            search: {
+                p: 1,
+                id: '{$id}'
+            }
+        },
+        watch: {
+            'pagerConf.currPage': function () {
+                this.get_list();
+            }
+        },
+        methods: {
+            get_list: function () {
+                var data = this.search;
+                data.p = this.pagerConf.currPage;
+                $.getJSON("{:U('gratuity_list')}", data, function (res) {
+                    if (res.status == 1) {
+                        vm.list = res.info.list;
+                        vm.pagerConf.totalPage = res.info.totalPage;
+                    }
+                })
+            },
+        },
+        created:function(){
+            this.get_list();
+        }
+    });
+</script>

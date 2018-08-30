@@ -1,0 +1,81 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a  class="headRight" id="tjBtn">提交</a>
+        <span class="headTit">回复评论</span>
+    </div>
+
+    <div class="w-flexitem1 w-section flex_1 back-f7f7f7">
+        <div class="pinglun_huifu">
+            <textarea  rows="8" placeholder="回复{$data.nickname}:" class="pad15 contents content" maxlength="500"></textarea>
+            <p class="text-right">(<span class="shownum">0</span>/500)</p>
+            <a href="javascript:;" class="person_about pad15 flex_dom  back-fff">
+                <div class="photo">
+                    <span ><img src="{$data.avatar}"/></span>
+                </div>
+                <div class="content_about flex_1">
+                    {$data.content}
+                </div>
+            </a>
+
+        </div>
+    </div>
+</section>
+</body>
+
+<input type="hidden" class="id" value="{$_GET['id']}">
+<input type="hidden" class="mid" value="{$_GET['mid']}">
+
+<include file="Public:js"/>
+</html>
+<script type="text/javascript">
+    $(function () {
+
+        //改变字数
+        $(".contents").keydown(function()
+        {
+            if(parseInt($('.contents').val().length) == 500)
+            {
+                $('.shownum').html('500');
+            }else
+            {
+                $('.shownum').html(parseInt($('.contents').val().length)+1);
+            }
+
+        });
+
+
+        $('#tjBtn').click(function () {
+
+            var id = $('.id').val();
+            var mid = $('.mid').val();
+            var content = $('.content').val();
+            if(content.length == 0)
+            {
+                go_alert2('评论内容不能为空');
+            }else
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Article/addCommentToComm',
+                    data: {id:id,content:content,mid:mid},
+                    success: function (e) {
+                        if(e.status == 1)
+                        {
+                            $('.content').val('');
+                            go_alert2(e.info);
+                            setTimeout(back(),1000);
+                            // self.location = document.referrer;
+                            // setTimeout(window.location.go(-1),1000);
+                        }else{
+                            $('.noData').show();
+                            // $('#datalist').html('');
+                        }
+                    },
+                });
+            }
+        });
+    })
+</script>

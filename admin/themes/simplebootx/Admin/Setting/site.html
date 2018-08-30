@@ -1,0 +1,482 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active" ><a href="#J" data-toggle="tab">基本设置</a></li>
+        <li ><a href="#K" data-toggle="tab">积分比例设置</a></li>
+        <li ><a href="#YS" data-toggle="tab">医生积分设置</a></li>
+        <li ><a href="#DT" data-toggle="tab">答题设置</a></li>
+        <li ><a href="#TX" data-toggle="tab">提现设置</a></li>
+        <li ><a href="#START" data-toggle="tab">APP启动页设置</a></li>
+        <li><a href="#L" data-toggle="tab">用户服务协议</a></li>
+        <li ><a href="#M" data-toggle="tab">开启咨询说明</a></li>
+        <li ><a href="#N" data-toggle="tab">关于我们</a></li>
+        <li ><a href="#O" data-toggle="tab">医生认证协议</a></li>
+        <li ><a href="#doc" data-toggle="tab">医生审核设置</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-forms" action="{:U('setting/site_post')}" method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="J">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label">平台联系电话</label>
+                                <div class="controls">
+                                    <input type="number" name="options[order_cancel_time]" value="{$order_cancel_time}">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">平台logo</label>
+                                <div class="controls">
+                                    <input type="hidden"  name="options[pic]" value="" id="pic" >
+                                    <if condition="$pic neq null">
+                                        <a href="javascript:void(0);"
+                                           onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                                            <img
+                                                    src="{$pic}"
+                                                    onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="pic_preview"  id="pic_preview" width="80"
+                                                    style="cursor: hand; height: 80px !important;"/>
+                                        </a>
+                                        <else/>
+                                        <a href="javascript:void(0);"
+                                           onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                                            <img
+                                                    src="__TMPL__Public/assets/images/default-thumbnail.png"
+                                                    onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="pic_preview"  id="pic_preview" width="80"
+                                                    style="cursor: hand; height: 80px !important;"/>
+                                        </a>
+                                        <!--src="__TMPL__Public/assets/images/default-thumbnail.png"-->
+                                    </if>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">平台介绍</label>
+                                <div class="controls">
+                                    <textarea name="options[intro]" id="" maxlength="50"  cols="30" rows="10" placeholder="50个字以内">{$intro}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">咨询说明</label>
+                                <div class="controls">
+                                    <textarea name="options[zxinto]" maxlength="50"  cols="30" rows="10" placeholder="50个字以内">{$zxinto}</textarea>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane " id="K">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">用户评论获得：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[comment_integral]" value="{$comment_integral}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">用户点赞获得：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[travels_integral]" value="{$travels_integral}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">用户分享获得：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[dynamic_integral]" value="{$dynamic_integral}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">用户回复评论获得：</label>
+                                <div class="controls">
+                                    <input maxlength="20" type="number" name="options[c_t_order]" value="{$c_t_order}"> 积分
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane " id="YS">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">1.医生评论获得：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[d_c_integral]" value="{$d_c_integral}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">2.医生点赞获得：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[d_t_integral]" value="{$d_t_integral}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">3.医生分享获得：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[d_d_integral]" value="{$d_d_integral}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">4.医生回复评论获得：</label>
+                                <div class="controls">
+                                    <input maxlength="20" type="number" name="options[d_ba_c]" value="{$d_ba_c}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">5.医生发布动态获得：</label>
+                                <div class="controls">
+                                    <input maxlength="20" type="number" name="options[d_pl_dt]" value="{$d_pl_dt}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">6.医生发布文章获得：</label>
+                                <div class="controls">
+                                    <input maxlength="20" type="number" name="options[d_pl_art]" value="{$d_pl_art}"> 积分
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">7.医生转发文章获得：</label>
+                                <div class="controls">
+                                    <input maxlength="20" type="number" name="options[d_zf_art]" value="{$d_zf_art}"> 积分
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane " id="DT">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">1.每次提问所需金额：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[q_questionmoney]" value="{$q_questionmoney}"> 元
+                                </div><br>
+                                <span style="margin-left: 210px;color: #ccc;">用户提问所需要支付的金额</span>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">2.提问取消时间：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[q_questiondolesstime]" value="{$q_questiondolesstime}"> 小时
+                                </div><br/>
+                                <span style="margin-left: 210px;color:#ccc;">用户提交问题后，医生没有回应，超过这个时间问题取消，支付金额的原路退回给用户</span>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">3.提问平台抽成比例：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[q_questionpersont]" min="0" value="{$q_questionpersont}"> %
+                                </div><br/>
+                                <span style="margin-left: 210px;color: #ccc;">用户提问支付的金额，平台扣减的比例，最多100%最少0%</span>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane " id="TX">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">1.每次提现最低提现金额：</label>
+                                <div class="controls">
+                                    <input type="number" name="options[q_txmoney]" value="{$q_txmoney}"> 元
+                                </div><br>
+                                <span style="margin-left: 210px;color: #ccc;">设置医生每次提现的门槛，低于这个金额不能提现</span>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane " id="START">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 210px">APP启动页：</label>
+                                <div class="controls">
+                                    <input type="hidden"  name="options[apppic]" value="" id="apppic" >
+
+                                    <if condition="$apppic neq null">
+                                        <a href="javascript:void(0);"
+                                           onclick="flashupload('pic_images', '附件上传','apppic',pic_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                                            <img
+                                                    src="{$apppic}"
+                                                    onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="apppic_preview"  id="apppic_preview" width="80"
+                                                    style="cursor: hand; height: 80px !important;"/>
+                                        </a>
+                                        <else/>
+                                        <a href="javascript:void(0);"
+                                           onclick="flashupload('pic_images', '附件上传','apppic',pic_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                                            <img
+                                                    src="__TMPL__Public/assets/images/default-thumbnail.png"
+                                                    onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="apppic_preview"  id="apppic_preview" width="80"
+                                                    style="cursor: hand; height: 80px !important;"/>
+                                        </a>
+                                        <!--src="__TMPL__Public/assets/images/default-thumbnail.png"-->
+                                    </if>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane" id="L">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label">用户服务协议</label>
+                                <div class="controls">
+                                  <textarea type="text/plain" id="content" name="options[content]">{$content}</textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane" id="M">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" >开启咨询说明</label>
+                                <div class="controls">
+                                    <textarea type="text/plain" id="content1" name="options[content1]">{$content1}</textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane" id="N">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" >关于我们</label>
+                                <div class="controls">
+                                    <textarea type="text/plain" id="content2" name="options[content2]">{$content2}</textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane" id="O">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" >医生认证协议</label>
+                                <div class="controls">
+                                    <textarea type="text/plain" id="content3" name="options[content3]">{$content3}</textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane" id="doc">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" style="width: 200px;">是否开启医生申请自动审核：</label>
+                                <div class="controls" style="margin-left: 230px;">
+                                    <input type="radio" <if condition="$yssh eq 1">checked</if> name="options[yssh]"  value="1">不开启
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" <if condition="$yssh eq 2">checked</if> name="options[yssh]" value="2">开启
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:L("SAVE")}</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+
+
+<script>
+
+
+
+    var content = new baidu.editor.ui.Editor(
+        {
+            initialFrameWidth : 900,
+            initialFrameHeight  : 400,
+        });
+    content.render('content');
+    content.ready(function (editor) {
+        try {
+            content.sync();
+        } catch (err) {
+
+        }
+    });
+    var content1 = new baidu.editor.ui.Editor(
+        {
+            initialFrameWidth : 900,
+            initialFrameHeight  : 400,
+        });
+    content1.render('content1');
+    content1.ready(function (editor)
+    {
+        try {
+            content1.sync();
+        } catch (err) {
+
+        }
+    });
+    var content2 = new baidu.editor.ui.Editor(
+        {
+            initialFrameWidth : 900,
+            initialFrameHeight  : 400,
+        });
+    content2.render('content2');
+    content2.ready(function (editor) {
+        try {
+            content2.sync();
+        } catch (err) {
+
+        }
+    });
+    var content3 = new baidu.editor.ui.Editor(
+        {
+            initialFrameWidth : 900,
+            initialFrameHeight  : 400,
+        });
+    content3.render('content3');
+    content3.ready(function (editor) {
+        try {
+            content3.sync();
+        } catch (err) {
+
+        }
+    });
+
+
+
+    function thumb_images2(uploadid, returnid) {
+        //取得iframe对象
+        var d = uploadid.iframe.contentWindow;
+        //取得选择的图片
+        var in_content = d.$("#att-status").html().substring(1);
+        if (in_content == '') return false;
+        if (!IsImg(in_content)) {
+            isalert('选择的类型必须为图片类型！');
+            return false;
+        }
+        $("#pic").val(in_content);
+        $("#pic_preview").attr('src',in_content);
+    }
+     function pic_images2(uploadid, returnid) {
+        //取得iframe对象
+        var d = uploadid.iframe.contentWindow;
+        //取得选择的图片
+        var in_content = d.$("#att-status").html().substring(1);
+        if (in_content == '') return false;
+        if (!IsImg(in_content)) {
+            isalert('选择的类型必须为图片类型！');
+            return false;
+        }
+        $("#apppic").val(in_content);
+        $("#apppic_preview").attr('src',in_content);
+    }
+    Wind.use('validate', 'ajaxForm', 'artDialog', function() {
+        //javascript
+        var form = $('form.js-ajax-forms');
+        //ie处理placeholder提交问题
+        if ($.browser.msie) {
+            form.find('[placeholder]').each(function() {
+                var input = $(this);
+                if (input.val() == input.attr('placeholder')) {
+                    input.val('');
+                }
+            });
+        }
+        //表单验证开始
+        form.validate({
+            //是否在获取焦点时验证
+            onfocusout : false,
+            //是否在敲击键盘时验证
+            onkeyup : false,
+            //当鼠标掉级时验证
+            onclick : false,
+            //验证错误
+            showErrors : function(errorMap, errorArr) {
+                //errorMap {'name':'错误信息'}
+                //errorArr [{'message':'错误信息',element:({})}]
+                try {
+                    $(errorArr[0].element).focus();
+                    art.dialog({
+                        id : 'error',
+                        icon : 'error',
+                        lock : true,
+                        fixed : true,
+                        background : "#CCCCCC",
+                        opacity : 0,
+                        content : errorArr[0].message,
+                        cancelVal : "{:L('OK')}",
+                        cancel : function() {
+                            $(errorArr[0].element).focus();
+                        }
+                    });
+                } catch (err) {
+                }
+            },
+            //验证规则
+            rules : {
+                'options[site_name]' : {
+                    required : 1
+                },
+                'options[site_host]' : {
+                    required : 1
+                },
+                'options[site_root]' : {
+                    required : 1
+                }
+            },
+            //验证未通过提示消息
+            messages : {
+                'options[site_name]' : {
+                    required : "{:L('WEBSITE_SITE_NAME_REQUIRED_MESSAGE')}"
+                },
+                'options[site_host]' : {
+                    required : "{:L('WEBSITE_SITE_HOST_REQUIRED_MESSAGE')}"
+                }
+            },
+            //给未通过验证的元素加效果,闪烁等
+            highlight : false,
+            //是否在获取焦点时验证
+            onfocusout : false,
+            //验证通过，提交表单
+            submitHandler : function(forms) {
+                $(forms).ajaxSubmit({
+                    url : form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                    dataType : 'json',
+                    beforeSubmit : function(arr, $form, options) {
+
+                    },
+                    success : function(data, statusText, xhr, $form) {
+                        if (data.status) {
+                            setCookie("refersh_time", 1);
+                            var admin_url_changed=$("#js-site-admin-url-password").data("changed");
+                            var message =admin_url_changed?data.info+'<br><span style="color:red;">后台地址已更新(请劳记！)</span>':data.info;
+
+                            //添加成功
+                            Wind.use("artDialog", function() {
+                                art.dialog({
+                                    id : "succeed",
+                                    icon : "succeed",
+                                    fixed : true,
+                                    lock : true,
+                                    background : "#CCCCCC",
+                                    opacity : 0,
+                                    content : message,
+                                    button : [ {
+                                        name : "{:L('OK')}",
+                                        callback : function() {
+                                            //reloadPage(window);
+                                            return true;
+                                        },
+                                        focus : true
+                                    }, {
+                                        name : "{:L('CLOSE')}",
+                                        callback : function() {
+                                            //reloadPage(window);
+                                            return true;
+                                        }
+                                    } ]
+                                });
+                            });
+                        } else {
+                            alert(data.info);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<style type="text/css">
+    .read{
+        line-height: 0.8rem;
+        width: 100%;
+        color: #fff;
+        background-color: #41d397;
+        font-size: 16px;
+    }
+</style>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">医生认证</span>
+    </div>
+    <div class="w-flexitem1 w-section">
+        <div class="massage_page pad15">
+            <div class="edit_area ">
+                <p>{$content}</p>
+            </div>
+        </div>
+    </div>
+
+    <if condition="$showSQ eq 1">
+        <div class="dele_btn">
+            <button  id="showM" class="read">查看申请</button>
+        </div>
+        <else />
+        <div class="dele_btn">
+            <button id="jkAdd"   class="read">申请认证</button>
+        </div>
+    </if>
+
+</section>
+</body>
+</html>
+<input type="hidden" class="isbd" value="{$_GET['isbdphone']}">
+<include file="Public:js"/>
+<script type="text/javascript">
+    $(function () {
+        $('#showM').click(function ()
+        {
+            location.href = "/Member/applyAuth";
+        });
+
+
+        $('#jkAdd').click(function ()
+        {
+            var isbd = $('.isbd').val();
+            if(isbd == 1)
+            {
+                location.href = "/Member/applyAuthFir";
+            }else
+            {
+                location.href = "/Member/bindPhone";
+            }
+        });
+    });
+</script>

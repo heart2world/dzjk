@@ -1,0 +1,11 @@
+<php>if(!is_weixin()){</php>
+<header class="newHeader">
+    <if condition="sp_is_ios()">
+        <a href="javascript:WebViewJavascriptBridge.back();" class="headerLeft"></a>
+        <else/>
+        <a href="javascript:history.back();" class="headerLeft"></a>
+    </if>
+    <a href="javascript:;" class="headerRight"></a>
+    <span>[title]</span>
+</header>
+<php>}</php>

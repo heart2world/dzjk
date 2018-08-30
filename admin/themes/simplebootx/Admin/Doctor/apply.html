@@ -1,0 +1,162 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <!--<li class="active"><a href="{:U('index')}">医生列表</a></li>-->
+
+    </ul>
+    <div class="well form-search " >
+        模糊查询：
+        <input type="text" name="nickname" style="width: 200px;" v-model="search.nickname" placeholder="姓名/昵称/电话/医院"
+               @keyup.enter="mySearch()">&nbsp;&nbsp;
+        审核状态：
+        <select class="select_2" name="cate_id" v-model="search.isok" style="width:70px">
+            <option value="100">全部</option>
+            <option value="0" >待审核</option>
+            <option value="1">已通过</option>
+            <option value="2">已拒绝</option>
+        </select> &nbsp;
+        专业：
+        <select class="select_2" name="cate_id" v-model="search.zy" style="width:70px">
+            <option value="all">全部</option>
+            <volist name="label" id="vo">
+                <option value="{$vo.id}" >{$vo.name}</option>
+            </volist>
+        </select>
+
+        <input type="button" class="btn btn-primary" @click="mySearch()" value="查询">
+    </div>
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+
+    </table>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <!--<th style="width: 5%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>-->
+            <th>申请时间</th>
+            <th>姓名</th>
+            <th>头像</th>
+            <th>昵称</th>
+            <th>电话</th>
+            <th>专业</th>
+            <th>医院</th>
+            <th>科室</th>
+            <th>审核状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="tr2" v-cloak v-for="item in list">
+            <!--<td><input  style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>-->
+            <td>{{item.create_time}}</td>
+            <td>{{item.truename}}</td>
+            <td><img :src="item.avatar" width="60" style="border-radius:50%;height: 60px !important;"></td>
+            <td>{{item.nickname}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.zy}}</td>
+            <td>{{item.hosp}}</td>
+            <td>{{item.ks}}</td>
+            <td>{{item.is_ok_text}}</td>
+
+            <td>
+                <a class="btn btn-small btn-info" :href="'/Admin/Doctor/detail_sh/member_id/'+ item.id">详情</a>
+                <a v-if="item.is_ok==0" href="javascript:void(0);" @click="optionBtn(item.id,1)" class="btn btn-small btn-warning">通过</a>
+                <a v-if="item.is_ok==0" href="javascript:void(0);" @click="optionBtn(item.id,2)" class="btn btn-small btn-warning">拒绝</a>
+                <a v-if="item.is_ok==2" href="javascript:void(0);" @click="optionBtn(item.id,3)" class="btn btn-small btn-warning">删除</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+    <input type="hidden" value="1" id="currPage" />
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+
+
+    var vm = new Vue({
+        el:"#seckill",
+        data: {
+            pagerConf:{
+                totalPage : 0,
+                currPage : $("#currPage").val()?$("#currPage").val():1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            list: null,
+            search: { p: 1,nickname:'',isok:100,zy:'all',order:'' }
+
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.getData();
+            }
+        },
+        methods:{
+            optionBtn:function (id,type) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/Doctor/optionBtn',
+                    data: {id:id,type:type},
+                    success: function (res) {
+                        if(res.status == 1)
+                        {
+                            $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                            vm.getData();
+                        }else
+                        {
+                            $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                        }
+                    }
+                });
+            },
+
+
+            getData:function () {
+                var data = this.search;
+                data.p = this.pagerConf.currPage;
+                $.getJSON("{:U('apply')}",data,function (res) {
+                    if(res.status==1){
+                        vm.list = res.info.list;
+                        vm.pagerConf.totalPage = res.info.total_page;
+                        $("#currPage").val(res.info.p);
+
+                    }else{
+                        $.dialog({id: 'popup',icon: 'error', lock: true, content: res.msg, ok:function(){}});
+                    }
+                })
+            },
+            mySearch:function(){
+                this.getData(true);
+            },
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+
+
+
+        },
+        created: function () {
+            this.mySearch();
+        }
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<include file="Public:header" title="搜索"/>
+
+<style>
+    .headLeft, .headRight{width:.5rem;height:.5rem;}
+    .searchBox2>div>input{padding-top:0;line-height:.44rem;}
+</style>
+
+<body>
+<section class="flex_column w-height100 w-bgcolorf7f7f7"  id="flex_column">
+    <div class="w-padding0102 w-bgcolor44D397 searchBox2 w-flex">
+        <include file="Public:back"/>
+        <div class="w-flexitem1">
+                <input type="text" value="{$_GET['kw']}" class="w-placeholder-colorccc kw" placeholder="搜索文章、关键字"/>
+            <a href="javascript:;" @click="mySearch(true)" id="iconSearch" class="iconSearch"></a>
+        </div>
+        <a onclick="back()"  class="w-inlineblock w-height05 w-font14 w-paddingLeftRight02 w-colorFFF">取消</a>
+    </div>
+
+    <div class="w-flexitem1 w-section" id="scroll_content">
+        <div v-cloak  v-for="(item,index) in list">
+            <div  v-if="item.tpzs >= 3&&item.type == 1" class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01" >
+                <div class="w-paddingTopBottom02 w-borderBeee">
+                    <div class="w-flex w-marginBottom01">
+                        <img :src="item.avatar" class="header1 w-marginRight02" alt=""/>
+                        <div class="w-flexitem1">
+                            <h4 class="w-height03 w-font14 w-color000 w-onlyline">{{item.nickname}}</h4>
+                            <span class="w-block w-height03 w-font12 w-color999 w-onlyline">{{item.hosp}}{{item.zw}}</span>
+                        </div>
+                    </div>
+                    <!-- 此div里面必须放纯文本，不能添加其他标签-->
+                    <div  @click="jumpinfoD(item.id)" class="threeLine">
+                        {{item.content}}
+                        <span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+                    </div>
+                    <div class="w-font0 threeImgBox w-position">
+                        <div class="threeImg"  v-for="(thumb,indexs) in item.thumb"><img :src="thumb" alt=""/></div>
+                        <!-- 数字蒙层-->
+                        <div class="threeFixed"><span>+{{item.tpzsShow}}</span></div>
+                    </div>
+                </div>
+                <div class="w-paddingTopBottom02 w-flex">
+
+                    <label v-if="item.isgz == 0" class="iconCollect">
+                        <input @click="gzFunc(item.author,$event)" type="checkbox" />
+                        <span></span>
+                    </label>
+                    <label v-else-if="item.isgz == 1"  class="iconCollect">
+                        <input @click="gzFunc(item.author,$event)"  type="checkbox" checked/>
+                        <span></span>
+                    </label>
+
+                    <div class="w-flexitem1 w-textalignR">
+                        <label  v-if="item.isz == 1"   class="iconZan w-marginRight02">
+                            <input  type="checkbox"  disabled checked/>
+                            <span>{{item.dzs}}</span>
+                        </label>
+                        <label  v-if="item.isz == 0"   class="iconZan w-marginRight02">
+                            <input @click="dianZan(item.id,$event)"  type="checkbox"  />
+                            <span>{{item.dzs}}</span>
+                        </label>
+
+
+
+                        <a href="javascript:;" class="iconTalk w-marginRight02">{{item.pls}}</a>
+                        <a href="javascript:;" class="iconShare">{{item.fxs}}</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div  v-else-if="item.tpzs == 1&&item.type == 1" class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01">
+                <div class="w-paddingTopBottom02 w-borderBeee">
+                    <div class="w-flex w-marginBottom01">
+                        <img  :src="item.avatar" class="header1 w-marginRight02" alt=""/>
+                        <div class="w-flexitem1">
+                            <h4 class="w-height03 w-font14 w-color000 w-onlyline">{{item.nickname}}</h4>
+                            <span class="w-block w-height03 w-font12 w-color999 w-onlyline">{{item.host}}{{item.zw}}</span>
+                        </div>
+                    </div>
+                    <!-- 此div里面必须放纯文本，不能添加其他标签-->
+                    <div  @click="jumpinfoD(item.id)" class="threeLine w-marginBottom01">
+                        {{item.content}}
+                        <span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+                    </div>
+                    <div class="oneImgBox" v-if="thumb" v-for="(thumb,indexs) in item.thumb"><img v-if="thumb != ''" :src="thumb" alt=""/></div>
+                </div>
+                <div class="w-paddingTopBottom02 w-flex">
+
+
+                    <label v-if="item.isgz == 0" class="iconCollect">
+                        <input @click="gzFunc(item.author,$event)" type="checkbox" />
+                        <span></span>
+                    </label>
+                    <label v-else-if="item.isgz == 1"  class="iconCollect">
+                        <input @click="gzFunc(item.author,$event)"  type="checkbox" checked/>
+                        <span></span>
+                    </label>
+
+
+                    <div class="w-flexitem1 w-textalignR">
+
+
+                        <label  v-if="item.isz == 1"   class="iconZan w-marginRight02">
+                            <input  disabled type="checkbox"  checked/>
+                            <span>{{item.dzs}}</span>
+                        </label>
+                        <label  v-if="item.isz == 0"  class="iconZan w-marginRight02">
+                            <input @click="dianZan(item.id,$event)" value="12" data-id="23" type="checkbox"   />
+                            <span>{{item.dzs}}</span>
+                        </label>
+
+
+                        <a href="javascript:;" class="iconTalk w-marginRight02">{{item.pls}}</a>
+                        <a href="javascript:;" class="iconShare">{{item.fxs}}</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div v-else-if="item.tpzs == 0&&item.type == 0"  class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01">
+                <div class="w-paddingTopBottom02 w-borderBeee">
+                    <!-- 此div里面必须放纯文本，不能添加其他标签-->
+                    <div   v-if="item.isyc == 1" @click="jumpinfo(item.id)" class="threeLine w-marginBottom01">
+                        {{item.title}}<span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+                    </div>
+                    <div  v-else-if="item.isyc == 0" @click="jumpinfo(item.id)" class="threeLine w-marginBottom01">
+                        {{item.title}}<span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+                    </div>
+
+                    <div class="w-imgBox">
+                        <div class="w-imgBox"  v-for="(thumb,indexs) in item.thumb"><img :src="thumb" alt=""/></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div v-else-if="item.tpzs == 1 && item.type == 0" class="w-bgcolorFFF w-flex w-padding0302 w-marginBottom01">
+                <div class="w-flexitem1">
+
+
+                    <div v-if="item.isyc == 1" @click="jumpinfo(item.id)" class="w-line04 w-font14 w-color333 w-marginBottom03 w-doubleline w-height08">
+                        <span class="iszbox">[转]</span>{{item.title}}
+                    </div>
+
+                    <div  v-else-if="item.isyc == 0"  @click="jumpinfo(item.id)" class="w-line04 w-font14 w-color333 w-marginBottom03 w-doubleline w-height08">
+                      {{item.title}}
+                    </div>
+
+
+                    <div class="w-height03 w-onlyline w-font12 w-color999">
+                        <span class="w-btn1 w-marginRight02">{{item.label}}</span>
+                        <em class="w-marginRight02 newName">{{item.nickname}}</em>
+                        <em>{{item.pls}}评论</em>
+                    </div>
+                </div>
+                <img   v-for="(thumb,indexs) in item.thumb" :src="thumb" alt=""  class="goods1"/>
+            </div>
+
+
+            <div v-else-if="item.tpzs >= 3 || item.tpzs == 2&&item.type == 0" class="w-bgcolorFFF w-padding02 w-marginBottom01">
+                <!-- 此div里面必须放纯文本，不能添加其他标签-->
+                <div v-if="item.isyc == 1"  @click="jumpinfo(item.id)" class="threeLine" >
+                    <span class="iszbox">[转]</span>{{item.title}}<span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+                </div>
+                <div  v-else-if="item.isyc == 0" @click="jumpinfo(item.id)" class="threeLine" >
+                     {{item.title}}<span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+                </div>
+
+                <div class="w-font0 threeImgBox w-position w-marginBottom02">
+                    <div class="threeImg"  v-for="(thumb,indexs) in item.thumb"><img :src="thumb" alt=""/></div>
+
+                    <div class="threeFixed" v-if="item.tpzs > 3" ><span>{{item.tpzs}}</span></div>
+
+                </div>
+                <div class="w-height03 w-onlyline w-font12 w-color999">
+                    <span class="w-btn1 w-marginRight02">{{item.label}}</span>
+                    <em class="w-marginRight02 newName">{{item.nickname}}</em>
+                    <em>{{item.pls}}评论</em>
+                </div>
+            </div>
+            <!-- 暂无数据图-->
+        </div>
+
+        <div class="noData" style="display: none">很抱歉<br/>暂时没有搜索结果</div>
+
+    </div>
+
+</section>
+</body>
+<input type="hidden" class="type" value="{$_GET['type']}">
+<include file="Public:js" />
+<script>
+</script>
+
+<link rel="stylesheet" type="text/css" href="__TMPL__Public/Mobile/css/dropload.css"/>
+<script>
+    window.onload = function () {
+        var isFirst = 0;
+        msg_list_loading = false;
+        var dropload = null;
+        //页面加载后替换
+        var vm = new Vue({
+            el: '#flex_column',
+            data: {
+                list: [],
+                show: $("#currPage").val() ? $("#currPage").val() : 2,
+                page: {
+                    p: 0,
+                    totalPage: 1,
+                    loadContent: "加载更多"
+                },
+            },
+
+            methods: {  //方法
+                gzFunc:function (id,e)
+                {
+                    var check = $(e.target).prop('checked');
+                    $(e.target).prop('checked', !check);
+                    var id = id;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Article/folloAction',
+                        data: {id:id,types:'zjgz'},
+                        success: function (e) {
+                            if(e.status == 1)
+                            {
+                                $(e.target).prop('checked', check);
+                                go_alert2(e.info);
+                            }else
+                            {
+                                go_alert2(e.info);
+                            }
+                        },
+                    });
+                },
+                jumpinfo:function (id) {
+                    window.location.href = "/Article/info/id/"+id;
+                },
+                jumpinfoD:function (id) {
+                    window.location.href = "/Article/infoDyna/id/"+id;
+                },
+                dianZan:function (id,el)
+                {
+                    $(el.target).prop('checked', false);
+                    var id = id;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Article/giveAction',
+                        data: {id:id},
+                        success: function (e) {
+                            if(e.status == 1)
+                            {
+                                $(el.target).prop('checked', true);
+                                $(el.target).parent().children('span').html(parseInt($(el.target).parent().children('span').html())+1);
+                                $(el.target).prop("disabled",'disabled');
+                                go_alert2(e.info);
+                            }else
+                            {
+                                go_alert2(e.info);
+                            }
+                        },
+                    });
+                },
+                mySearch: function (search) {
+                    if (search) {
+                        this.list = [];
+                        this.page.p = 0;
+                        this.page.totalPage = 1;
+                        this.page.loadContent = '加载更多';
+                    }
+                    var kw = $('.kw').val();
+                    if(kw.length > 0)
+                    {
+                    var type = $('.type').val();
+                    msg_list_loading = true;
+
+                    if (this.page.p < this.page.totalPage)
+                    {
+                        var p = this.page.p == 0 ? this.page.p = 1 : this.page.p += 1;
+                        var url = "{:U('Article/search')}";
+                        var param = {p: p,kw:kw};
+
+                        $.getJSON(url, param, function (data) {
+                            vm.list = vm.list.concat(data.info.list);
+                            vm.page.totalPage = data.info.total_page;
+                            $(".page_more_load").show();
+                            if (vm.page.p >= vm.page.totalPage)
+                            {
+                                vm.page.loadContent = '没有更多了';
+                                if (vm.page.totalPage == 1 || data.info.total_page == 0) {
+                                    vm.page.loadContent = '';
+                                    $(".page_more_load").hide();
+                                }
+                            }
+                            if(!vm.list||vm.list.length==0){
+                                $(".noData").show();
+                            }else
+                            {
+                                $(".noData").hide();
+                            }
+                            msg_list_loading = false;
+                            //判断超过三行“全文” 显示隐藏
+                            setTimeout(function () {
+                                $('.threeLine').each(function () {
+                                    if ($(this).height() > 60) {
+                                        $(this).css('height', '60px');
+                                        $(this).children('.threeMark').show();
+                                    } else {
+                                        $(this).css('height', 'auto');
+                                        $(this).children('.threeMark').hide();
+                                    }
+                                });
+                                $('.threeMark').click(function (e) {
+                                    if ($(this).parents('.threeLine').height() == 60) {
+                                        $(this).parents('.threeLine').css('height', 'auto');
+                                        $(this).css('position', 'static');
+                                        $(this).children('em').text('收起');
+                                    } else {
+                                        $(this).parents('.threeLine').css('height', '60px');
+                                        $(this).css('position', 'absolute');
+                                        $(this).children('em').text('全文');
+                                    };
+                                    e.stopPropagation();
+                                });
+                            }, 0)
+                        })
+                    }
+                    }
+                },
+            },
+
+            //页面加载后调用ajax请求数据
+            created: function () {
+            },
+            mounted:function(){
+                if (this.show == 2)
+                {
+                    //上拉刷新初始化
+                    dropload = $('.inner').dropload({
+                        domUp : {
+                            domClass   : 'dropload-up',
+                            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+                            domUpdate  : '<div class="dropload-update">↑释放更新</div>'
+                        },
+                        loadUpFn : function(me){
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function(){
+                                // 每次数据加载完，必须重置
+                                dropload.resetload();
+                            },1000);
+                            vm.mySearch(true);
+                        }
+                    });
+                }
+            },
+        });
+
+        //下拉滚动分页
+        $("#scroll_content").scroll(function () {
+            if($(this).scrollTop() == 0){
+                //上拉刷新初始化
+                dropload = $('.inner').dropload({
+                    domUp: {
+                        domClass: 'dropload-up',
+                        domRefresh: '<div class="dropload-refresh">↓下拉刷新</div>',
+                        domUpdate: '<div class="dropload-update">↑释放更新</div>'
+                    },
+                    loadUpFn: function (me) {
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            // 每次数据加载完，必须重置
+                            dropload.resetload();
+                        }, 1000);
+                        vm.mySearch(true);
+                    }
+                });
+            } else {
+                $('.inner').unbind();
+            }
+            //得到整个页面高度
+            var html_height = $(".list_content").height();
+            var screen_height = document.documentElement.clientHeight;//363
+            var scroll_height = $("#scroll_content").scrollTop();//760
+            if (scroll_height >= html_height - screen_height) {
+                $(document).scrollTop(scroll_height - 1);
+                if (!msg_list_loading) {
+                    vm.mySearch(false);
+                }
+            }
+        });
+
+
+
+    }
+</script>
+</html>

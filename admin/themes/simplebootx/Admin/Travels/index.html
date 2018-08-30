@@ -1,0 +1,277 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="AItem">
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+        <thead>
+        <tr>
+            <th style="width:100%;text-align: left" >
+                <a class="btn btn-small btn-danger"  @click="deleteBatch('')" href="javascript:;">批量删除</a>
+            </th>
+        </tr>
+        </thead>
+    </table>
+    <div class="well form-search " >
+
+        游记标题 ：
+        <input type="text" name="title" style="width: 120px;"  placeholder="" v-model="search.title">&nbsp;&nbsp;
+
+        所属目的地:
+        <select name="" id="depart_pro" style="width: 120px;" v-model="search.province">
+            <option value="">全部</option>
+            <option :value="item.id" v-for="item in province_list">{{item.name}}</option>
+        </select>
+        &nbsp;&nbsp;
+        <select name="" id="depart_city" style="width: 120px;" v-model="search.city">
+            <option value="">全部</option>
+            <option :value="item.id" v-for="item in city_list">{{item.name}}</option>
+        </select>
+
+        发布者昵称 ：
+        <input type="text" name="nickname" style="width: 120px;"  placeholder="" v-model="search.nickname" @focus="show_user">&nbsp;&nbsp;
+        <span v-if="search.nickname" @click="delete_name" v-cloak><img src="__PUBLIC__/assets/images/btnDeleteBlack.png" alt="" width="18px;"></span>
+
+        &nbsp;&nbsp; &nbsp;&nbsp;
+        <a href="javascript:;" class="btn btn-success" @click="sort_submit"  >设置排序</a>
+        &nbsp;&nbsp; &nbsp;&nbsp;
+        <a href="javascript:;" class="btn btn-primary" @click="mySearch"  >查询</a>
+
+
+    </div>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <th style="width: 5%"><input style="margin-top:0px" @click="select()" class="select" type="checkbox">全选</th>
+            <th>游记标题</th>
+            <th>所属目的地</th>
+            <th>发布者昵称</th>
+            <th>绑定手机号</th>
+            <th>浏览量</th>
+            <th>置顶数</th>
+            <th>序号</th>
+            <th>评论数</th>
+            <th>打赏数</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <thead>
+        <tr v-cloak v-for="item in list">
+            <td><input  style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>
+            <td>{{item.title}}</td>
+            <td>{{item.province_name}} - {{item.city_name}}</td>
+            <td>{{item.nickname}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.browsing_count}}</td>
+            <td>{{item.top_num}}</td>
+            <td><input type="text" class="sort" :value="item.sort" style="width:60px;" v-model="item.sort"></td>
+            <td v-if="item.comment_count !=0"><a :href="'{:U('get_comment')}'+'?id='+item.id">{{item.comment_count}}</a></td>
+            <td v-else>{{item.comment_count}}</td>
+            <td v-if="item.g_count!=0"><a :href="'{:U('gratuity_list')}'+'/id/'+item.id">{{item.g_count}}</a></td>
+            <td v-else>{{item.g_count}}</td>
+            <td>
+                <a :href="'{:U('get_travels_info')}'+'?id='+item.id" >详情</a>
+                |
+                <a href="javascript:;" @click="delete_one(item.id)">删除</a>
+            </td>
+        </tr>
+        </thead>
+
+        <input type="hidden" value="1" id="currPage">
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+
+
+    <div id="detailModalUser"  class=" modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:440px;">
+        <div class="modal-header" style="margin-bottom:20px;border-bottom:1px solid #eee ;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >×</button>
+            <h4 class="">请双击需查询的用户</h4>
+        </div>
+        <div class="container-fluid" >
+            <input type="text" name="" id="nickname" value=""> <a href="javascript:;" class="btn btn-primary" @click="search_user"  style="margin-top:-10px;margin-left: 110px;">查询</a>
+            <div style="overflow-x: auto; overflow-y: auto; height: 300px; width:400px;">
+                <table  class="table table-hover table-bordered table-list" >
+                    <thead>
+                    <tr >
+                        <td>头像</td>
+                        <td>昵称</td>
+                        <td>绑定手机号</td>
+                    </tr>
+                    <tr v-for="item in user_list" >
+                        <td><img :src="item.headimg" alt="" width="50px;" style="border-radius: 50%"></td>
+                        <td style="cursor:pointer" @dblclick="set_name(item.nickname)">{{item.nickname}}</td>
+                        <td>{{item.mobile}}</td>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+
+        </div>
+    </div>
+
+
+
+
+</div>
+</body>
+
+</html>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+
+<script>
+    Wind.use("artDialog", function () {});
+    var vm = new Vue({
+        el: '#AItem',
+        data: {
+            pagerConf: {
+                totalPage: 0,
+                currPage: $('#currPage').val() ? $('#currPage').val() : 1,
+                prevShow: 3,
+                nextShow: 3,
+                pageRange: []
+            },
+            list: [],
+            search: {
+                p: 1,
+                title: '',
+                nickname: '',
+                province: '',
+                city: ''
+            },
+            province_list :[],
+            city_list :[],
+            user_list:[]
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.get_list();
+            },
+            'search.province':function(){
+                this.search.city = '';
+                this.get_city_list(this.search.province)
+            }
+        },
+        methods: {
+            delete_name: function () {
+                this.search.nickname = '';
+            },
+            get_city_list: function (id) {
+                $.getJSON("{:U('get_pro')}", {id: id}, function (res) {
+                    if(res){
+                        vm.city_list = res.info
+                    }
+                })
+            },
+            search_user:function(){
+                this.show_user();
+            },
+            get_list:function(from){
+                var data = this.search;
+                data.p = from == undefined? this.pagerConf.currPage:1;
+                data.start_time = $("#start_time").val();
+                data.end_time = $("#end_time").val();
+                $.getJSON("{:U('index')}",data,function(res){
+                    if(res){
+                        vm.list = res.info.list;
+                        $('#currPage').val(res.info.p)  ;
+                        vm.pagerConf.totalPage = res.info.totalPage;
+                        vm.province_list = res.info.province;
+                    }
+                })
+            },
+            set_name: function (name) {
+                if (name) {
+                    this.search.nickname = name;
+                    $('#detailModalUser').modal('hide');
+                }
+            },
+            show_user: function () {
+                $('#detailModalUser').modal('show');
+                var nickname = $('#nickname').val();
+                $.getJSON("{:U('get_user')}", {nickname: nickname}, function (res) {
+                    vm.user_list = res.info;
+                });
+            },
+            select: function () {
+                if ($(".select").attr('checked')) {
+                    $(".checkbox").attr("checked", true);
+                } else {
+                    $(".checkbox").attr("checked", false);
+                }
+            },
+            mySearch: function () {
+                $('#currPage').val(1);
+                vm.pagerConf.currPage = 1;
+                this.get_list(1);
+            },
+            delete_one:function(id){
+                vm.deleteBatch(id);
+            },
+            deleteBatch:function(id) {
+                if (id == '') {
+                    $(".checkbox").each(function () {
+                        if ($(this).prop("checked")) {
+                            id += $(this).val() + ',';
+                        }
+                    });
+                    if (id == '') {
+                        $.dialog({id: 'popup', lock: true, icon: "warning", content: "请至少选择一条游记！", time: 2});
+                        return false;
+                    }
+                }
+                var url = "{:U('delete')}" + "/id/" + id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要删除吗？",
+                        ok: function () {
+                            $.getJSON(url, function (res) {
+                                if (res.status == 1) {
+                                    vm.get_list();
+                                    $.dialog({id: 'popup', lock: true, icon: "succeed", content: res.info, time: 2});
+                                } else {
+                                    $.dialog({id: 'popup', lock: true, icon: "error", content: res.info, time: 2});
+                                }
+                            })
+                            $(".checkbox").attr("checked",false);
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                })
+            },
+            sort_submit:function(){
+                var data=this.list;
+                data=JSON.stringify(data);
+                $.ajax({
+                    type: 'POST',
+                    url: "{:U('sort_update')}",
+                    dataType: 'json',
+                    data: {data:data},
+                    success: function (res) {
+                        if (res.status == 1) {
+                            vm.get_list(true);
+                            $.dialog({id: 'popup', lock: true, icon: "succeed", content: res.info, time: 2});
+                        } else {
+                            $.dialog({
+                                id: 'popup', icon: 'error', lock: true, content: res.info, ok: function () {
+                                    if (res.url != '') {
+                                        location.href = res.url;
+                                    }
+                                }
+                            });
+                        }
+                    },
+                });
+            },
+        },
+        created:function(){
+        this.get_list();
+    }
+    })
+</script>
+<script src="__PUBLIC__/js/common.js"></script>

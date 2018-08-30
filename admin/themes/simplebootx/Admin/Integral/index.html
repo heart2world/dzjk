@@ -1,0 +1,90 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="integral">
+    <form class="well form-search "  >
+        用户昵称：
+        <input type="text" name="title" style="width: 150px;" placeholder=""  value="" v-model="search.nickname">&nbsp;&nbsp;
+        手机号：
+        <input type="text" name="keyword" style="width: 150px;" placeholder=""  value="" v-model="search.mobile">&nbsp;&nbsp;
+        <span>变动时间：</span>
+        <input type="text"  id="start_time" style="width: 130px" name="st_time"  class="js-date" autocomplete="off" placeholder="开始时间" />&nbsp;到
+        <input type="text"  id="end_time" style="width: 130px" name="end_time"  class="js-date" autocomplete="off" placeholder="结束时间" />
+        &nbsp;&nbsp;
+
+        <input type="button" class="btn btn-primary"  value="搜索" @click="mySearch">
+    </form>
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+        <thead>
+        <tr>
+            <th>用户昵称</th>
+            <th>手机</th>
+            <th>变动时间</th>
+            <th>变动积分</th>
+            <th>变动方式</th>
+            <th>变动后积分</th>
+        </tr>
+        <tr v-for="item in list">
+            <td v-if="item.nickname">{{item.nickname}}</td>
+            <td v-else>{{item.mobile}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.create_times}}</td>
+            <td v-if="item.change_status ==1">+ {{item.change}}</td>
+            <td v-else>- {{item.change}}</td>
+            <td>{{item.change_type}}</td>
+            <td>{{item.after}}</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+</div>
+
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#integral',
+        data:{
+            pagerConf: {
+                totalPage: 0,
+                currPage: 1,
+                prevShow: 3,
+                nextShow: 3,
+                pageRange: []
+            },
+            search:{
+                nickname:'',
+                mobile:'',
+                p:1
+            },
+            list:[]
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.get_list();
+            }
+        },
+        methods:{
+            get_list:function(){
+                var data = this.search;
+                data.p = this.pagerConf.currPage;
+                data.start_time = $('#start_time').val();
+                data.end_time = $('#end_time').val();
+                $.getJSON("{:U('index')}",data,function(res){
+                    vm.list = res.list;
+                    vm.pagerConf.totalPage = res.totalPage;
+                });
+            },
+            mySearch:function(){
+                this.pagerConf.currPage = 1;
+                this.get_list();
+            }
+        },
+        created:function(){
+            this.get_list();
+        }
+    });
+</script>
+<script src="__PUBLIC__/js/common.js"></script>

@@ -1,0 +1,26 @@
+<footer class="footer w-flex">
+    <label for="home" class="w-flexitem1">
+        <a href="/index/index">
+            <input type="radio" name="footer" id="home" <if condition="$footer_url eq '/Index/index' or $footer_url eq '/' or $footer_url eq '/index.php?g=&m=Index&a=index'">checked</if>/>
+            <span>首页</span>
+        </a>
+    </label>
+    <label for="doctor" class="w-flexitem1">
+        <input type="radio" name="footer" id="doctor" <if condition="$footer_url eq '/DoctorSpec/index' or $footer_url eq '/index.php?g=&m=DoctorSpec&a=index'">checked</if>/>
+        <span @click="goSearch()">医生专栏</span>
+    </label>
+    <label for="im" class="w-flexitem1">
+        <?php  if($member_id > 0)
+        { ?>
+
+        <a href="/Member/index">
+            <?php }else{ ?>
+            <a href="/Index/login">
+                <?php } ?>
+
+                <input type="radio" name="footer" id="im" <if condition="$footer_url eq '/Member/index' or $footer_url eq '/index.php?g=&m=Member&a=index'">checked</if> />
+                <span>我的</span>
+            </a>
+    </label>
+</footer>
+

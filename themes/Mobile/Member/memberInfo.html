@@ -1,0 +1,143 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<section class="flex_column w-height100" v-cloak id="htmlId">
+    <div class="w-bgcolor44D397">
+        <a href="/Member/index" class="headLeft"></a>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">我的资料</span>
+    </div>
+
+    <div class="w-flexitem1 w-section back-f7f7f7">
+        <div class="about_me p_both15 back-fff">
+
+            <div class="about_item flex_dom flex_item_between flex_item_mid ">
+                头像<button  onclick="uploadAvatar()">
+                <img  :src="info.avatar" id="headimg_show"   /></button>
+                <input id="headimg_value" value="{$info['avatar']}" type="hidden" name="headimg" >
+            </div>
+
+            <div class="about_item flex_dom flex_item_between  flex_item_mid">
+                昵称<input  v-model="info.nickname" class="nickname flex_1 text-right" type="text" placeholder="请输入昵称"/>
+            </div>
+
+            <div class="about_item flex_dom flex_item_between flex_item_mid">
+                手机号
+                    <input   v-if="info.mobile!='' " class="flex_1 text-right" readonly type="text"  v-model="info.mobile"/>
+
+                    <a v-if="info.mobile ==null " class="flex_1 text-right" style="color: #666;" href="/Member/bindPhone">绑定手机号</a>
+
+
+                <b  class="fa fa-angle-right color-999 font16"></b>
+            </div>
+            <if condition="$info['types'] eq 2">
+            <div class="about_item flex_dom flex_item_between  flex_item_mid">
+                认证资料
+                <a class="flex_1 text-right" style="color: #666;" href="/Member/applyAuth">{{info.hosp}}{{info.zw}}</a>
+                <b  class="fa fa-angle-right color-999 font16"></b>
+            </div>
+            <div class="about_item flex_dom flex_item_between  flex_item_mid">
+                擅长 <span style="background-color:#8ADAC8;border-radius:20px;color:#FFF;padding-left:10px;padding-right:10px;height:0.6rem;
+line-height:0.6rem;" >{{info.zy}}</span>
+            </div>
+            <div class="about_item flex_dom flex_item_between  flex_item_mid">
+                开启咨询
+                <a class="flex_1 text-right" style="color: #666;" @click="go_info()">{{info.iszx}}</a>
+                <b  class="fa fa-angle-right color-999 font16"></b>
+            </div>
+            <div class="about_item    ">
+                个人介绍
+                <textarea class="block wid100 intro" style="background-color:F7F7F7;" placeholder="100字以内" maxlength="100" name="" id="" cols="30" rows="10">{{info.grjs}}</textarea>
+            </div>
+            </if>
+        </div>
+    </div>
+    <div class="submit_btn m-t-35">
+        <button type="button" @click="submit_nickname()" >保存</button>
+    </div>
+</section>
+</body>
+</html>
+<!--<script type="text/javascript" src="__TMPL__Public/Mobile/lib/jquery.1.11.3.min.js" ></script>-->
+
+<input type="hidden" class="types" value="{$info['types']}">
+
+<include file="Public:js"  />
+
+
+<!--<script src="__PUBLIC__/js/vue.js"></script>-->
+<script>
+    var vm = new Vue({
+        el: '#htmlId',
+        data: {
+            info: [],
+            my_child:[],
+            page: {
+                p: 0,
+                totalPage: 1,
+                loadContent: "加载更多"
+            }
+        },
+        methods: {  //方法
+            mySearch: function () {
+                $.ajax({
+                    type:'post',
+                    url:'/Member/memberInfoData',
+                    data:{t:new Date().getTime()},
+                    success:function(data){
+                        vm.info = data.info;
+                }
+            })
+            },
+            go_info:function () {
+                // alert(55);
+                location.href = '/Member/openzx';
+            },
+            submit_nickname:function(){
+                var avatar = $("#headimg_value").val();
+                var nickname = $('.nickname').val();
+                var intro = $('.intro').val();
+                var types = $('.types').val();
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Member/memberInfo',
+                    data: {nickname:nickname,types:types,intro:intro,avatar:avatar},
+                    success: function(e)
+                    {
+                        if(e.status == 1)
+                        {
+                            go_alert2(e.info);
+                        }else
+                        {
+                            // go_alert2(e.info);
+                        }
+                    },
+                });
+            },
+        },
+        //页面加载后调用ajax请求数据
+        created: function () {
+            this.mySearch();
+        }
+    });
+
+    function uploadAvatar() {
+        WebViewJavascriptBridge.uploadAvatar(1,'avatar');
+    }
+
+
+    function getImg(url,type)
+    {
+        if(url)
+        {
+            if(type == 'avatar')
+            {
+                $("#headimg_value").val(url);
+                $("#headimg_show").attr('src',url);
+            }
+        }
+    }
+
+
+</script>

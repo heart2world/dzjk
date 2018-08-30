@@ -1,0 +1,309 @@
+<include file="Public:header" title="个人中心"/>
+<style>
+    .msg_pingjiaBox .hui{
+    background-color: #f7f7f7;
+    }
+    .msg_pingjiaBox{
+        padding:0 !important;
+    }
+    .msg_pingjiaBox .msg_item{
+        padding:10px !important;
+        position:relative;
+        background-color: #fff;
+    }
+    .msg_pingjiaBox .pingjia_item{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .msg_pingjiaBox .msg_item+.msg_item{
+        border-top:none !important;
+    }
+    .msg_pingjiaBox .msg_item + .msg_item:before {
+        content:'';
+        position:absolute;
+        width:calc(100% - 20px);
+        height:1px;
+        background-color:#eee;
+        left:10px;
+        top:0;
+        z-index:1;
+    }
+    .msg_pingjiaBox .hui .flex_dom .flex_1{
+        color:#999 !important;
+    }
+    .nicknameLab{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 2rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .pingjia_item .pingjia_con{
+        max-width: calc(100% - 65px);
+    }
+    .pingjia_item .pingjia_con .huifu_item{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .msg_pingjiaBox .nicknameLab,.pingjia_item .pingjia_con .text_con{
+        font-size: 14px;
+    }
+    .pingjia_item .time label span img {
+        height: 16px;
+    }
+    .msg_pingjiaBox .msg_item h4 span{
+        font-size: 14px;
+    }
+    .msg_item h4{
+        margin-bottom: 3px;
+    }
+    .msg_pingjiaBox .msg_item{
+        padding: 8px 10px !important;
+    }
+</style>
+<body>
+<section class="flex_column w-height100">
+    <input type="radio" id="box1" name="nav" class="hide" checked="checked"/>
+    <input type="radio" id="box2" name="nav" class="hide" />
+    <div class="w-bgcolor44D397 top_div">
+
+        <a href="/Member/index" class="headLeft"></a>
+        <a href="javascritp:; " class="headRight "></a>
+        <div class="headTit">
+            <div class="choice_swicth">
+                <label for="box1" data-id="1" class="typeBtn">评论消息</label>
+                <label for="box2" data-id="2" class="typeBtn">站内信</label>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w-flexitem1 w-section back-f7f7f7 w-sectionD">
+        <div class="msg_pingjia">
+            <div class="msg_pingjiaBox back-fff p_both15 pjhtml">
+
+            </div>
+
+            <div class="msg_pingjiaBox p_both15 back-fff" id="datalist">
+
+                <!--<a href="/Message/detail/id/22" class="msg_item">-->
+                    <!--<h4 class="flex_dom"><span class="flex_1">这里标题</span><em>10:20</em></h4>-->
+                    <!--<p>这里是消息大概内容展示，只展示一行，多余的表示...</p>-->
+                <!--</a>-->
+            </div>
+        </div>
+        <div class="noData" style="display: none;">暂无数据</div>
+    </div>
+</section>
+</body>
+<include file="Public:js"/>
+</html>
+
+<input type="hidden" class="type" value="1">
+<script>
+    function checkmsg() {
+        $.ajax({
+            type: 'POST',
+            url: '/Message/get_no_read_count2',
+            data: '',
+            dataType:'json',
+            success: function (e) {
+                //alert(e.info.msg);
+                if(e.info.msg>0){
+                    //alert(e.info.msg);
+                    //显示小红点
+                }
+               /* if(e.info.kf_count>0){
+                    alert(e.info.kf_count);
+                    //显示小红点
+                }*/
+            },
+            error:function () {
+                //alert(43);
+            }
+        });
+    }
+    checkmsg();
+</script>
+<script type="text/javascript">
+    var isget = true;
+
+    $(function() {
+        $('.typeBtn').click(function () {
+            var type = $(this).attr('data-id');
+            $('.type').val(type);
+            urlJump();
+            isget = true;
+            $('.noData').hide();
+        });
+    });
+
+    urlJump();
+    function urlJump()
+    {
+        var type = $('.type').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Message/index',
+            data: {p:1,type:type},
+            success: function (e) {
+                if(e.status== 1)
+                {
+                    $('.noData').hide();
+                    if(type == 1)
+                    {
+                        $('.pjhtml').html(e.info.list);
+                    }else
+                    {
+                        $('#datalist').html(e.info.list);
+                    }
+                }else{
+                    $('.noData').show();
+                    $('#datalist').html('');
+                }
+            },
+        });
+    }
+
+    $(".w-sectionD").on('scroll',function()
+    {
+        var nScrollHight = 0;
+        var nScrollTop = 0;
+        var nDivHight = $(".w-sectionD").height();
+        nScrollHight = $(this)[0].scrollHeight;
+        nScrollTop = $(this)[0].scrollTop;
+        var paddingBottom = parseInt($(this).css('padding-bottom')), paddingTop = parseInt($(this).css('padding-top'));
+        if (nScrollTop + paddingBottom + paddingTop + nDivHight >= nScrollHight - 10) {
+            urlJumpMore();
+        }
+    });
+
+    var page = 1;
+    function urlJumpMore()
+    {
+        if(isget)
+        {
+            var type = $('.type').val();
+            isget = false;
+            page = parseInt(page) +1;
+            $.ajax({
+                type: 'POST',
+                url: '/Message/index',
+                data: {p:page,type:type},
+                success: function (e) {
+                    if(e.status == 1)
+                    {
+                        if(type == 1)
+                        {
+                            $('.pjhtml').append(e.info.list);
+                        }else
+                        {
+                            $('#datalist').append(e.info.list);
+                        }
+                        isget = true;
+                    }else{
+
+                        if(type == 1)
+                        {
+                            $('.pjhtml').append('<span style="display: block;text-align:center;" class="loadMore">没有更多了...</span>');
+                        }else
+                        {
+                            $('#datalist').append('<span style="display: block;text-align:center;" class="loadMore">没有更多了...</span>');
+                        }
+
+
+                        isget = false;
+                    }
+                },
+            });
+        }
+    }
+
+
+
+
+
+
+    //点赞  二级
+    function zanerji(e,pid,els) {
+        // var pid = $('.id').val();
+        var id = e;
+        $.ajax({
+            type: 'POST',
+            url: '/Article/giveActionEj',
+            data: {id:id,pid:pid},
+            success: function (e)
+            {
+                if(e.status == 1)
+                {
+                    $('.checkAttr').prop("checked", true);
+                    $('.checkAttr').prop('disabled','disabled');
+                    $('.checkAttr').prop("onclick",null).off("click");
+                    $(e).prop('disabled','disabled');
+
+                    if(parseInt($(els).parent().children('em').attr('data-id')) > 0)
+                    {
+                        var zjs = parseInt($(els).parent().children('em').attr('data-id')) + 1;
+                    }else
+                    {
+                        var zjs = 1;
+                    }
+                    $(els).parent().children('em').html(zjs);
+
+                    //$('.ylcomments').html(parseInt($('.ylcomments').html()) + 1);
+
+
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                    if(e.info =='请先登录')
+                    {
+                        location.href ="/Index/login";
+                    }
+                }
+            },
+        });
+    }
+
+    //点赞  三级
+    function zanersanji(e,el,id) {
+
+        var pid = e;
+        // var id = $('.aid').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Article/giveActionSj',
+            data: {id:id,pid:pid},
+            success: function (e)
+            {
+                if(e.status == 1)
+                {
+                    // $(el).parent().children('span').html(parseInt($(el).parent().children('span').attr('data-id'))+1);
+                    if(parseInt($(el).parent().children('em').attr('data-id')) > 0)
+                    {
+                        var zjs = parseInt($(el).parent().children('em').attr('data-id')) + 1;
+                    }else
+                    {
+                        var zjs = 1;
+                    }
+                    $(el).parent().children('em').html(zjs);
+
+                    $(el).prop("onclick",null).off("click");
+                    $(el).prop('disabled','disabled');
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                    if(e.info =='请先登录')
+                    {
+                        location.href ="/Index/login";
+                    }
+                }
+            },
+        });
+    }
+
+</script>

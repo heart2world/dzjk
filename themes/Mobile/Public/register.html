@@ -1,0 +1,220 @@
+<include file="Public:header" title="注册"/>
+<style>
+    .otherLogin{background: none;position:relative}
+    .otherLogin:before,.otherLogin:after{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 30%;
+    }
+    .otherLogin:before{
+        left: 0;
+        background: url(__TMPL__Public/Mobile/image/slice/icon-titleBg.png) no-repeat left center;
+        background-size: 3.5rem auto;
+    }
+    .otherLogin:after{
+        right: 0;
+        background: url(__TMPL__Public/Mobile/image/slice/icon-titleBg.png) no-repeat right center;
+        background-size: 3.5rem auto;
+    }
+</style>
+<body>
+<section class="w-section flex_column">
+    <include file="Public:public_header" title="注册"/>
+    <div class="w-flexitem1 w-sectionD p_lineheight_normal">
+        <form class="loginForm" id="registerForm">
+            <div class="text-center"><img class="icon-logo" src="__TMPL__Public/Mobile/image/slice/login-logo.png" alt="" /></div>
+            <div class="loginCtt">
+                <label class="w-paddingTopBottom02 w-block borderBtm1">
+                    <p class="p_font22 color-999 w-marginBottom02">手机号</p>
+                    <input class="wid100 p_font22 color-000 font-w6" type="tel" name="phone" id="phone"  placeholder="请输入手机号" />
+                </label>
+                <div class="flex_dom flex_item_mid borderBtm1">
+                    <label class="w-paddingTopBottom02 w-block flex_1">
+                        <p class="p_font22 color-999 w-marginBottom02">图形验证码</p>
+                        <input class="wid100 p_font22 color-000 font-w6" type="text" name="verify" id="img_verify" value=""   placeholder="请输入图形验证码" />
+                    </label>
+                    <div class="codeImg"><img class="yzImg" style="cursor: pointer" title="点击刷新"
+                            src="/index.php?g=api&m=checkcode&a=index&length=4&font_size=12&width=65&height=28&use_noise=0&use_curve=0"
+                            onclick="this.src='/index.php?g=api&m=checkcode&a=index&length=4&font_size=12&width=65&height=28&use_noise=0&use_curve=0&time='+Math.random();"
+                            alt="点击刷新" /></div>
+                </div>
+                <div class="flex_dom flex_item_mid borderBtm1">
+                    <label class="w-paddingTopBottom02 w-block flex_1">
+                        <p class="p_font22 color-999 w-marginBottom02">验证码</p>
+                        <input class="wid100 p_font22 color-000 font-w6" type="number" name="sms_verify" value="" placeholder="请输入验证码" />
+                    </label>
+                    <button type="button" class="p_font22 color-pink codeBtn" id="yzcode">获取验证码</button>
+                </div>
+
+                <label class="w-paddingTopBottom02 w-block borderBtm1">
+                    <p class="p_font22 color-999 w-marginBottom02">设置密码</p>
+                    <input autocomplete="off" class="wid100 p_font22 color-000 font-w6" type="password"  maxlength="20" name="password" placeholder="请输入密码" />
+                </label>
+                <label class="w-paddingTopBottom02 w-block borderBtm1">
+                    <p class="p_font22 color-999 w-marginBottom02">确认密码</p>
+                    <input  autocomplete="off" class="wid100 p_font22 color-000 font-w6" type="password" maxlength="20" name="password_r" placeholder="请再次确认密码" />
+                </label>
+                <div class="w-paddingTopBottom03 font0 flex_dom text-center">
+                    <label class="p_font24 flex_dom flex_item_mid">
+                        <i class="cur_radio w-paddingLeftRight02">
+                            <input class="hide" type="checkbox" checked="checked" name="yes" value="1"/>
+                            <span class="paddingLeft02"></span>
+                        </i>
+                        <p class="color-333">我已阅读并同意</p>
+                    </label>
+                    <a  class="color-pink p_font24 unline" href="{:U('article')}">用户注册协议</a>
+                </div>
+                <div class="text-center w-marginBottom03">
+                    <button type="button" class="loginBtn registerBtn" id="j_btn_register">注册</button>
+                </div>
+                <p class="otherLogin font-w6">第三方账号注册</p>
+                <div class="w-paddingTopBottom03 text-center">
+                    <if condition="is_weixin()">
+                        <a href="{:U('wx_register')}"><img class="icon-wechat" src="__TMPL__Public/Mobile/image/slice/icon-wechat.png" alt="" /></a>
+                    <else/>
+                        <a href="/app_wx_register"><img class="icon-wechat" src="__TMPL__Public/Mobile/image/slice/icon-wechat.png" alt="" /></a>
+                    </if>
+
+                </div>
+                <div class="text-center p_font22">
+                    <span class="color-666">已有账号，</span>
+                    <a class="color-666 unline" href="{:U('Public/login')}">去登录</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!--<section class="w-section flex_column">-->
+    <!--<div class="w-flexitem1 w-sectionD l-font24" >-->
+        <!--<div class="loginCon pad30">-->
+            <!--<form class="alignC"  method="post" id="thisForm">-->
+                <!--<div class="border-b-eee inputline alignC">-->
+                    <!--<label class="block">手机号码</label>-->
+                    <!--<input type="text" name="phone" id="phone" value="" placeholder="请输入手机号码"/>-->
+                <!--</div>-->
+                <!--<div class="border-b-eee inputline alignC">-->
+                    <!--<label class="block">验证码</label>-->
+                    <!--<input type="number" name="sms_verify" value=""  placeholder="请输入验证码"/>-->
+                    <!--<a class="getICode blue" href="javascript:;" id="yzcode">获取验证码</a>-->
+                <!--</div>-->
+                <!--<div class="border-b-eee inputline alignC">-->
+                    <!--<label class="block">图形验证码</label>-->
+                    <!--<input type="text" name="verify" id="img_verify" value=""  placeholder="请输入图形验证码"/>-->
+                    <!--<img class="yzImg"-->
+                         <!--style="cursor: pointer" title="点击刷新"-->
+                         <!--src="/index.php?g=api&m=checkcode&a=index&length=4&font_size=12&width=65&height=28&use_noise=0&use_curve=0"-->
+                         <!--onclick="this.src='/index.php?g=api&m=checkcode&a=index&length=4&font_size=12&width=65&height=28&use_noise=0&use_curve=0&time='+Math.random();"-->
+                            <!--/>-->
+                <!--</div>-->
+                <!--<input class="keepBtn" type="submit" value="下一步" id="j_btn_register"/>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
+</body>
+<include file="Public:js"/>
+<script>
+    function do_wx_register(is_app,appid,openid,nickname,headimg,unionid){
+        headimg=encodeURIComponent(headimg);
+        location.href="{:U('Public/do_wx_register')}?is_app="+is_app+"&appid="+appid+"&openid="+openid+"&nickname="+nickname+"&headimg="+headimg+"&unionid="+unionid
+    }
+    function checkphone(){
+        var reg=/^(13|14|15|17|18)\d{9}$/;
+        if( $("#phone").val().length>11 || $("#phone").val().length<11){
+            //go_alert('请输入正确的手机号');
+            go_alert2("请输入正确的手机号");
+//            layer.open({content:'请输入正确的手机号',time:2});
+            return false;
+        }
+        else{
+            if(reg.test($("#phone").val())){
+                return true;
+            }
+            else{
+                go_alert2('请输入正确的手机号');
+                //layer.open({content:'请输入正确的手机号',time:2});
+                return false;
+            }
+        }
+    }
+    var count = 120;
+    function GetNumber() {
+        $("#yzcode").unbind("click");
+        $("#yzcode").text(count + "秒后获取");
+        count--;
+        if (count > 0) {
+            setTimeout(GetNumber, 1000);
+        }
+        else {
+            $("#yzcode").text("获取验证码");
+            $("#yzcode").click(function(){
+                send_code();
+            });
+            $("#yzcode").attr("disabled", false);
+            count = 120;
+
+        }
+
+    }
+    function send_code(){
+        if($("#phone").val()==''){
+            go_alert2('请输入正确的手机号');
+            return false;
+        }else{
+            if(!checkphone())
+            {
+                return false;
+            }else{
+
+                $.ajax({
+                    type:"POST",
+                    url:"/index.php?g=Mobile&m=Public&a=get_code",
+                    data:{mobile:$("#phone").val(),sms:1,is_reg:1,verify:$("#img_verify").val()},
+                    dataType:"json",
+                    success:function(data){
+                        if(data.status==1) {
+                            go_alert2('发送验证码成功');
+                            GetNumber();
+                            return false;
+                        }else{
+                            go_alert2(data.info);
+                            return false;
+                        }
+                    }
+                });
+            }
+        }
+
+
+
+
+    }
+    $("#yzcode").click(function(){
+       send_code();
+    });
+
+
+</script>
+<script>
+    $('#j_btn_register').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/index.php?g=Mobile&m=Public&a=register&t="+new Date().getTime(),
+            data: $("#registerForm").serialize(),
+            contentType:"application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function (res) {
+                if(res.status==1){
+                    location.href="{:U('Member/set_child_profile')}";
+                }else{
+                    go_alert2(res.info);
+                }
+            },
+        });
+    });
+</script>
+</html>

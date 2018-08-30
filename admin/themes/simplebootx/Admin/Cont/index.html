@@ -1,0 +1,168 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">内容列表</a></li>
+        <li  style="cursor: pointer;"><a  href="{:U('add')}">发布站内信</a></li>
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+        关键字：
+        <input type="text" class="input" v-model="searchCon.keyword" style="width: 200px;" placeholder="关键字">
+        发布送时间：
+        <input type="text" id="st_time" v-model="searchCon.st_time" class="input js-date date" autocomplete="off" placeholder="开始时间">-
+        <input type="text" id="end_time" v-model="searchCon.end_time" class="input js-date date" autocomplete="off" placeholder="结束时间">
+        <input type="button" class="btn btn-primary" @click="mySearch(true)" value="搜索">
+    </form>
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+        <thead>
+        <tr>
+            <th style="width:100%;text-align: left" >
+                <a class="btn btn-small" style="float:left;background:#ff0000; color: white" @click="deleteBatch('')" href="javascript:;">批量删除</a>
+            </th>
+        </tr>
+        </thead>
+    </table>
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <th style="width: 10%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>
+            <th>发送时间</th>
+            <th>操作员</th>
+            <th>接收数量</th>
+            <th>标题</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in list">
+            <td><input style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>
+            <td >{{item.create_time}}</td>
+            <td>{{item.admin_name}}</td>
+            <td>{{item.reads}}</td>
+            <td>{{item.title}}</td>
+            <td>
+                <a  href="javascript:void(0);" @click="info(item.id)" class="btn btn-small">详情</a>
+                <a  href="javascript:void(0);" @click="deleteBatch(item.id)" class="btn btn-small btn-danger">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[],
+            searchCon:{keyword:'',st_time:'',end_time:'',p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+
+            info:function (id) {
+                window.location.href = '/Admin/Cont/info/id/'+id;
+            },
+            //删除 支持批量
+            deleteBatch:function(id){
+                if(id==''){
+                    $(".checkbox").each(function(){
+                        if($(this).prop("checked")){
+                            id += $(this).val()+',';
+                        }
+                    });
+                    if(id==''){
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请至少选择一条信息", time: 2});
+                        return false;
+                    }
+                }
+                var url = "/Admin/Cont/del_log/id/"+id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要删除记录吗？",
+                        ok: function () {
+                            $.getJSON(url,function (res) {
+                                if(res.status == 1){
+                                    app.mySearch(false);
+                                    $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                                }else{
+                                    $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                                }
+                            })
+                            $(".checkbox").removeAttr("checked");
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                })
+            },
+            mySearch: function (search) {
+                var data = this.searchCon;
+                data.st_time = $("#st_time").val();
+                data.end_time = $("#end_time").val();
+                if (data.st_time!='' && data.end_time!='') {
+                    if (data.st_time > data.end_time) {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "开始时间不能大于结束时间", time: 2});
+                        return;
+                    }
+                }
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res)
+                    {
+                        if (res.status == 1)
+                        {
+                            app.list = res.info.list;
+                            app.pagerConf.totalPage = res.info.total_page;
+                        }
+                    },
+                    error: function ()
+                    {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

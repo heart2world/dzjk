@@ -1,0 +1,133 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div id="seckill">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="{:U('index')}">客服咨询列表</a></li>
+        </ul>
+        <form class="well form-search ">
+            咨询会员：
+            <input type="text" name="keywords" style="width: 200px;" v-model="search.keywords" placeholder="会员昵称/手机号"
+                   @keyup.enter="mySearch">&nbsp;&nbsp;
+            <span>咨询时间：</span>
+            <input type="text" id="st_time" style="width: 130px" name="st_time" class="js-date" autocomplete="off"
+                   placeholder="开始时间"/>到
+            <input type="text" id="end_time" style="width: 130px" name="end_time" class="js-date" autocomplete="off"
+                   placeholder="结束时间"/>
+            <input type="button" class="btn btn-primary" @click="mySearch()" value="搜索">
+        </form>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr id="tr">
+                <!--<th style="width: 5%"><input style="margin-top:0px" v-on:click="select()" class="select"-->
+                                             <!--type="checkbox">全选-->
+                <!--</th>-->
+                <th>会员昵称</th>
+                <th>手机号</th>
+                <th>留言时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="tr2" v-cloak v-for="item in list">
+                <!--<td><input style="margin-top:0px" class="checkbox" type="checkbox" :value="item.uid"></td>-->
+                <td style="text-align: left;">{{item.nickname}}</td>
+                <td style="text-align: left;">{{item.mobile}}</td>
+                <td style="text-align: left;">{{item.create_time}}</td>
+                <td>
+                    <a :href="'{:U('detail')}/kf_id/'+item.id"
+                       class="btn btn-small btn-info">详情</a>
+
+
+                </td>
+            </tr>
+            <tr v-if="list==null || list.length==0">
+                <td colspan="4" style="text-align: center;">暂无相关记录</td>
+            </tr>
+            </tbody>
+        </table>
+        <vue-pager :conf.sync="pagerConf"></vue-pager>
+        <input type="hidden" value="1" id="currPage"/>
+    </div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {
+    });
+    var vm = new Vue({
+        el: "#seckill",
+        data: {
+            pagerConf: {
+                totalPage: 0,
+                currPage: $("#currPage").val() ? $("#currPage").val() : 1,
+                prevShow: 3,
+                nextShow: 3,
+                pageRange: []
+            },
+            list: [],
+            search: {
+                p: 1,
+                keywords: '',
+                st_time: '',
+                end_time: '',
+            }
+
+        },
+        watch: {
+            'pagerConf.currPage': function () {
+                this.getData();
+            }
+        },
+        methods: {
+            getData: function () {
+                var data = this.search;
+                data.st_time = $("#st_time").val();
+                data.end_time = $("#end_time").val();
+                data.p = this.pagerConf.currPage;
+                $.getJSON("{:U('index')}", data, function (res) {
+                    if (res.status == 1) {
+                        vm.list = res.info.list;
+                        vm.pagerConf.totalPage = res.info.total_page;
+                        $("#currPage").val(res.info.p);
+
+                    } else {
+                        $.dialog({
+                            id: 'popup', icon: 'error', lock: true, content: res.info, ok: function () {
+                                if (res.url != '') {
+                                    location.href = res.url;
+                                }
+                            }
+                        });
+                    }
+                })
+            },
+            mySearch: function () {
+                this.getData(true);
+            },
+            //全选
+            select: function () {
+                if ($(".select").attr('checked')) {
+                    $(".checkbox").attr("checked", true);
+                } else {
+                    $(".checkbox").attr("checked", false);
+                }
+            },
+
+
+        },
+        created: function () {
+            this.mySearch();
+        }
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<include file="Public:header" title="搜索"/>
+<style>
+    .headLeft, .headRight{width:.5rem;height:.5rem;}
+    .searchBox2>div>input{padding-top:0;line-height:.44rem;}
+</style>
+<body>
+<section class="flex_column w-height100 w-bgcolorf7f7f7"  id="flex_column">
+    <div class="w-padding0102 w-bgcolor44D397 searchBox2 w-flex">
+        <include file="Public:back"/>
+        <div class="w-flexitem1">
+
+            <if condition="$_GET['type'] eq 'ys'">
+                <input type="text" class="w-placeholder-colorccc kw" placeholder="医生昵称、认证医院"/>
+                <else />
+                <input type="text" class="w-placeholder-colorccc kw" placeholder="搜索文章、关键字"/>
+            </if>
+            <a href="javascript:;" @click="mySearch(true)" id="iconSearch" class="iconSearch"></a>
+        </div>
+        <a  onclick="back()"  class="w-inlineblock w-height05 w-font14 w-paddingLeftRight02 w-colorFFF">取消</a>
+    </div>
+    <div class="w-paddingLeftRight02 w-bgcolorFFF w-flexitem1 w-section" id="scroll_content">
+        <div>
+
+            <div class="w-paddingTopBottom02 w-borderBeee" v-cloak v-for="(item,index) in list">
+                <div class="w-flex w-marginBottom02">
+                    <div @click="jumpDoctIndex(item.id)" class="header2 w-marginRight02" :style="{ backgroundImage: 'url(' + item.avatar + ')' }"><b></b></div>
+                    <div  @click="jumpDoctIndex(item.id)" class="w-flexitem1 w-paddingTopBottom01">
+                        <h4 class="w-height04 w-font14 w-color000 w-onlyline">
+                            <em>{{item.nickname}}</em>
+                            <em class="w-font13 w-color333">粉丝：{{item.fss}}</em>
+                        </h4>
+                        <span class="w-block w-height04 w-font12 w-color999 w-onlyline">{{item.hosp}}{{item.zw}}</span>
+                    </div>
+                    <label  v-if="item.isshow==1 && item.isgz==0" for="collect2" class="iconCollect w-paddingTopBottom01">
+                        <input     type="checkbox" disabled id="collect2">
+                        <span  @click="gzFunc(item.id)"></span>
+                    </label>
+                    <label  v-if="item.isshow==1 && item.isgz==1"  class="w-paddingTopBottom01">
+                        <input checked="checked"  disabled  type="checkbox">
+                        <span  @click="gzFunc(item.id)" >已关注</span>
+                    </label>
+                </div>
+                <h4  @click="jumpDoctIndex(item.id)" class="w-doubleline w-line04 w-font14 w-color333">{{item.grjs}}</h4>
+            </div>
+
+
+            <!--<div class="w-paddingLeftRight02 w-bgcolorFFF w-marginBottom01"  v-for="(item,index) in list">-->
+            <!--<div class="w-paddingTopBottom02 w-borderBeee">-->
+            <!--<div class="w-flex w-marginBottom01">-->
+            <!--<a :href="'/Doctor/index'+'?id='+item.id" >-->
+            <!--<img :src="item.avatar"  class="header1 w-marginRight02" alt=""/>-->
+            <!--</a>-->
+            <!--<div class="w-flexitem1">-->
+            <!--<h4 class="w-height03 w-font14 w-color000 w-onlyline">{{item.nickname}}</h4>-->
+            <!--<span class="w-block w-height03 w-font12 w-color999 w-onlyline">{{item.hosp}}{{item.zw}}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; 此div里面必须放纯文本，不能添加其他标签&ndash;&gt;-->
+            <!--<div class="threeLine w-marginBottom01">-->
+            <!--{{item.intro}}-->
+            <!--<span class="threeMark">...<em class="w-colorf81515">全文</em></span>-->
+            <!--</div>-->
+            <!--<div class="w-imgBox">-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="w-paddingTopBottom02 w-flex">-->
+
+            <!--</div>-->
+            <!--</div>-->
+
+
+            <!-- 暂无数据图-->
+            <div class="noData" style="display: none;">很抱歉<br/>暂时没有搜索结果</div>
+        </div>
+    </div>
+</section>
+</body>
+<input type="hidden" class="type" value="{$_GET['type']}">
+<include file="Public:js" />
+<script>
+
+
+
+    // $('#iconSearch').click(function()
+    // {
+    //     var kw = $('.kw').val();
+    //     var type = $('.type').val();
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/DoctorSpec/search',
+    //         data: {kw:kw,type:type},
+    //         success: function(e)
+    //         {
+    //             if(e.status == 1)
+    //             {
+    //                 // go_alert2(e.info);
+    //             }else
+    //             {
+    //                 go_alert2(e.info);
+    //             }
+    //         },
+    //     });
+    // });
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="__TMPL__Public/Mobile/css/dropload.css"/>
+
+<script>
+    window.onload = function () {
+        var isFirst = 0;
+        msg_list_loading = false;
+        var dropload = null;
+        //页面加载后替换
+        var vm = new Vue({
+            el: '#flex_column',
+            data: {
+                list: [],
+                show: $("#currPage").val() ? $("#currPage").val() : 2,
+                page: {
+                    p: 0,
+                    totalPage: 1,
+                    loadContent: "加载更多"
+                },
+            },
+
+            methods: {  //方法
+
+
+                //到医生首页
+                jumpDoctIndex:function(id)
+                {
+                    location.href = "/Doctor/index/id/"+id;
+                },
+
+                gzFunc:function (id)
+                {
+                    var id = id;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Article/folloAction',
+                        data: {id:id,types:'zjgz'},
+                        success: function (e) {
+                            if(e.status == 1)
+                            {
+                                go_alert2(e.info);
+
+                                vm.mySearch(true);
+                            }else
+                            {
+                                go_alert2(e.info);
+                                if(e.info =='请先登录')
+                                {
+                                    location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+                                    // location.href ="/Index/login";
+                                }
+                            }
+                        },
+                    });
+                },
+                mySearch: function (search) {
+                    if (search) {
+                        this.list = [];
+                        this.page.p = 0;
+                        this.page.totalPage = 1;
+                        this.page.loadContent = '加载更多';
+                    }
+                    var kw = $('.kw').val();
+                    if(kw.length > 0)
+                    {
+                        var type = $('.type').val();
+                        msg_list_loading = true;
+
+                        if (this.page.p < this.page.totalPage)
+                        {
+                            var p = this.page.p == 0 ? this.page.p = 1 : this.page.p += 1;
+                            var url = "{:U('DoctorSpec/search')}";
+                            var param = {p: p,type:type,kw:kw};
+
+                            $.getJSON(url, param, function (data) {
+                                vm.list = vm.list.concat(data.info.list);
+                                vm.page.totalPage = data.info.total_page;
+                                $(".page_more_load").show();
+                                if (vm.page.p >= vm.page.totalPage)
+                                {
+                                    vm.page.loadContent = '没有更多了';
+                                    if (vm.page.totalPage == 1 || data.info.total_page == 0) {
+                                        vm.page.loadContent = '';
+                                        $(".page_more_load").hide();
+                                    }
+                                }
+                                if(!vm.list||vm.list.length==0){
+                                    $(".noData").show();
+                                }else
+                                {
+                                    $(".noData").hide();
+                                }
+                                msg_list_loading = false;
+                            })
+                        }
+                    }
+                },
+            },
+
+            //页面加载后调用ajax请求数据
+            created: function () {
+            },
+            mounted:function(){
+                if (this.show == 2)
+                {
+                    //上拉刷新初始化
+                    dropload = $('.inner').dropload({
+                        domUp : {
+                            domClass   : 'dropload-up',
+                            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+                            domUpdate  : '<div class="dropload-update">↑释放更新</div>'
+                        },
+                        loadUpFn : function(me){
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function(){
+                                // 每次数据加载完，必须重置
+                                dropload.resetload();
+                            },1000);
+                            vm.mySearch(true);
+                        }
+                    });
+                }
+            },
+        });
+
+        //下拉滚动分页
+        $("#scroll_content").scroll(function () {
+            if($(this).scrollTop() == 0){
+                //上拉刷新初始化
+                dropload = $('.inner').dropload({
+                    domUp: {
+                        domClass: 'dropload-up',
+                        domRefresh: '<div class="dropload-refresh">↓下拉刷新</div>',
+                        domUpdate: '<div class="dropload-update">↑释放更新</div>'
+                    },
+                    loadUpFn: function (me) {
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            // 每次数据加载完，必须重置
+                            dropload.resetload();
+                        }, 1000);
+                        vm.mySearch(true);
+                    }
+                });
+            } else {
+                $('.inner').unbind();
+            }
+            //得到整个页面高度
+            var html_height = $(".list_content").height();
+            var screen_height = document.documentElement.clientHeight;//363
+            var scroll_height = $("#scroll_content").scrollTop();//760
+            if (scroll_height >= html_height - screen_height) {
+                $(document).scrollTop(scroll_height - 1);
+                if (!msg_list_loading) {
+                    vm.mySearch(false);
+                }
+            }
+        });
+
+
+
+    }
+</script>
+</html>

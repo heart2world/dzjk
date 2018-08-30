@@ -1,0 +1,168 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">操作日志列表</a></li>
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+        关键字：
+        <input type="text" class="input" v-model="searchCon.user_login" style="width: 200px;" placeholder="输入姓名">
+        日志类型：
+        <select v-model="searchCon.type">
+            <option value="" selected >全部</option>
+            <volist name="type_list" id="vo">
+                <option value="{$vo.id}">{$vo.name}</option>
+            </volist>
+        </select>
+        操作时间：
+        <input type="text" id="starttime" v-model="searchCon.st_time" class="input js-date date" autocomplete="off" placeholder="开始时间">-
+        <input type="text" id="endtime" v-model="searchCon.end_time" class="input js-date date" autocomplete="off" placeholder="结束时间">
+        <input type="button" class="btn btn-primary" @click="mySearch(true)" value="搜索">
+    </form>
+    <!--<table class="table table-hover table-bordered table-list" style="width:100%;">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th style="width:100%;text-align: left" >-->
+                <!--<a class="btn btn-small" style="float:left;background:#ff0000; color: white" @click="deleteBatch('')" href="javascript:;">批量删除</a>-->
+            <!--</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+    <!--</table>-->
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <!--<th style="width: 10%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>-->
+            <th width="10%">日志类型</th>
+            <th width="15%">操作人账号</th>
+            <th width="10%">IP</th>
+            <th width="35%">内容</th>
+            <th width="15%">记录日期</th>
+            <!--<th width="15%">操作</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in list">
+            <!--<td><input style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>-->
+            <td >{{item.name}}</td>
+            <td>{{item.user_login}}</td>
+            <td>{{item.ip}}</td>
+            <td>{{item.note}}</td>
+            <td>{{item.create_time}}</td>
+            <!--<td>&lt;!&ndash;<button v-on:click="deleteBatch(item.id)" class="btn btn-danger">删除</button>&ndash;&gt;-->
+                <!--<a  href="javascript:void(0);" @click="deleteBatch(item.id)" class="btn btn-small btn-danger">删除</a></td>-->
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[],
+            searchCon:{user_login:'',type:'',st_time:'',end_time:'',p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+            //删除 支持批量
+            deleteBatch:function(id){
+                if(id==''){
+                    $(".checkbox").each(function(){
+                        if($(this).prop("checked")){
+                            id += $(this).val()+',';
+                        }
+                    });
+                    if(id==''){
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请至少选择一条信息", time: 2});
+                        return false;
+                    }
+                }
+                var url = "{:U('del_log')}"+"/id/"+id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要删除记录吗？",
+                        ok: function () {
+                            $.getJSON(url,function (res) {
+                                if(res.status == 1){
+                                    app.mySearch(false);
+                                    $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                                }else{
+                                    $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                                }
+                            })
+                            $(".checkbox").removeAttr("checked");
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                })
+            },
+            mySearch: function (search) {
+                var data = this.searchCon;
+                data.st_time=$("#starttime").val();
+                data.end_time=$("#endtime").val();
+                if (data.st_time!='' && data.end_time!='') {
+                    if (data.st_time > data.end_time) {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "开始时间不能大于结束时间", time: 2});
+                        return;
+                    }
+                }
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            }
+        },
+
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

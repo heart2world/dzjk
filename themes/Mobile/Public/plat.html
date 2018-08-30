@@ -1,0 +1,88 @@
+<include file="Public:header" title="平台主页"/>
+<body>
+<section class="flex_column w-height100 w-bgcolorf7f7f7">
+    <div class="w-bgcolor44D397">
+        <a href="javascritp:;" class="headLeft"></a>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">平台主页</span>
+    </div>
+    <div class="w-flexitem1 w-section">
+        <div class="w-paddingLeftRight02 w-marginBottom01 w-bgcolorFFF">
+            <div class="w-paddingTopBottom02 w-borderBeee">
+                <div class="w-flex w-marginBottom02">
+                    <div class="header2 w-marginRight02" style="background-image: url(../image/slice/header.png);"><b></b></div>
+                    <div class="w-flexitem1 w-paddingTopBottom01">
+                        <h4 class="w-height04 w-font14 w-color000 w-onlyline">隔壁老王医生</h4>
+                        <span class="w-block w-height04 w-font12 w-color999 w-onlyline">中医大附属医院肠胃科砖家</span>
+                    </div>
+                    <label for="collect1" class="iconCollect w-paddingTopBottom01">
+                        <input type="checkbox" id="collect1">
+                        <span></span>
+                    </label>
+                </div>
+                <h4 class="w-doubleline w-line04 w-font14 w-color333">专家介绍，孩子，打一顿基本上就会好了专家介绍，孩子，打一顿基本上就会好了专家介绍，孩子，打一顿基本上就会好了</h4>
+            </div>
+            <div class="w-paddingTopBottom02 w-flex">
+                <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">粉丝：2345</span>
+                <b class="grayLine"></b>
+                <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">文章：2345</span>
+            </div>
+        </div>
+        <div class="w-bgcolorFFF w-flex w-padding0302 w-marginBottom01">
+            <div class="w-flexitem1">
+                <div class="w-line04 w-font14 w-color333 w-marginBottom03 w-doubleline">现在女性很多都中式事业，现在女性很多都中式事业，现在女性很多都中式事业，现在女性很多都中式事业，现在女性很多都中式事业，现在女性很多都中式事业</div>
+                <div class="w-height03 w-onlyline w-font12 w-color999">
+                    <span class="w-btn1 w-marginRight02">脊柱炎</span>
+                    <em class="w-marginRight02">隔壁老王</em>
+                    <em>123评论</em>
+                </div>
+            </div>
+            <img src="../image/goods.jpg" alt="" class="goods1">
+        </div>
+        <div class="w-bgcolorFFF w-padding02 w-marginBottom01">
+            <!-- 此div里面必须放纯文本，不能添加其他标签-->
+            <div class="threeLine">
+                “羊城名医”、家庭医生在线专家顾问、肾内科专家、中国科学院院士侯凡凡自认是个平凡的女人，但是她用用心、绎出她认为她的坚韧与动力来源于
+                <span class="threeMark">...<em class="w-colorf81515">全文</em></span>
+            </div>
+            <div class="w-font0 threeImgBox w-position w-marginBottom02">
+                <div class="threeImg"><img src="../image/goods.jpg" alt=""></div>
+                <div class="threeImg"><img src="../image/goods.jpg" alt=""></div>
+                <div class="threeImg"><img src="../image/goods.jpg" alt=""></div>
+                <!-- 数字蒙层-->
+                <div class="threeFixed"><span>+2</span></div>
+            </div>
+            <div class="w-height03 w-onlyline w-font12 w-color999">
+                <span class="w-btn1 w-marginRight02">脊柱炎</span>
+                <em class="w-marginRight02">隔壁老王</em>
+                <em>123评论</em>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<include file="Public:js"/>
+<script>
+    //判断超过三行“全文” 显示隐藏
+    $('.threeLine').each(function(){
+        if($(this).height() > 60){
+            $(this).css('height','60px');
+            $(this).children('.threeMark').show();
+        }else{
+            $(this).css('height','auto');
+            $(this).children('.threeMark').hide();
+        }
+    });
+    $('.threeMark').click(function(){
+        if($(this).parents('.threeLine').height() == 60){
+            $(this).parents('.threeLine').css('height','auto');
+            $(this).css('position','static');
+            $(this).children('em').text('收起');
+        }else{
+            $(this).parents('.threeLine').css('height','60px');
+            $(this).css('position','absolute');
+            $(this).children('em').text('全部');
+        };
+    });
+</script>
+</html>

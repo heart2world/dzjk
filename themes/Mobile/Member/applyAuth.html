@@ -1,0 +1,303 @@
+<include file="Public:header" title="认证资料"/>
+<body>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <a onclick="back2()" class="headLeft"></a>
+        <a  class="headRight" onclick="bao()">保存</a>
+        <span class="headTit">认证资料</span>
+    </div>
+
+    <div class="w-flexitem1 w-section  back-f7f7f7">
+        <div class="rengzheng_form">
+            <h4 class="title p_both15 ">基本信息</h4>
+            <div class="form_div p_both15  back-fff">
+                <div class="form_item flex_dom flex_item_mid ">
+                    姓名<input type="text" class="flex_1 text-right"  placeholder="输入姓名" value="{$info.truename}" readonly="readonly"/>
+                </div>
+                <div class="form_item flex_dom flex_item_mid ">
+                    电话<input type="text" class="flex_1 text-right"  placeholder="输入手机号" value="{$info.mobile}" readonly="readonly"/>
+                </div>
+                <div class="form_item  ">
+                    <h5>身份证<i class="font12 color-999 m-l-10">(本人身份证正反面)</i></h5>
+                    <div class="img_up flex_dom flex_item_mid swiper_clickLook">
+                       <volist name="info.sfz" id="sfz">
+                        <div class="upfile2 flex_1">
+                            <img src="{$sfz}"/>
+                        </div>
+                       </volist>
+                    </div>
+                </div>
+            </div>
+            <h4 class="title p_both15 font14">职业信息 <i class="font12 color-999">（如果职业信息系统要审核成功才会显示）</i></h4>
+            <div class="form_div p_both15  back-fff">
+                <div class="form_item flex_dom flex_item_mid ">
+                    医院名称<input type="text" class="flex_1 text-right" id="hosp" placeholder="输入医院名称" value="{$info.hosp}" />
+                </div>
+                <div class="form_item flex_dom flex_item_mid ">
+                    科室<input type="text" class="flex_1 text-right" id="ks" placeholder="输入科室" value="{$info.ks}" />
+                </div>
+                <div class="form_item flex_dom flex_item_mid ">
+                    职位<input type="text" class="flex_1 text-right" id="zw" placeholder="输入职位" value="{$info.zw}" />
+                </div>
+                <div class="form_item flex_dom  flex_item_between">
+                    <span class="l-h-05rem">擅长专业 </span>
+                    <div class="choice  text-right">
+                        <label><input type="radio" name="choice" checked="checked"/><span>{$info.zy}</span></label>
+                    </div>
+                </div>
+                <div class="form_item  ">
+                    <h5>执业资格证</h5>
+                    <div class="img_up flex_dom flex_item_mid swiper_clickLook">
+
+                        <volist name="info.zyzgz" id="zgz">
+                        <div class="upfile2 flex_1">
+                            <img src="{$zgz}"/>
+                        </div>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+            <div class="text_box m-t-10 back-fff p_both15 ">
+                <h4>其他备注<i class="m-l-10 font12 color-999">(选填，加上图片更有说服力哦，九张以内)</i></h4>
+                <textarea  rows="8" placeholder="输入备注" id="intro">{$info.intro}</textarea>
+
+                <div class="qtList img_up content_imgs flex_dom flex_item_mid m-t-10 p-b-10 swiper_clickLook">
+
+
+                    <volist name="info.grjsimg" id="grimg">
+                    <div class="qtdiv upfile4 flex_1">
+                        <span class="close" onclick="shan(this)">
+                            <img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>
+                            </span>
+                        <img class="qtlists" src="{$grimg}"/>
+                    </div>
+                    </volist>
+                    <if condition="$info.grjsimg|count lt 9">
+                        <div onclick="qt()"  class="add_upImgBtn upfile4 flex_1">
+                            <img src="__TMPL__Public/Mobile/image/slice/add_img1.png"/>
+                        </div>
+                    </if>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <input type="hidden" class="qt" value="9">
+
+    </div>
+</section>
+</body>
+<include file="Public:js"/>
+</html>
+<script>
+    var qts = "{$info.grjsimg|count}";
+    qts=10-parseInt(qts);
+   // alert(qts)
+    var tu=1;//判断是否有动过图片
+    function bao(){
+        var hosp=$("#hosp").val();
+        var ks=$("#ks").val();
+        var zw=$("#zw").val();
+        var intro=$("#intro").val();
+        var id="{$info.id}";
+        var $currentA = $(".qtList .qtdiv");
+        var qtList = '';
+        $currentA.find(".qtlists").each(function(i)
+        {
+            qtList += $(this).attr('src') + ',';
+
+        });
+        qtList = qtList.substring(0,qtList.length-1);
+        //alert(qtList);
+    $.ajax({
+        type: 'POST',
+        url: '/Member/dusr_edit',
+        data: {hosp:hosp,ks:ks,zw:zw,intro:intro,id:id,grjsimg:qtList},
+        success: function(e)
+        {
+            if(e.status == 1)
+            {
+                go_alert2(e.info);
+                setTimeout(function () {
+                    location.href="/Member/index";
+                }, 2000)
+
+            }else
+            {
+                go_alert2(e.info);
+            }
+        },
+    });
+
+    }
+
+    function back2(){
+        var hosp=$("#hosp").val();
+        var ks=$("#ks").val();
+        var zw=$("#zw").val();
+        var intro=$("#intro").val();
+
+        var hosp2="{$info.hosp}";
+        var ks2="{$info.ks}";
+        var zw2="{$info.zw}";
+        var intro2="{$info.intro}";
+        if(hosp2==hosp&&ks2==ks&&zw2==zw&&intro2==intro&&tu==1){
+            WebViewJavascriptBridge.back();
+        }else{
+            go_confirm({
+                msg:"内容有修改,是否保存?",
+                tag_set:{title_tag:''},
+                yesFunc:function(){
+                    bao();
+                },
+                noFunc:function () {
+                    WebViewJavascriptBridge.back();
+                }
+            })
+        }
+
+
+
+       // WebViewJavascriptBridge.back();
+    }
+    //上传其他
+    function qt()
+    {
+        uploadAvatar('qt');
+    }
+    function uploadAvatar(type)
+    {
+
+        if(type == 'sfz')
+        {
+            WebViewJavascriptBridge.uploadAvatar(sfzNs,'sfz');
+        }
+        if(type == 'zyzgz')
+        {
+            WebViewJavascriptBridge.uploadAvatar(zyzgzs,'zyzgz');
+        }
+        if(type == 'qt')
+        {
+            if(qts==1){
+                go_alert2("最多只能上传9张图片哦!");
+            }else{
+                WebViewJavascriptBridge.uploadAvatar(qts,'qt');
+            }
+
+        }
+    }
+    // getImg();
+    function getImg(url,type)
+    {
+        // url = '__TMPL__Public/Mobile/image/tupian1.png,__TMPL__Public/Mobile/image/tupian1.png';
+        // type = 'sfz';
+        if(url)
+        {
+            if(type == 'sfz')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+                    str += '<div class="sfzdiv upfile2 flex_1">'+
+                            '<span class="close">'+
+                            '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                            '</span>'+
+                            '<img class="sfzlists " src="'+val+'"/>'+
+                            '</div>'
+                });
+                str += '<div class="upfile2 flex_1"  onclick="upsfz()" >' +
+                        '<img  src="__TMPL__Public/Mobile/image/slice/add_img2.png"/>'+
+                        '</div>';
+
+                if(sfzNs == 2)
+                {
+                    $('.sfzList').html(str);
+                }else
+                {
+                    $('.sfzList').append(str);
+                }
+
+                sfzNs = 2 -  parseInt($('.sfzdiv').length);
+            }
+            if(type == 'zyzgz')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+
+                    str += '<div class="zyzgzdiv upfile2 flex_1">'+
+                            '<span class="close">'+
+                            '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                            '</span>'+
+                            '<img class="zyzgzlists " src="'+val+'"/>'+
+                            '</div>'
+                });
+                str += '<div  class="upfile2 flex_1"   onclick="zyzgz()" >' +
+                        '<img src="__TMPL__Public/Mobile/image/slice/add_img2.png"/>'+
+                        '</div>';
+
+                if(zyzgzs == 2)
+                {
+                    $('.zyzgzList').html(str);
+                }else
+                {
+                    $('.zyzgzList').append(str);
+                }
+                zyzgzs = 2 - parseInt($('.zyzgzdiv').length);
+            }
+            if(type == 'qt')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+                    qts--;
+                    str += '<div class="qtdiv upfile4 flex_1">'+
+                            '<span class="close" onclick="shan(this)">'+
+                            '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                            '</span>'+
+                            '<img class="qtlists " src="'+val+'"/>'+
+                            '</div>'
+                });
+                $('.add_upImgBtn').before(str);
+                qts = 9 - parseInt($('.qtdiv').length);
+                if (qts == 0) {
+                    $('.add_upImgBtn').hide();
+                }
+                tu=2;
+                //qts = qts + parseInt($('.qtdiv').length);
+
+//                str += '<div   onclick="qt()"  class="upfile4 flex_1">'+
+//                        '<img src="__TMPL__Public/Mobile/image/slice/add_img1.png"/>'+
+//                        '</div>';
+//                $('.qtList').append(str);
+//                if(qts == 9)
+//                {
+//                    $('.qtList').html(str);
+//
+//                }else
+//                {
+//                    $('.qtList').append(str);
+//                }
+//                qts = 9 - parseInt($('.qtdiv').length);
+            }
+        }
+    }
+function shan(obj){
+    $(obj).parent().remove();
+    qts = 9 - parseInt($('.qtdiv').length);
+    if (qts > 0) {
+        $('.add_upImgBtn').show();
+    }
+    tu=2;
+}
+
+
+
+</script>

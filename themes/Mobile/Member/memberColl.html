@@ -1,0 +1,264 @@
+<include file="Public:header" title="番茄医学"/>
+<style>
+    .passage_item .down_div .left p{
+        font-size: 14px;
+    }
+    .down_div .left .pingjia_about em,.down_div .left .pingjia_about em{
+        white-space: nowrap;
+        font-size: 12px;
+    }
+</style>
+<body>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <label  class="headRight editBtn" for="edit">编辑</label>
+        <span class="headTit">我的收藏</span>
+    </div>
+    <div class="w-flexitem1 flex_column w-section back-f7f7f7 overflow_auto"  id="flex_column">
+        <div class="msg_pingjia flex_column flex_1" style="overflow: hidden">
+            <input type="checkbox" id="edit" class="hide" @click="toggleEdit" />
+            <div  class="msg_pingjiaBox flex_1 swiper_clickLook show w-sectionD" id="scroll_content" style="overflow-y: auto;">
+
+            <span  v-cloak  v-for="(item,index) in list">
+                  <div  style="width: 100%;" class="msg_pingjiaBox flex_1 swiper_clickLook show">
+
+                  <div v-if="item.tp==1" class="passage_item shoucang p-v-15 back-fff p_both15 w-marginBottom01 flex_dom flex_item_mid ">
+                    <label><input :value="item.id"  name="checkbox" type="checkbox"><span></span></label>
+                    <a @click="jumpArtiIndex(item.to_id)"  class="down_div flex_dom flex_1">
+                        <div class="left flex_1 m-r-15 flex_column flex_item_between">
+                            <p   class="text-ellipsis-2line">{{item.title}}</p>
+                            <div class="pingjia_about color-999">
+                                <i class="w-btn1">{{item.label}}</i><em class="m-l-10 newName">{{item.author}}</em><em class="m-l-10">
+                                    <label  v-if="item.pls >= 1"> {{item.pls}} 评论</label>
+                                </em>
+                            </div>
+                        </div>
+                        <img :src="item.thumb">
+                    </a>
+                </div>
+
+                <div v-if="item.tp>1"   class="passage_item shoucang p-v-15 back-fff p_both15 w-marginBottom01 flex_dom flex_item_mid ">
+                    <label><input :value="item.id"  name="checkbox" type="checkbox"><span></span></label>
+                    <a @click="jumpArtiIndex(item.to_id)" class="down_div flex_dom ">
+                        <div class="left flex_1  flex_column flex_item_between">
+                            <p   class="text-ellipsis-2line"  >{{item.title}}</p>
+                            <div  class="img_box swiper_clickLook flex_dom flex_item_between">
+                              <div class="img"    v-for="(thumb,indexs) in item.thumb"><img :src="thumb" alt=""/></div>
+                            </div>
+                            <div class="pingjia_about color-999">
+                                <i class="w-btn1">{{item.label}}</i><em class="m-l-10 newName">{{item.author}}</em><em class="m-l-10">
+                                <label  v-if="item.pls >= 1"> {{item.pls}} 评论</label>
+                            </em>
+                            </div>
+                        </div>
+
+                    </a>
+                </div>
+            </div>
+            </span>
+                <div style="display: none;" class="noData">暂无数据</div>
+        </div>
+
+            <div   class="dele_btn" @click="del()"  >
+                <button  >删除</button>
+            </div>
+
+    </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>
+
+
+
+<include file="Public:js" />
+<script>
+
+
+    window.onload = function () {
+        var isFirst = 0;
+        msg_list_loading = false;
+        var dropload = null;
+        //页面加载后替换
+
+        var vm = new Vue({
+            el: '#flex_column',
+            data: {
+                list: [],
+                show: $("#currPage").val() ? $("#currPage").val() : 2,
+                page: {
+                    p: 0,
+                    totalPage: 1,
+                    loadContent: "加载更多"
+                },
+            },
+
+            methods: {  //方法
+                toggleEdit: function () {
+                    if($('#edit').prop('checked')){
+                        $('.editBtn').text('完成')
+                    } else {
+                        $('.editBtn').text('编辑')
+                    }
+                },
+                jumpArtiIndex:function (id) {
+                    location.href="/Mobile/Article/info/id/"+id;
+                },
+
+                del:function () {
+
+                    ids = '';
+                    $("input[name='checkbox']:checkbox:checked").each(function(){
+                        ids+=$(this).val()+',';
+                    })
+                    ids = ids.substring(0,ids.length-1);
+                    if(ids)
+                    {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Member/delColl',
+                            data: {ids:ids},
+                            success: function(e)
+                            {
+                                if(e.status == 1)
+                                {
+                                    go_alert2(e.info);
+                                    vm.mySearch(true);
+                                }else
+                                {
+                                    go_alert2(e.info);
+                                }
+                            },
+                        });
+                    }
+                },
+                mySearch: function (search) {
+                    if (search) {
+                        this.list = [];
+                        this.page.p = 0;
+                        this.page.totalPage = 1;
+                        this.page.loadContent = '加载更多';
+                    }
+                    msg_list_loading = true;
+
+                    if (this.page.p < this.page.totalPage)
+                    {
+                        var p = this.page.p == 0 ? this.page.p = 1 : this.page.p += 1;
+                        var url = "{:U('memberColl')}";
+                        var param = {p: p};
+
+                        $.getJSON(url, param, function (data) {
+                            vm.list = vm.list.concat(data.info.list);
+                            vm.page.totalPage = data.info.total_page;
+
+                            $(".page_more_load").show();
+                            if (vm.page.p >= vm.page.totalPage)
+                            {
+                                vm.page.loadContent = '没有更多了';
+                                if (vm.page.totalPage == 1 || data.info.total_page == 0) {
+                                    vm.page.loadContent = '';
+                                    $(".page_more_load").hide();
+                                }
+                            }
+                            if(!vm.list||vm.list.length==0){
+                                $(".noData").show();
+                                $(".dele_btn").hide();
+
+                            }else
+                            {
+
+                                $(".noData").hide();
+                            }
+                            msg_list_loading = false;
+                        })
+                    }
+                },
+            },
+
+            //页面加载后调用ajax请求数据
+            created: function () {
+                this.mySearch(true);
+            },
+            mounted:function(){
+                //if (this.show == 2)
+                //{
+                //    //上拉刷新初始化
+                //    dropload = $('.inner').dropload({
+                //        domUp : {
+                //            domClass   : 'dropload-up',
+                //            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+                //            domUpdate  : '<div class="dropload-update">↑释放更新</div>'
+                //        },
+                //        loadUpFn : function(me){
+                //            // 为了测试，延迟1秒加载
+                //            setTimeout(function(){
+                //                // 每次数据加载完，必须重置
+                //                dropload.resetload();
+                //            },1000);
+                //            vm.mySearch(true);
+                //        }
+                //    });
+                //}
+            },
+        });
+    
+
+
+
+
+        ////下拉滚动分页
+        //$("#scroll_content").scroll(function () {
+        //    if($(this).scrollTop() == 0){
+        //        //上拉刷新初始化
+        //        dropload = $('.inner').dropload({
+        //            domUp: {
+        //                domClass: 'dropload-up',
+        //                domRefresh: '<div class="dropload-refresh">↓下拉刷新</div>',
+        //                domUpdate: '<div class="dropload-update">↑释放更新</div>'
+        //            },
+        //            loadUpFn: function (me) {
+        //                // 为了测试，延迟1秒加载
+        //                setTimeout(function () {
+        //                    // 每次数据加载完，必须重置
+        //                    dropload.resetload();
+        //                }, 1000);
+        //                vm.mySearch(true);
+        //            }
+        //        });
+        //    } else {
+        //        $('.inner').unbind();
+        //    }
+        //    //得到整个页面高度
+        //    var html_height = $(".list_content").height();
+        //    var screen_height = document.documentElement.clientHeight;//363
+        //    var scroll_height = $("#scroll_content").scrollTop();//760
+        //    if (scroll_height >= html_height - screen_height) {
+        //        $(document).scrollTop(scroll_height - 1);
+        //        if (!msg_list_loading) {
+        //            vm.mySearch(false);
+        //        }
+        //    }
+        //});
+
+        $("#scroll_content").on('scroll', function () {
+            var nScrollHight = 0;
+            var nScrollTop = 0;
+            var nDivHight = $(".w-sectionD").height();
+            nScrollHight = $(this)[0].scrollHeight;
+            nScrollTop = $(this)[0].scrollTop;
+            var paddingBottom = parseInt($(this).css('padding-bottom')), paddingTop = parseInt($(this).css('padding-top'));
+            if (nScrollTop + paddingBottom + paddingTop + nDivHight >= nScrollHight - 10) {
+                if (!msg_list_loading) {
+                    vm.mySearch(false);
+                }
+            }
+        });
+
+
+
+    }
+</script>

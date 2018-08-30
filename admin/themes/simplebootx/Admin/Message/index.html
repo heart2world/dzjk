@@ -1,0 +1,161 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill" style="display: block">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">消息列表</a></li>
+        <li><a href="{:U('create')}">添加消息</a></li>
+    </ul>
+    <form class="well form-search " >
+
+        <span>最后编辑时间：</span>
+        <input type="text" id="st_time" style="width: 130px" name="st_time"  class="js-date" autocomplete="off" placeholder="开始时间" />到
+        <input type="text" id="end_time" style="width: 130px" name="end_time"  class="js-date" autocomplete="off" placeholder="结束时间" />
+        &nbsp;&nbsp;
+        <span>关键字</span>
+        <input type="text" id="keyword" style="width: 130px">
+        <input type="button" class="btn btn-primary" @click="mySearch()" value="查询">
+    </form>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <th style="width: 5%">序号</th>
+            <th>发布时间</th>
+            <th>标题</th>
+            <th>内容</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  v-cloak v-for="item in list">
+            <td>{{item.id}}</td>
+            <td >{{item.create_time}}</td>
+            <td >
+                {{item.title}}
+            </td>
+            <td style="width: 30%;"><span v-text="toText(item.content)" style="width:700px;display: inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis"></span>
+            </td>
+            <td>
+                <a  href="javascript:void(0);" @click="deleteBatch(item.id)" class="btn btn-small btn-danger">删除消息</a>
+                <a  :href="'{:U('Message/detalis')}/id/'+item.id"  :data-id="item.id" class="btn btn-small  " style="background-color: #0a6ea7;">详情</a>
+            </td>
+
+        </tr>
+        <tr v-if="!list||list.length==0">
+            <td colspan="5" style="text-align: center; height: 30px; line-height: 30px;">暂无数据</td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+    <input type="hidden" value="1" id="currPage" />
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var vm = new Vue({
+        el:"#seckill",
+        data: {
+            pagerConf:{
+                totalPage : 0,
+                currPage : $("#currPage").val()?$("#currPage").val():1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            list: [],
+            search: { p: 1,st_time:'',end_time:'' }
+
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.getData();
+            },
+        },
+        methods:{
+            toText:function (html) {
+                return $("<div></div>").html(html+"").text()
+            }
+            ,
+            getData:function () {
+                var data = this.search;
+                data.st_time=$("#st_time").val();
+                data.end_time=$("#end_time").val();
+                data.keyword = $('#keyword').val();
+                data.p =  this.pagerConf.currPage;
+                $.getJSON("{:U('index')}",data,function (res) {
+
+                    if(res.status==1){
+                        vm.list = res.info.list;
+                        $("#currPage").val(res.info.p);
+                        vm.pagerConf.totalPage = res.info.total_page;
+                    }else{
+                        $.dialog({id: 'popup',icon: 'error', lock: true, content: res.msg, ok:function(){}});
+                    }
+                })
+            },
+            mySearch:function(){
+                this.getData();
+            },
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+
+
+
+            //删除 支持批量
+            deleteBatch:function(id){
+                if(id==''){
+                    $(".checkbox").each(function(){
+                        if($(this).prop("checked")){
+                            id += $(this).val()+',';
+                        }
+                    });
+                    if(id==''){
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请至少选择一条信息", time: 2});
+                        return false;
+                    }
+                }
+                var url = "{:U('delete')}"+"/id/"+id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要删除记录吗？",
+                        ok: function () {
+                            $.getJSON(url,function (res) {
+                                if(res.status == 1){
+                                    vm.getData();
+                                    $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                                }else{
+                                    $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                                }
+                            })
+                            $(".checkbox").removeAttr("checked");
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                });
+            },
+        },
+        created: function () {
+            this.mySearch();
+        }
+
+    });
+    var dateInput = $("input.js-date");
+    if (dateInput.length) {
+        Wind.use('datePicker', function () {
+            dateInput.datePicker();
+        });
+    }
+</script>
+</body>
+</html>

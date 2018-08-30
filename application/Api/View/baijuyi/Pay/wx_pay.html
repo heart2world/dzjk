@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>支付设计款</title>
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta itemprop="name" content="" />
+    <meta itemprop="description" name="description" content="" />
+    <meta itemprop="image" content="img_url" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" type="text/css" href="/web/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/web/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/web/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/web/css/my_css.6.21.css"/>
+    <link rel="stylesheet" type="text/css" href="/web/css/NumberBank.css"/>
+    <link rel="stylesheet" type="text/css" href="/web/css/wqx.css"/>
+    <link rel="stylesheet" type="text/css" href="/web/css/ql.css"/>
+</head>
+<body>
+<section class="w-section flex_column w-bgcolorf8f8f8">
+    <header class="w-bgcolorf8f8f8 w-height09">
+        <div class="w-headLeft"></div>
+        <!--<div class="w-headRight" style="background-image: url('../images/slice/iconWd.png');background-size: .37rem .35rem;background-position: .23rem center"></div>-->
+        <span class="w-title">微信支付</span>
+    </header>
+    <div class="w-flexitem1 w-sectionD">
+
+    </div>
+    <b class="w-onTop"></b>
+</section>
+</body>
+<script type="text/javascript" src="/web/lib/jquery.1.11.3.min.js" ></script>
+<script type="text/javascript" src="/web/lib/swiper.min.js"></script>
+<script type="text/javascript" src="/web/lib/judge.js"></script>
+<script type="text/javascript" src="/web/lib/pinchzoom.min.js"></script>
+<script type="text/javascript" src="/web/lib/uploadPreview.js"></script>
+<script type="text/javascript" src="/web/lib/click_lookImg.js"></script>
+<script type="text/javascript" src="/web/lib/vue.min.js"></script>
+<script type="text/javascript" src="/web/script/wqx.js"></script>
+<script type="text/javascript" src="/web/script/ql.js"></script>
+<script>
+
+    function jsApiCall()
+    {
+        WeixinJSBridge.invoke('getBrandWCPayRequest',<php>echo $jsApiParameters;</php>,
+                function(res){
+                    if(res.err_msg =='get_brand_wcpay_request:ok'){
+                        go_alert2('支付成功');
+                        //location.href="/Mobile/Pay/successful/id/";
+                }else{
+                    //location.href="'.U('Buy/index').'";
+                    go_alert2('支付失败');
+                }
+            }
+        );
+    }
+
+    function callpay()
+    {
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall();
+        }
+    }
+    window.onload = callpay();
+</script>
+</html>

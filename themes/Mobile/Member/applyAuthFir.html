@@ -1,0 +1,520 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<style type="text/css">
+    .p_upImgBtn
+    {
+        height: 90px;width: 90px;
+        background: url("/themes/Public/Mobile/image/slice/add_img2.png") no-repeat center center;
+    }
+
+    .maskBox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.8);
+        z-index: 1500;
+    }
+    .hide {
+        display: none;
+    }
+    .reserveCtt {
+        height: 90% !important;
+        width: calc(100% - .6rem);
+    }
+    .maskCenter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .reserveCtt h2 {
+        padding: .2rem;
+        background-color: #f8f8f8;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    .reserveCtt a {
+        display: block;
+        border-top: 1px solid #eee;
+        padding: .2rem;
+        text-align: center;
+        color: #666;
+        background-color: #f8f8f8;
+    }
+</style>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a class="headRight" id="tjBtn">提交</a>
+        <span class="headTit">申请认证</span>
+    </div>
+
+    <div class="w-flexitem1 w-section  back-f7f7f7">
+        <div class="rengzheng_form">
+            <h4 class="title p_both15 ">基本信息</h4>
+            <div class="form_div p_both15  back-fff">
+                <div class="form_item flex_dom flex_item_mid ">
+                    姓名<input type="text" class="flex_1 text-right name"  placeholder="输入姓名"/>
+                </div>
+                <div class="form_item flex_dom flex_item_mid ">
+                    电话<input type="number" readonly class="flex_1 text-right mobile"  placeholder="{$mobile}"/>
+                </div>
+                <div class="form_item  ">
+                    <h5>身份证<i class="font12 color-999 m-l-10">(本人身份证正反面)</i></h5>
+
+                    <div class="sfzList img_up flex_dom flex_item_mid">
+
+
+                        <!--<div class="upfile2 flex_1">-->
+                            <!--<span class="close"><img src="__TMPL__Public/Mobile/image/slice/dele.png"/></span>-->
+                            <!--<img src="__TMPL__Public/Mobile/image/photo1.png"/>-->
+                        <!--</div>-->
+
+
+                        <div onclick="upsfz()" class="add_imgBtn1 upfile2 flex_1">
+                            <img src="__TMPL__Public/Mobile/image/slice/add_img2.png"/>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <h4 class="title p_both15 font14">职业信息 <i class="font12 color-999"></i></h4>
+            <div class="form_div p_both15  back-fff">
+                <div class="form_item flex_dom flex_item_mid ">
+                    医院名称<input type="text" class="flex_1 text-right hosp"  placeholder="输入医院名称"/>
+                </div>
+                <div class="form_item flex_dom flex_item_mid ">
+                    科室<input type="text" class="flex_1 text-right ks"  placeholder="输入科室"/>
+                </div>
+                <div class="form_item flex_dom flex_item_mid ">
+                    职位<input type="text" class="flex_1 text-right zw"  placeholder="输入职位"/>
+                </div>
+                <div class="form_item flex_dom  flex_item_between">
+                    <span class="l-h-05rem">擅长专业 </span>
+                    <div class="choice ">
+                        <volist name="label" id="vo">
+                            <label><input type="radio" value="{$vo.id}" name="choice"/><span>{$vo.name}</span></label>
+                        </volist>
+
+                    </div>
+                </div>
+                <div class="form_item  ">
+                    <h5>执业资格证</h5>
+                    <div  class="zyzgzList img_up flex_dom flex_item_mid">
+
+
+
+                        <!--<div class="upfile2 flex_1">-->
+                        <!--<span class="close"><img src="__TMPL__Public/Mobile/image/slice/dele.png"/></span>-->
+                        <!--<img src="__TMPL__Public/Mobile/image/photo1.png"/>-->
+                        <!--</div>-->
+
+                        <div onclick="zyzgz()" class="add_imgBtn2 upfile2 flex_1">
+                        <img src="__TMPL__Public/Mobile/image/slice/add_img2.png"/>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="text_box m-t-10 back-fff p_both15 ">
+                <h4>其他备注<i class="m-l-10 font12 color-999">(选填，加上图片更有说服力哦，九张以内)</i></h4>
+                <textarea  rows="8" class="intro" placeholder="输入备注"></textarea>
+
+                <div class="qtList img_up content_imgs flex_dom flex_item_mid m-t-10">
+
+
+                    <!--<form id="thisForm3">-->
+
+                        <!--<div class="p_upImgBtn flex_dom img wx_pic_upload_single">-->
+                            <!--<div class="clearfix">-->
+                                <!--<label class="fl wx_pic_upload" count="6"-->
+                                       <!--target="pic_list" module="team"-->
+                                       <!--temp="<div class='fl p_upImg w-marginRight02 [target]'><input type='hidden' name='[target][]' value='[img]'><img src='[img]' /><i class='imgDelete2'></i></div>">-->
+                                    <!--<div class="p_upImgBtn"></div>-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+
+                    <!--<div class="upfile4 flex_1">-->
+                    <!--<span class="close"><img src="__TMPL__Public/Mobile/image/slice/dele.png"/></span>-->
+                    <!--<img src="__TMPL__Public/Mobile/image/photo1.png"/>-->
+                    <!--</div>-->
+
+
+
+                    <div onclick="qt()"  class="add_imgBtn3 upfile4 flex_1">
+                    <img src="__TMPL__Public/Mobile/image/slice/add_img1.png"/>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="my_agree l-h-08rem back-fff text-center font14">
+                <label><input type="checkbox" class="xx"/><span></span>
+                    阅读并同意<a  class="showmb" >《番茄医学医生申请认证协议》</a></label>
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+
+<input type="hidden" class="sfzN" value="2">
+<input type="hidden" class="zyzgz" value="2">
+<input type="hidden" class="qt" value="9">
+
+
+<div class="maskBox hide" style="display:none;">
+    <div class="maskCenter reserveCtt w-section flex_column back-fff">
+        <h2>医生申请认证协议</h2>
+        <div class="w-flexitem1 w-sectionD">
+            <div class="richText w-padding03">{$content}</div>
+        </div>
+        <a   id="read" href="javascript:;">阅读并同意</a>
+        <a   class="qxBtn"   href="javascript:;">取消</a>
+    </div>
+</div>
+
+
+<include file="Public:js"/>
+
+<script type="text/javascript">
+    // go_confirm("检测到内容有改变，是否需要保存？",function(){
+    //     go_alert2("你离开了")
+    // })
+
+    var sfzNs  = 2;
+    var zyzgzs  = 2;
+    var qts = 9;
+
+
+
+    $('.showmb').click(function () {
+        $('.maskBox').show();
+    });
+
+    $('.qxBtn').click(function () {
+        $('.maskBox').hide();
+    });
+    $('#read').click(function () {
+        var checked = $("input[type='checkbox']").is(':checked');
+        if(checked == false)
+        {
+            $("input[type='checkbox']").prop('checked','checked');
+        }
+
+        $('.maskBox').hide();
+    });
+
+
+
+
+
+    $('#tjBtn').click(function () {
+
+
+        var name = $('.name').val().trim();
+        if(!name)
+        {
+            go_alert2('请填写姓名'); return false;
+        }
+        // var mobile = $('.mobile').val().trim();
+        // if(!mobile)
+        // {
+        //     go_alert2('请填写手机号'); return false;
+        // }
+        // var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        // if(mobile.length !=11)
+        // {
+        //     go_alert2('请输入有效的手机号码'); return false;
+        // }else if(!myreg.test(mobile)){
+        //     go_alert2('请输入有效的手机号码'); return false;
+        // }
+
+        var $current = $(".sfzList .sfzdiv");
+        var szList = '';
+        $current.find(".sfzlists").each(function(i)
+        {
+            szList += $(this).attr('src') + ',';
+
+        });
+        szList = szList.substring(0,szList.length-1);
+
+        if(!szList) {
+            go_alert2('请上传身份证');
+            return false;
+
+
+        }
+        var strs= new Array();
+        strs = szList.split(","); //字符分割
+        if(strs.length != 2)
+        {
+            go_alert2('身份证必须两张!'); return false;
+        }
+
+
+        var $currents = $(".zyzgzList .zyzgzdiv");
+        var zyzList = '';
+        $currents.find(".zyzgzlists").each(function(i)
+        {
+            zyzList += $(this).attr('src') + ',';
+
+        });
+        zyzList = zyzList.substring(0,zyzList.length-1);
+
+        if(!zyzList)
+        {
+            go_alert2('请上传执业资格证'); return false;
+        }
+
+        var $currentA = $(".qtList .qtdiv");
+        var qtList = '';
+        $currentA.find(".qtlists").each(function(i)
+        {
+            qtList += $(this).attr('src') + ',';
+
+        });
+        qtList = qtList.substring(0,qtList.length-1);
+
+        var hosp = $('.hosp').val().trim();
+        if(!hosp)
+        {
+            go_alert2('请填写医院名称'); return false;
+        }
+        var ks = $('.ks').val();
+        if(!ks)
+        {
+            go_alert2('请填写科室名称'); return false;
+        }
+        var zw = $('.zw').val();
+        if(!zw)
+        {
+            go_alert2('请填写职位名称'); return false;
+        }
+
+        var choice = $('input:radio[name="choice"]:checked').val();
+        if(choice == null)
+        {
+            go_alert2('请选择一项擅长专业'); return false;
+        }
+
+        var checked = $("input[type='checkbox']").is(':checked');
+        if(checked == false)
+        {
+            var xx = 0;
+            go_alert2('请同意协议'); return false;
+        }else
+        {
+            var xx = 1;
+        }
+        var intro = $('.intro').val();
+
+        // var content_img = $("#thisForm").serializeArray();
+
+        $.ajax({
+            type: 'POST',
+            url: '/Member/applyAuthFir',
+            data: {szList:szList,qtList:qtList,zyzList:zyzList,name:name,hosp:hosp,ks:ks,zw:zw,choice:choice,xx:xx,intro:intro},
+            success: function(e)
+            {
+                if(e.status == 1)
+                {
+                    go_alert2('申请成功!请等待平台审核并联系');
+                    setTimeout(function() {
+                        // location.href = '/Member/applyAuth';
+                        location.href = '/Member/index';
+                    }, 2000);
+
+
+                }else
+                {
+                    go_alert2(e.info);
+                }
+            },
+        });
+
+    });
+
+
+
+    //上传执业资格证
+    function zyzgz()
+    {
+        uploadAvatar('zyzgz');
+    }
+    //上传身份证
+    function upsfz()
+    {
+        uploadAvatar('sfz');
+    }
+    //上传其他
+    function qt()
+    {
+        uploadAvatar('qt');
+    }
+    function uploadAvatar(type)
+    {
+
+        if(type == 'sfz')
+        {
+            WebViewJavascriptBridge.uploadAvatar(sfzNs,'sfz');
+        }
+        if(type == 'zyzgz')
+        {
+            WebViewJavascriptBridge.uploadAvatar(zyzgzs,'zyzgz');
+        }
+        if(type == 'qt')
+        {
+            WebViewJavascriptBridge.uploadAvatar(qts,'qt');
+        }
+    }
+    // getImg();
+    function getImg(url,type)
+    {
+        // url = '__TMPL__Public/Mobile/image/tupian1.png,__TMPL__Public/Mobile/image/tupian1.png';
+        // type = 'sfz';
+        if(url)
+        {
+            if(type == 'sfz')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+                    str += '<div class="sfzdiv upfile2 flex_1">'+
+                        '<span class="close">'+
+                        '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                        '</span>'+
+                        '<img class="sfzlists " src="'+val+'"/>'+
+                        '</div>'
+                });
+                //if (!$('.add_imgBtn1').length) {
+                //    str += '<div class="add_imgBtn1 upfile2 flex_1"  onclick="upsfz()" >' +
+                //    '<img  src="__TMPL__Public/Mobile/image/slice/add_img2.png"/>'+
+                //    '</div>';
+                //}
+                
+
+                //if(sfzNs == 2)
+                //{
+                //    $('.sfzList').html(str);
+                //}else
+                //{
+                //    if ($('.add_imgBtn1').length) {
+                //        $('.add_imgBtn1').before(str);
+                //    } else {
+                //        $('.sfzList').append(str);
+                //    }
+                //}
+                $('.add_imgBtn1').before(str);
+                sfzNs = 2 - parseInt($('.sfzdiv').length);
+
+                if (sfzNs == 0) {
+                    $('.add_imgBtn1').hide();
+                }
+            }
+            if(type == 'zyzgz')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+
+                    str += '<div class="zyzgzdiv upfile2 flex_1">'+
+                        '<span class="close">'+
+                        '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                        '</span>'+
+                        '<img class="zyzgzlists " src="'+val+'"/>'+
+                        '</div>'
+                });
+                //if (!$('.add_imgBtn2').length) {
+                //    str += '<div  class="add_imgBtn2 upfile2 flex_1"   onclick="zyzgz()" >' +
+                //    '<img src="__TMPL__Public/Mobile/image/slice/add_img2.png"/>' +
+                //    '</div>';
+                //}
+                
+
+                //if(zyzgzs == 2)
+                //{
+                //    $('.zyzgzList').html(str);
+                //}else
+                //{
+                //    if ($('.add_imgBtn2').length) {
+                //        $('.add_imgBtn2').before(str);
+                //    } else {
+                //        $('.zyzgzList').append(str);
+                //    }
+                //}
+                $('.add_imgBtn2').before(str);
+                zyzgzs = 2 - parseInt($('.zyzgzdiv').length);
+                if (zyzgzs == 0) {
+                    $('.add_imgBtn2').hide();
+                }
+            }
+            if(type == 'qt')
+            {
+                var arr = url.split(',');
+                var str = '';
+                $.each(arr, function(index,val)
+                {
+                    str += '<div class="qtdiv upfile4 flex_1">'+
+                        '<span class="close">'+
+                        '<img class="deleteImg"  src="__TMPL__Public/Mobile/image/slice/dele.png"/>'+
+                        '</span>'+
+                        '<img class="qtlists " src="'+val+'"/>'+
+                        '</div>'
+                });
+                //if (!$('.add_imgBtn3').length) {
+                //    str += '<div   onclick="qt()"  class="add_imgBtn3 upfile4 flex_1">' +
+                //    '<img src="__TMPL__Public/Mobile/image/slice/add_img1.png"/>' +
+                //    '</div>';
+                //}
+                
+                //if(qts == 9)
+                //{
+                //    $('.qtList').html(str);
+
+                //}else
+                //{
+                //    if ($('.add_imgBtn3').length) {
+                //        $('.add_imgBtn3').before(str);
+                //    } else {
+                //        $('.qtList').append(str);
+                //    }
+                //}
+                $('.add_imgBtn3').before(str);
+                qts = 9 - parseInt($('.qtdiv').length);
+                if (qts == 0) {
+                    $('.add_imgBtn3').hide();
+                }
+            }
+        }
+    }
+
+    $('body').on('click', '.close', function ()
+    {
+        $(this).parent().remove();
+        sfzNs = 2 - parseInt($('.sfzdiv').length);
+        if (sfzNs > 0) {
+            $('.add_imgBtn1').show();
+        }
+        zyzgzs = 2 - parseInt($('.zyzgzdiv').length);
+        if (zyzgzs > 0) {
+            $('.add_imgBtn2').show();
+        }
+        qts = 9 - parseInt($('.qtdiv').length);
+        if (qts > 0) {
+            $('.add_imgBtn3').show();
+        }
+    });
+
+</script>
+</html>

@@ -1,0 +1,401 @@
+<admintpl file="header" />
+</head>
+<style>
+    #model_table tr td{
+        white-space: nowrap;
+        border: none;
+    }
+</style>
+<body>
+<div class="wrap js-check-wrap" id="banner_type1">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}" >首页推荐轮播图</a></li>
+        <li ><a href="{:U('activity_banner')}"  >首页活动轮播图</a></li>
+        <li ><a href="{:U('ticket_banner')}" >景点门票轮播图</a></li>
+        <li ><a href="{:U('fun_banner')}">熊猫趣玩轮播图</a></li>
+        <li ><a href="{:U('outdoors_banner')}" >熊猫户外轮播图</a></li>
+        <li ><a href="{:U('travel_banner')}" >熊猫游轮播图</a></li>
+        <li ><a href="{:U('q_a_banner')}" >问答轮播图</a></li>
+        <li ><a href="{:U('equipment_banner')}" >熊猫装备轮播图</a></li>
+        <li ><a href="{:U('seckill_banner')}" >特惠秒杀轮播图</a></li>
+        <li><a href="{:U('circle_banner')}" >圈子动态轮播图</a></li>
+
+    </ul>
+    <form class="well form-search " >
+        可见城市：
+        <select class="select_2" name="province" v-model="search.province" style="width:120px">
+            <option value="">全部</option>
+            <option :value="item.region_id" v-for="item in province">{{item.region_name}}</option>
+        </select> &nbsp;&nbsp;
+        <select class="select_2" name="city" v-model="search.city" style="width:120px">
+            <option value="">全部</option>
+            <option :value="item.region_id" v-for="item in search_city">{{item.region_name}}</option>
+        </select> &nbsp;&nbsp;
+        <input type="button" class="btn btn-primary" @click="mySearch" value="查询">
+    </form>
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+        <thead>
+        <tr>
+            <th style="width:80%;text-align: left;border-right: none" >
+                <a class="btn btn-small btn-danger"  @click="deleteBatch('')" href="javascript:;">批量删除</a>
+            </th>
+            <th style="border-left:none">
+                <input type="button" class="btn btn-primary"  value="添加图片" @click="show_model" >
+            </th>
+        </tr>
+        </thead>
+    </table>
+    <div class="control-group">
+        <div class="controls">
+            <table  class="table table-hover table-bordered table-list" style="margin-top: 15px">
+                <thead>
+                <tr id="tr">
+                    <th style="width: 5%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>
+                    <th>图片</th>
+                    <th>排序序号</th>
+                    <th>可见城市</th>
+                    <th>链接地址</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="banner_list">
+                <tr v-for="item in list">
+                    <td><input  style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>
+                    <td><img :src="item.pic" width="80"  style="height: 80px !important;"/> </td>
+                    <td style="text-align: left;">{{item.sort}}</td>
+                    <td style="text-align: center;">{{item.province_name}} - {{item.city_name}}</td>
+                    <td>{{item.links}}</td>
+                    <td>
+                        <a  href="javascript:void(0);" @click="edit_info(item.id)" class="btn btn-small btn-warning">编辑</a>
+                        <a  href="javascript:void(0);" @click="delete_one(item.id)" class="btn btn-small btn-danger">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <vue-pager :conf.sync="pagerConf" ></vue-pager>
+        </div>
+    </div>
+
+
+
+    <div id="bannerModal" style="width: 580px"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">
+                <span id="model_title" v-if="!edit_list">添加</span>图片
+                <span  v-else>编辑</span>图片
+            </h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" id="bannerForm">
+                <table class="table" id="model_table">
+                    <tr>
+                        <td  style="text-align: right">排序：</td>
+                        <td v-if="!edit_list">
+                            <input type="number" value=""  name="sort" id="sort" @blur="check_num($event)">
+                        </td>
+                        <td v-else>
+                            <input type="number" :value="edit_list.sort" id="sort"  name="sort"  @blur="check_num($event)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td  style="text-align: right">链接：</td>
+                        <td v-if="!edit_list">
+                            <input type="text" value=""  name="links" id="links" >
+                        </td>
+                        <td v-else>
+                            <input type="text" :value="edit_list.links"  name="links" id="links" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td  style="text-align: right;">可见城市 ：</td>
+                        <td v-if="!edit_list">
+                            <select name="province" v-model="add_province">
+                                <option value="-1">省</option>
+                                <option :value="item.region_id" v-for="item in province">{{item.region_name}}</option>
+                            </select>
+                        </td>
+                        <td v-else>
+                            <select name="province" v-model="add_province">
+                                <option value="-1">省</option>
+                                <option :value="item.region_id" :selected="edit_list.province==item.region_id" v-for="item in province">{{item.region_name}}</option>
+                            </select>
+                        </td>
+                        <td v-if="!edit_list">
+                            <select name="city"  id="city">
+                                <option value="-1">市</option>
+                                <option :value="item.region_id" v-for="item in city">{{item.region_name}}</option>
+                            </select>
+                        </td>
+                        <td v-else>
+                            <select name="city"  id="city">
+                                <option value="">市</option>
+                                <option :value="item.region_id" :selected="edit_list.city==item.region_id" v-for="item in city">{{item.region_name}}</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right">图片：</td>
+                        <td v-if="!edit_list">
+                            <input type="hidden"  name="pic" value=""   id="pic" >
+                            <a href="javascript:void(0);"
+                               onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                                <img src="__TMPL__Public/assets/images/default-thumbnail.png"
+                                     onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="pic_preview"  id="pic_preview" width="80"
+                                     style="cursor: hand; height: 80px !important;"/>
+                            </a>
+                        </td>
+                        <td v-else>
+                            <input type="hidden"  name="pic" :value="edit_list.pic"  id="pic" >
+                            <a href="javascript:void(0);"
+                               onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                                <img :src="edit_list.pic"
+                                     onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="pic_preview"  id="pic_preview" width="80"
+                                     style="cursor: hand; height: 80px !important;"/>
+                            </a>
+                        </td>
+                        <td>建议尺寸 ：720*400</td>
+                    </tr>
+                </table>
+
+                <div class="alert alert-error hide" id="alert_error">
+                </div>
+                <input type="hidden" name="type" id="type" value="1">
+                <input type="hidden" name="id" id="edit_id" :value="edit_list.id"/>
+            </form>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn" id="bannerCancel" @click="close_model(1)">取消</button>
+            <button class="btn btn-success" id="bannerSubmit" @click="bannerSubmit">确定</button>
+        </div>
+    </div>
+
+
+
+</div>
+
+</body>
+</html>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script>
+   $(document).on('click','.nav-tabs li',function(){
+       $(this).addClass('active').siblings().removeClass('active');
+   })
+</script>
+<script>
+    Wind.use("artDialog", function () {});
+    var vm = new Vue({
+        el: '#banner_type1',
+        data: {
+            pagerConf: {
+                totalPage: 0,
+                currPage: 1,
+                prevShow: 3,
+                nextShow: 3,
+                pageRange: []
+            },
+            list: null,
+            province:[],
+            city:[],
+            search_city:'',
+            add_province:-1,
+            edit_list:'',
+            search:{
+                p:1,
+                province:'',
+                city:''
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.get_list();
+            },
+            'add_province':function(){
+                this.get_city(this.add_province)
+            },
+            'search.province':function(){
+                this.get_city(this.search.province,1)
+            }
+        },
+        methods:{
+            deleteBatch:function(id) {
+                if (id == '') {
+                    $(".checkbox").each(function () {
+                        if ($(this).prop("checked")) {
+                            id += $(this).val() + ',';
+                        }
+                    });
+                    if (id == '') {
+                        $.dialog({id: 'popup', lock: true, icon: "warning", content: "请至少选择一个图片", time: 2});
+                        return false;
+                    }
+                }
+                var url = "{:U('delete')}" + "/id/" + id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要删除这些模板吗？",
+                        ok: function () {
+                            $.getJSON(url, function (res) {
+                                if (res.status == 1) {
+                                    vm.get_list();
+                                    $.dialog({id: 'popup', lock: true, icon: "succeed", content: res.info, time: 2});
+                                } else {
+                                    $.dialog({id: 'popup', lock: true, icon: "error", content: res.info, time: 2});
+                                }
+                            })
+                            $(".checkbox").attr("checked",false);
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                })
+            },
+            mySearch:function(){
+                this.pagerConf.currPage = 1;
+                this.get_list();
+            },
+            get_list:function(from){
+                var data = this.search;
+                data.type = $('#type').val();
+                data.p = from == undefined ? this.pagerConf.currPage : 1;
+                $.getJSON("{:U('index')}",data,function(res){
+                    if(res){
+                        vm.list = res.list;
+                        vm.pagerConf.totalPage = res.total_page
+                    }
+                })
+            },
+            delete_one:function(id){
+                var url = "{:U('delete')}" + "/id/" + id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要删除吗？",
+                        ok: function () {
+                            $.getJSON(url, function (res) {
+                                if (res.status == 1) {
+                                    vm.get_list();
+                                    $.dialog({id: 'popup', lock: true, icon: "succeed", content: res.info, time: 2});
+                                } else {
+                                    $.dialog({id: 'popup', lock: true, icon: "error", content: res.info, time: 2});
+                                }
+                            })
+                            $(".checkbox").removeAttr("checked");
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                })
+            },
+            //全选
+            select:function () {
+                if($(".select").attr('checked')){
+                    $(".checkbox").attr("checked",true);
+                }else{
+                    $(".checkbox").attr("checked",false);
+                }
+            },
+            get_province:function(){
+                $.getJSON("{:U('get_province')}",'',function(res){
+                    if(res){
+                        vm.province = res.info
+                    }
+                })
+            },
+            get_city:function(id,bool){
+                $.getJSON("{:U('get_all_city')}",{id:id},function(res){
+                    if(res){
+                        if(bool){
+                            vm.search_city = res.info;
+                        }else {
+                            vm.city = res.info
+                        }
+                    }
+                });
+            },
+            close_model:function(){
+                $("#bannerModal").modal('hide');
+                vm.add_province = -1;
+                vm.edit_list = '';
+            },
+            show_model:function(){
+                vm.add_province = -1;
+                $('#city').val('-1');
+                $('#sort').val('');
+                $('#links').val('');
+                $("#pic").val("");
+                $("#pic_preview").attr('src',"");
+                $("#bannerModal").modal('show');
+            },
+            bannerSubmit:function(){
+                var a = $('#sort').val();
+                var re = /^[0-9]*[1-9][0-9]*$/ ;
+                if(!re.exec(a)){
+                    $.dialog({id: 'popup', lock: true, icon: "error", content:'排序必须是正整数', time:1});
+                    return false;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{:U('Banner/add_banner')}",
+                    dataType: 'json',
+                    data: $("#bannerForm").serialize(),
+                    success: function (res) {
+                        if(res.status==1){
+                            $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 1});
+                            vm.get_list();
+                            $("#bannerModal").modal('hide');
+                            vm.edit_list = '';
+                        }else{
+                            $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 1});
+                        }
+                    }
+                })
+            },
+            check_num:function(e){
+                var num = $(e.target).val();
+                var re = /^[0-9]*[1-9][0-9]*$/ ;
+                if(!re.exec(num)){
+                    $.dialog({id: 'popup', lock: true, icon: "error", content:'数量必须是正整数', time: 1});
+                }
+            },
+            edit_info:function(id){
+                $("#bannerModal").modal('show');
+                $.getJSON("{:U('get_info')}",{id:id},function(res){
+                    vm.edit_list = res.list;
+                    vm.add_province = res.list.province;
+                    vm.add_city = res.list.city;
+                    vm.id = res.id;
+                })
+            }
+        },
+        created:function(){
+            this.get_list();
+            this.get_province();
+        }
+
+
+    });
+
+    function thumb_images2(uploadid, returnid) {
+        //取得iframe对象
+        var d = uploadid.iframe.contentWindow;
+        //取得选择的图片
+        var in_content = d.$("#att-status").html().substring(1);
+        if (in_content == '') return false;
+        if (!IsImg(in_content)) {
+            isalert('选择的类型必须为图片类型！');
+            return false;
+        }
+        $("#pic").val(in_content);
+        $("#pic_preview").attr('src',in_content);
+    }
+
+
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>

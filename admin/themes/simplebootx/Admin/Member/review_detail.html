@@ -1,0 +1,218 @@
+<admintpl file="header" />
+<style type="text/css">
+    [v-cloak] {display: none;}
+    .controls th{text-align:center;}
+    .controls td{text-align:center;}
+    .piclist,.piclist li{ margin: 0px; padding: 0px; list-style: none}
+    .piclist li{float: left; width: 120px;  height: 120px;
+        margin: 10px;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="htmlId">
+    <ul class="nav nav-tabs">
+        <li><a href="javascript:history.back()">审核列表</a></li>
+        <li class="active"><a>审核<if condition="$info['review']['type']==1">入驻机构<else/>通讯员</if>详情</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="detail">
+            <table class="table">
+                <tr>
+                    <td rowspan="3"><img src="{$info.headimg}" width="80" height="80" style="height: 80px;"></td>
+                    <td>用户名：{$info.username}</td>
+                    <td>电话：{$info.mobile}</td>
+                    <td>积分：{$info.integral}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>性别：{$info.sex|sex}</td>
+                    <td>年龄：{$info.birthday|birthday}</td>
+                    <td>区域：{$info.city_name}</td>
+                    <td></td>
+                </tr>
+                <tr>
+
+                    <td>身份：{$info.type|type_name}</td>
+                    <td>真实姓名：{$info.name}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table class="table">
+                <tr>
+                    <th>个人简介：</th>
+                </tr>
+                <tr>
+                    <td>{$info.content}</td>
+                </tr>
+            </table>
+            <table class="table">
+                <!--<tr>-->
+                    <!--<td>真实姓名：{$info.review.name}</td>-->
+                <!--</tr>-->
+                <if condition="$info['review']['type'] eq 1">
+                    <tr>
+                        <td>机构名称：{$info.review.company_name}</td>
+                    </tr>
+                    <tr>
+                        <td>地址：{$info.review.address}</td>
+                    </tr>
+                    <tr>
+                        <td>机构简介：{$info.review.content}</td>
+                    </tr>
+                </if>
+                <tr>
+                    <td>审核资料（凭证）</td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul class="piclist">
+                            <li><a href="{$info.review.id_card_pic_z}" target="_blank"><img src="{$info.review.id_card_pic_z}" width="120" height="120" style="height: 120px;width: 120px;max-width: none"></a></li>
+                            <li><a href="{$info.review.id_card_pic_f}" target="_blank"><img src="{$info.review.id_card_pic_f}" width="120" height="120" style="height: 120px;width: 120px;max-width: none"></a></li>
+                            <if condition="$info['review']['type'] eq 1">
+                                <!--<li><a href="{$info.review.company_logo}" target="_blank"><img src="{$info.review.company_logo}" width="120" height="120" style="height: 120px;width: 120px;max-width: none"></a></li>-->
+                                <li><a href="{$info.review.jgsqs}" target="_blank"><img src="{$info.review.jgsqs}" width="120" height="120" style="height: 120px;width: 120px;max-width: none"></a></li>
+                            </if>
+                        </ul>
+
+                    </td>
+                </tr>
+                <if condition="$info['review']['type'] eq 1">
+                <tr>
+                    <td>机构LOGO:</td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul class="piclist">
+                            <li><a href="{$info.review.company_logo}" target="_blank"><img src="{$info.review.company_logo}" width="120" height="120" style="height: 120px;width: 120px;max-width: none"></a></li>
+                        </ul>
+
+                    </td>
+                </tr>
+                </if>
+            </table>
+
+
+            <input value="通过" type="button"  class="btn btn-info" @click="tongyi({$info.review.id})" />
+            <input value="拒绝" type="button" @click="jujue({$info.review.id})" class="btn btn-warning" />
+        </div>
+
+
+    </div>
+
+</div>
+<div id="integralModal"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">拒绝审核</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" id="integralForm">
+            <table class="table">
+                <tr>
+                    <td>拒绝原因：</td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea type="text" value="" id="note" name="note">
+
+                        </textarea>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="alert alert-error hide" id="alert_error">
+
+            </div>
+            <input type="hidden" name="id" id="edit_member_id"/>
+        </form>
+    </div>
+    <div class="modal-footer text-center">
+        <button class="btn" id="integralCancel">取消</button>
+        <button class="btn btn-success" id="integralSubmit">确定</button>
+    </div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    $("#integralCancel").click(function(){
+        $("#edit_member_id").val('');
+        $("#edit_integral").val('');
+        $('#integralModal').modal('hide');
+    });
+    $("#integralSubmit").click(function(){
+        $.ajax({
+            type: 'POST',
+            url: "{:U('cancel_review')}",
+            dataType: 'json',
+            data: $("#integralForm").serialize(),
+            success: function (res) {
+                if(res.status==1){
+                    $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                    //vm.getData();
+                    $('#integralModal').modal('hide');
+                    $("#alert_error").hide();
+                    $("#alert_error").text('');
+                    $("#edit_member_id").val('');
+                    $("#note").val('');
+                }else{
+                    //$.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                    $("#alert_error").show();
+                    $("#alert_error").text(res.info);
+                }
+            },
+        });
+    });
+    Wind.use("artDialog", function () {});
+    var vm = new Vue({
+        el:"#htmlId",
+        data:{
+        },
+        watch:{
+
+        },
+        methods:{
+            //拒绝
+            jujue:function(id){
+                $("#integralModal").modal();
+                $("#edit_member_id").val(id);
+                $("#note").val('');
+            },
+            //同意
+            tongyi:function(id){
+                var url = "{:U('member_review')}"+"/id/"+id;
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: "确定要同意审核吗？",
+                        ok: function () {
+                            $.getJSON(url,function (res) {
+                                if(res.status == 1){
+//                                    /vm.getData();
+                                    $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                                    setTimeout(function(){
+                                        history.back();
+                                    },2000);
+                                }else{
+                                    $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                                }
+                            })
+                        },
+                        cancelVal: '关闭',
+                        cancel: true
+                    });
+                })
+            },
+        },
+        created: function () {
+            //this.infoSearch(true);
+            // this.getPaymentlogs(true);
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li><a style="cursor: pointer;" class="add-btn-s">添加标签</a></li>
+    </ul>
+
+    <table class="table table-hover table-bordered table-list" style="width:100%;">
+
+    </table>
+    <table  class="table table-hover table-bordered table-list">
+        <thead>
+        <tr id="tr">
+            <!--<th style="width: 5%"><input style="margin-top:0px" v-on:click="select()" class="select" type="checkbox">全选</th>-->
+            <th>标签名称</th>
+            <th>添加时间</th>
+            <th>关注用户</th>
+            <th>医生数量</th>
+            <th>文章数量</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="vo">
+        <tr >
+            <!--<td><input  style="margin-top:0px" class="checkbox" type="checkbox" :value="item.id"></td>-->
+            <td>{$vo.name}</td>
+            <td>{$vo.t}</td>
+            <td>{$vo.users}</td>
+            <td>{$vo.docts}</td>
+            <td>{$vo.artis}</td>
+            <td>{$vo.statusText}</td>
+            <td>
+                <a class="btn btn-small btn-info editbtn" data-status="{$vo.status}" data-id="{$vo.id}" data-name="{$vo.name}">编辑</a>
+                <a href="/Admin/Setting/labinfo/id/{$vo.id}" class="btn btn-small">详情</a>
+                <a href="javascript:void(0);" data-id="{$vo.id}" class="delbtn btn btn-small btn-warning">删除</a>
+            </td>
+        </tr>
+        </volist>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf" ></vue-pager>
+    <input type="hidden" value="1" id="currPage" />
+</div>
+
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加标签</h4>
+            </div>
+            <div class="modal-body">
+                名称:
+                <input type="text" class="name"> （最多四个字）
+            </div>
+            <div class="modal-body">
+                状态: &nbsp&nbsp <input name="checkbox" class="status" type="checkbox" value="1">是否显示
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="addbtn" class="btn btn-primary">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" class="id" value="">
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+
+
+<script type="text/javascript">
+    $(function ()
+    {
+        $('.add-btn-s').click(function () {
+            $('.name').val('');
+            $('.id').val('');
+            $(".status").removeAttr("checked","true");
+            $('#myModal').modal();
+        });
+
+        $('.editbtn').click(function ()
+        {
+            $('#myModalLabel').html('编辑标签');
+            $('.btn-primary').html('编辑');
+            $('.name').val($(this).attr('data-name'));
+            $('.id').val($(this).attr('data-id'));
+            var status = $(this).attr('data-status');
+            if(status == 1)
+            {
+                $(".status").attr("checked","true");
+            }else
+            {
+                $(".status").removeAttr("checked","true");
+            }
+            $('#myModal').modal();
+        });
+
+
+       $('#addbtn').click(function () {
+           var name = $('.name').val();
+           var status = $('.status').is(':checked');
+           var id =  $('.id').val();
+           if(status == true)
+           {
+               status = 1;
+           }else
+           {
+               status = 0;
+           }
+           if(name == '')
+           {
+               go_alert('请输入名称');
+           }else
+           {
+               $.ajax({
+                   type: 'POST',
+                   url: "{:U('lablist')}",
+                   data: {name:name,status:status,id:id},
+                   success: function (e)
+                   {
+                        if(e.status == 1)
+                        {
+                            window.location.reload();
+                        }else
+                        {
+                            Wind.use('artDialog', function () {
+                                art.dialog({
+                                    content:e.info,
+                                    icon: 'error',
+                                    id: 'popup',
+                                    lock: true,
+                                    time: 2
+                                });
+
+                            });
+                        }
+                   }
+               });
+           }
+
+
+           // alert(status);
+
+       });
+
+       $('.delbtn').click(function () {
+           var id = $(this).attr('data-id');
+
+           Wind.use('artDialog', function () {
+               art.dialog({
+                   title: false,
+                   icon: 'question',
+                   content: "确定要删除吗？",
+                   ok: function ()
+                   {
+                       $.ajax({
+                           type: 'POST',
+                           url: "{:U('deletelab')}",
+                           data: {id:id},
+                           success: function (e) {
+                               if(e.status == 1)
+                               {
+                                   window.location.reload();
+                               }else
+                               {
+                                   Wind.use('artDialog', function () {
+                                       art.dialog({
+                                           content:e.info,
+                                           icon: 'error',
+                                           id: 'popup',
+                                           lock: true,
+                                           time: 2
+                                       });
+
+                                   });
+                               }
+                           }
+                       });
+                   },
+                   cancelVal: '关闭',
+                   cancel: true
+               });
+           });
+       });
+    });
+
+
+
+</script>
+</body>
+</html>

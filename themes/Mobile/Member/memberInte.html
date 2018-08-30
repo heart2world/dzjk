@@ -1,0 +1,93 @@
+<include file="Public:header" title="番茄医学"/>
+<body>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">番茄医学</span>
+    </div>
+
+    <div class="w-flexitem1 w-section  back-f7f7f7 w-sectionD">
+        <div class="my_jifen">
+            <div class="top_con p_relative">
+                <img src="__TMPL__Public/Mobile/image/slice/bg1.png"/>
+                <div class="p_mid  text-center">
+                    <p>我的积分</p>
+                    <h4>{$info.inte}</h4>
+                </div>
+            </div>
+            <h4 class="jifen_title p_both15">
+                积分明细
+            </h4>
+            <div class="jifen_history p_both15 back-fff" id="datalist">
+
+            </div>
+        </div>
+        <div class="noData" style="display: none;">暂无数据</div>
+    </div>
+</section>
+</body>
+<include file="Public:js"/>
+</html>
+
+<script type="text/javascript">
+    urlJump();
+    function urlJump()
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/member/memberInte',
+            data: {p:1},
+            success: function (e) {
+                if(e)
+                {
+                    $('#datalist').html(e);
+                }else{
+                    $('.noData').show();
+                    $('#datalist').html('');
+                }
+            },
+        });
+    }
+    $(".w-sectionD").on('scroll',function()
+    {
+        var nScrollHight = 0;
+        var nScrollTop = 0;
+        var nDivHight = $(".w-sectionD").height();
+        nScrollHight = $(this)[0].scrollHeight;
+        nScrollTop = $(this)[0].scrollTop;
+        var paddingBottom = parseInt($(this).css('padding-bottom')), paddingTop = parseInt($(this).css('padding-top'));
+        if (nScrollTop + paddingBottom + paddingTop + nDivHight >= nScrollHight - 10) {
+            urlJumpMore();
+        }
+    });
+    var isget = true;
+    var page = 1;
+    function urlJumpMore()
+    {
+        if(isget)
+        {
+            isget = false;
+            page = parseInt(page) +1;
+            var type = $('.type').val();
+            $.ajax({
+                type: 'POST',
+                url: '/member/memberInte',
+                data: {p:page},
+                success: function (e) {
+                    if(e)
+                    {
+                        isget = true;
+                        $('#datalist').append(e);
+                    }else{
+                        $('#datalist').append('<li style="display: block;text-align:center;" class="loadMore">没有更多了...</li>');
+                        isget = false;
+                    }
+                },
+            });
+        }
+    }
+
+
+
+</script>

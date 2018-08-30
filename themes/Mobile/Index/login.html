@@ -1,0 +1,167 @@
+<include file="Public:header" title="番茄医学"/>
+<style>.login_page{padding:0}</style>
+<body>
+<section class="flex_column w-height100">
+    <php>if(!is_weixin()){</php>
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a href="javascritp:;" class="headRight"></a>
+        <span class="headTit">番茄医学</span>
+    </div>
+    <php>}</php>
+    <div class="w-flexitem1 w-section">
+        <div class="login_page  text-center">
+            <!--<div class="login_default">
+
+                <a href="javascript:;">
+                    <img src="/logo.png">
+                    &lt;!&ndash;<p>用户登录</p>&ndash;&gt;
+                    <p></p>
+                </a>
+            </div>-->
+            <!--<div class="dian_title"><span>或者,你可以</span></div>-->
+            <div class="login_default p-t-25" >
+
+                <a class="wx_login" onclick="">
+                    <img src="__TMPL__Public/Mobile/image/slice/weixin1.png">
+                    <p style="font-size:14px;">微信快速登录</p>
+                </a>
+            </div>
+
+            <div class="agree_do l-h-06rem" style="font-size:14px;">
+                登录即表示您同意<a class="showmb">《番茄医学用户服务协议》</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+<style type="text/css">
+    .maskBox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.8);
+        z-index: 1500;
+    }
+    .hide {
+        display: none;
+    }
+    .reserveCtt {
+        height: 90% !important;
+        width: calc(100% - .6rem);
+    }
+    .maskCenter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .reserveCtt h2 {
+        padding: .2rem;
+        background-color: #f8f8f8;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    .reserveCtt a {
+        display: block;
+        border-top: 1px solid #eee;
+        padding: .2rem;
+        text-align: center;
+        color: #666;
+        background-color: #f8f8f8;
+    }
+</style>
+<div class="maskBox hide" style="display:none;">
+    <div class="maskCenter reserveCtt w-section flex_column back-fff">
+        <h2>用户服务协议</h2>
+        <div class="w-flexitem1 w-sectionD">
+            <div class="richText w-padding03">{$content}</div>
+        </div>
+        <a   id="read" href="javascript:;">阅读并同意</a>
+        <a   class="qxBtn"   href="javascript:;">取消</a>
+    </div>
+</div>
+
+
+
+</body>
+</html>
+<include file="Public:js"/>
+<script type="text/javascript">
+    var tiaourl="{$Think.session.tiaourl}";
+    tiaourl=tiaourl?tiaourl:'/Member/index';
+   // alert(tiaourl)
+    $('#read').click(function () {
+        var checked = $("input[type='checkbox']").is(':checked');
+        if(checked == false)
+        {
+            $("input[type='checkbox']").prop('checked','checked');
+        }
+        $('.maskBox').hide();
+    });
+
+    $('.showmb').click(function () {
+        $('.maskBox').show();
+    });
+
+    $('.qxBtn').click(function () {
+        $('.maskBox').hide();
+    });
+
+
+
+    $('.wx_login').click(function () {
+        //var domain = window.location.host;
+       // domain="http://"+domain+"/Index/mnologin";
+       // alert(domain);  alert(tiaourl);
+        WebViewJavascriptBridge.wx_auth();
+    })
+
+
+
+
+    function wx_auth_back(app_openid,nickname,avatar,prov,city)
+    {
+        var domain = "/Member/index";
+        $.ajax({
+            type: 'POST',
+            url: '/Public/app_wx_login',
+            data: {app_openid:app_openid,nickname:nickname,avatar:avatar,prov:prov,city:city},
+            success: function (e) {
+
+                if(e.status == 1)
+                {
+
+                    localStorage.app_openid = app_openid;
+
+                    if(e.info == 'nomobile')
+                    {
+                        location.href = '/Member/bindPhone';
+                    }else if(e.info == 'ok')
+                    {
+                        if(domain==tiaourl){
+                             location.href = tiaourl;
+                        }else{
+                            WebViewJavascriptBridge.reloadAction();
+                            WebViewJavascriptBridge.back();
+                        }
+                       // location.href = tiaourl;
+
+                    }
+
+
+                }
+            },
+        });
+    }
+</script>
+
+

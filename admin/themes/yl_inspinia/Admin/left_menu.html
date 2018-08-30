@@ -1,0 +1,66 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span>
+                        <if condition="$admin['avatar']">
+                            <img alt="image" class="img-circle" src="{:sp_get_user_avatar_url($admin['avatar'])}" alt="{$admin.user_login}"/>
+                        <else />
+                            <img alt="image" class="img-circle" src="__TMPL__Public/img/profile_small.jpg" alt="{$admin.user_login}"/>
+                        </if>
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <span class="clear"> <span class="block m-t-xs">
+                                <strong class="font-bold">
+                                    <php>echo empty($admin['user_nicename'])?$admin['user_login']:$admin['user_nicename'];</php>
+                                </strong>
+                             </span> <span class="text-muted text-xs block">管理员 <b class="caret"></b></span> </span> </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="{:U('user/userinfo')}">个人资料</a></li>
+                        <li><a href="contacts.html">联系方式</a></li>
+                        <li><a href="mailbox.html">邮箱</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{:U('Public/logout')}">退出登录</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    菜单
+                </div>
+            </li>
+
+            <volist name="admin_menu" id="first_menu">
+                <li>
+                <if condition="!$first_menu['items']">
+                    <a href="javascript:openapp('{$first_menu.url}','{$first_menu.id}','{$first_menu.name}',true);"><i class="fa fa-{$first_menu.icon}"></i> <span class="nav-label">{$first_menu.name}</span></a>
+                <else/>
+                    <a href="javascript:openapp('{$first_menu.url}','{$first_menu.id}','{$first_menu.name}',true);"><i class="fa fa-{$first_menu.icon}"></i> <span class="nav-label">{$first_menu.name} </span>
+                        <span class="fa arrow"></span>
+                    </a>
+                <ul class="nav nav-second-level collapse">
+                    <volist name="first_menu['items']" id="two_menu">
+                    <li>
+                        <if condition="!$two_menu['items']">
+                            <a href="javascript:openapp('{$two_menu.url}','{$two_menu.id}','{$two_menu.name}',true);"><i class="fa fa-flask"></i> <span class="nav-label">{$two_menu.name}</span></a>
+                        <else/>
+                            <a href="javascript:;">{$two_menu.name} <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                            <volist name="two_menu" id="three_menu">
+                            <li>
+                                <a href="index.html#">{$three_menu.name}</a>
+                            </li>
+                            </volist>
+                        </ul>
+                        </if>
+                    </li>
+                    </volist>
+                </ul>
+                </if>
+            </li>
+            </volist>
+
+
+        </ul>
+
+    </div>
+</nav>

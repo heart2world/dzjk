@@ -1,0 +1,110 @@
+<admintpl file="header"/>
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('Auth/index')}">角色管理</a></li>
+			<li class="active"><a ><if condition="ACTION_NAME eq 'roleadd'">添加<else/>编辑</if>角色</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">角色名称</label>
+					<div class="controls">
+						<input type="text" name="title" value="{$info.title}" id="rolename"/>
+						<span class="form-required">*</span>
+					</div>
+				</div>
+                <div class="control-group">
+                    <label class="control-label">备注</label>
+                    <div class="controls">
+                        <input type="text" name="note" value="{$info.note}" id="note"/>
+
+                    </div>
+                </div>
+				<div class="control-group" style="display: none">
+					<label class="control-label">归属应用</label>
+					<div class="controls">
+						<select class="select_2" name="type" id="sel_type"  >
+							<option value="1"  <if condition="$info.type eq 1"> selected</if>>后台</option>
+							<!--<option value="0" <if condition="$info.type eq 0"> selected</if>>前台</option>-->
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">权限选择</label>
+					<div class="controls">
+						<div class="table_full">
+							<table width="100%" cellspacing="0" id="dnd-example">
+								<tbody>
+								{$categorys}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+				<a class="btn" href="{:U('Auth/index')}">取消</a>
+			</div>
+			<input type="hidden" name="id" value="{$info.id}">
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+<script>
+	function show_hide_role_node(type){
+		$(".type_1").parent().hide();
+		$(".type_0").parent().hide();
+		$(".type_"+type).parent().show();
+		var sel_type=type==1?0:1;
+		$(".type_"+sel_type).prop('checked',false);
+	}
+	$(document).ready(function () {
+		Wind.css('treeTable');
+		Wind.use('treeTable', function () {
+			$("#dnd-example").treeTable({
+				indent: 20
+			});
+		});
+		$("#sel_type").change(function(){
+			var type=$(this).val();
+			show_hide_role_node(type);
+		});
+		var type=$("#sel_type").val();
+		show_hide_role_node(type);
+	});
+	function checknode(obj) {
+		var chk = $("input[type='checkbox']");
+		var count = chk.length;
+		var num = chk.index(obj);
+		var level_top = level_bottom = chk.eq(num).attr('level');
+		for (var i = num; i >= 0; i--) {
+			var le = chk.eq(i).attr('level');
+			if (eval(le) < eval(level_top)) {
+				chk.eq(i).attr("checked", true);
+				var level_top = level_top - 1;
+			}
+		}
+		for (var j = num + 1; j < count; j++) {
+			var le = chk.eq(j).attr('level');
+			if (chk.eq(num).attr("checked") == "checked") {
+				if (eval(le) > eval(level_bottom)){
+					chk.eq(j).attr("checked", true);
+				}
+				else if (eval(le) == eval(level_bottom)){
+					break;
+				}
+			} else {
+				if (eval(le) > eval(level_bottom)){
+					chk.eq(j).attr("checked", false);
+				}else if(eval(le) == eval(level_bottom)){
+					break;
+				}
+			}
+		}
+	}
+</script>
+</body>
+</html>

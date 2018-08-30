@@ -1,0 +1,45 @@
+<admintpl file="header"/>
+
+<body class="gray-bg">
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name">EHE</h1>
+
+        </div>
+        <h3>{:L('ADMIN_CENTER')}后台管理系统</h3>
+        <!--<p style="display: none;">Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.-->
+            <!--&lt;!&ndash;Continually expanded and constantly improved Inspinia Admin Them (IN+)&ndash;&gt;-->
+        <!--</p>-->
+        <p>请登录后操作!</p>
+        <form class="m-t js-ajax-form" role="form" id="login_form" action="{:U('Public/dologin')}" method="post">
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="账号" required="">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="密码" required="">
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" name="verify" type="text" placeholder="验证码" required>
+                    <div class="input-group-btn">
+                        <img id="checkcode" title="点击刷新"
+                             style="cursor: pointer"
+                             src="/index.php?g=api&m=checkcode&a=index&length=4&font_size=14&width=128&height=34&use_noise=1&use_curve=0"
+                             onclick="this.src='/index.php?g=api&m=checkcode&a=index&length=4&font_size=14&width=128&height=34&use_noise=1&use_curve=0&time='+Math.random();"    >
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b js-ajax-submit">登录</button>
+
+            <!--<a href="login.html#"><small>Forgot password?</small></a>-->
+            <!--<p class="text-muted text-center"><small>Do not have an account?</small></p>-->
+            <!--<a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>-->
+        </form>
+        <p class="m-t"> <small>copyright ehecd.com &copy; 2018</small> </p>
+    </div>
+</div>
+<admintpl file="js"/>
+</body>
+</html>

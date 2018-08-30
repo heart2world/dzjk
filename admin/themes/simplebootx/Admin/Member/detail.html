@@ -1,0 +1,215 @@
+<admintpl file="header" />
+<style type="text/css">
+    [v-cloak] {display: none;}
+    .controls th{text-align:center;}
+    .controls td{text-align:center;}
+    .piclist,.piclist li{ margin: 0px; padding: 0px; list-style: none}
+    .piclist li{float: left; width: 120px;  height: 120px;
+        margin: 10px;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="htmlId">
+    <ul class="nav nav-tabs">
+        <li><a href="javascript:history.back()">会员列表</a></li>
+        <li class="active"><a>会员详情</a></li>
+    </ul>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#order" data-toggle="tab">订单信息</a></li>
+        <li ><a href="#detail" data-toggle="tab">用户信息</a></li>
+        <li><a href="#address" data-toggle="tab">收货地址</a></li>
+        <li><a href="#commission" data-toggle="tab">会员下线</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in " id="detail">
+            <div class="control-group">
+                <label v-cloak class="control-label">账号：{$info.mobile}</label>
+            </div>
+            <div class="control-group">
+                <label v-cloak class="control-label">昵称：{$info.nickname}</label>
+            </div>
+            <div class="control-group">
+                <label v-cloak class="control-label">头像：<img src="{$info.headimg}" width="80" style="height: 80px !important;"> </label>
+            </div>
+
+            <div class="control-group">
+                <label v-cloak class="control-label">注册时间：{$info.create_time|date='Y-m-d H:i:s',###}</label>
+            </div>
+            <div class="control-group">
+                <label v-cloak class="control-label">用户状态：<if condition="$info['status'] eq 1">正常<else/>冻结</if></label>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="address">
+            <table class="table table-hover table-bordered table-list">
+                <thead>
+                <tr>
+                    <th>地址</th>
+                    <th>收货人</th>
+                    <th>电话</th>
+                </tr>
+                <if condition="$info['address']">
+                    <volist name="info['address']" id="vo">
+                        <tr>
+                            <td>{$vo.province_name}{$vo.city_name}{$vo.area_name}{$vo.addr}</td>
+                            <td>{$vo.receiver}</td>
+                            <td>{$vo.tel}</td>
+                        </tr>
+                    </volist>
+                <else/>
+                    <tr>
+                        <td colspan="5" style="text-align: center">暂无收货地址</td>
+                    </tr>
+                </if>
+                </thead>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="commission">
+            <table class="table table-hover table-bordered table-list" style="width:100%;">
+                <thead>
+                <tr>
+                    <td  style="text-align: right">
+                        排序:
+                        <button type="button" @click="sort_order('')" class="btn btn-default btn-sm" :class="search.order==''?'btn-info':''">
+                            默认
+                        </button>
+                        <button type="button" @click="sort_order(search.order==''||search.order=='buy_amount_asc'?'buy_amount_desc':'buy_amount_asc')"
+                                class="btn btn-default btn-sm" :class="search.order=='buy_amount_asc'||search.order=='buy_amount_desc'?'btn-info':''">
+                            <i class="fa fa-sort-up" v-if="search.order=='buy_amount_asc'"></i>
+                            <i class="fa fa-sort-down" v-if="search.order=='buy_amount_desc'"></i> 购买金额
+                        </button>
+
+                        <button type="button" @click="sort_order(search.order==''||search.order=='total_dp_asc'?'total_dp_desc':'total_dp_asc')"
+                                class="btn btn-default btn-sm" :class="search.order=='total_dp_asc'||search.order=='total_dp_desc'?'btn-info':''">
+                            <i class="fa fa-sort-up" v-if="search.order=='total_dp_asc'"></i>
+                            <i class="fa fa-sort-down" v-if="search.order=='total_dp_desc'"></i> 获得佣金
+                        </button>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+
+            <table class="table table-hover table-bordered table-list">
+                <thead>
+                <tr><th>头像</th>
+                    <th>下线昵称</th>
+                    <th>下线账号</th>
+                    <th>下线级别</th>
+                    <th>购买总金额</th>
+                    <th>获得佣金</th>
+                </tr>
+                <tr v-cloak v-for="item in commission">
+                    <td v-if="item.headimg" ><img :src="item.headimg" alt="" style="width: 50px;border-radius:50% "></td>
+                    <td v-else>暂无头像</td>
+                    <td>{{item.nickname}}</td>
+                    <td>{{item.mobile}}</td>
+                    <td>{{item.parent_num}}</td>
+                    <td>{{item.buy_amount}}</td>
+                    <td>{{item.total_dp}}</td>
+                </tr>
+                </thead>
+            </table>
+            <vue-pager :conf.sync="commissionPagerConf"></vue-pager>
+        </div>
+        <div class="tab-pane fade in active" id="order">
+            <table class="table table-hover table-bordered table-list">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>订单号</th>
+                    <th>下单时间</th>
+                    <th>订单金额</th>
+                    <th>支付类型</th>
+                    <th>订单类型</th>
+                    <th>订单状态</th>
+                </tr>
+                <tr v-cloak v-for="item in order_list">
+                    <td>{{item.id}}</td>
+                    <td v-if="item.order_type==1">
+                        <a :href="'{:U('Order/mticket_info')}?id='+item.order_id" v-if="item.url_type==1">{{item.pay_sn}}</a>
+                        <a :href="'{:U('Order/integral_info')}?id='+item.order_id" v-if="item.url_type==2">{{item.pay_sn}}</a>
+                        <a :href="'{:U('Order/zyactive_info')}?id='+item.order_id" v-if="item.url_type==3">{{item.pay_sn}}</a>
+                        <a :href="'{:U('Order/business_info')}?id='+item.order_id" v-if="item.url_type==4">{{item.pay_sn}}</a>
+                        <a :href="'{:U('Order/goodsorder_info')}?id='+item.order_id" v-if="item.url_type==5">{{item.pay_sn}}</a>
+                    </td>
+                    <td v-else>{{item.pay_sn}}</td>
+                    <td>{{item.create_time}}</td>
+                    <td>{{item.pay_price}}</td>
+                    <td>{{item.pay_type}}</td>
+                    <td>{{item.order_type_}}</td>
+                    <td>{{item.status}}</td>
+                </tr>
+                </thead>
+            </table>
+            <vue-pager :conf.sync="orderPagerConf"></vue-pager>
+        </div>
+    </div>
+</div>
+
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var vm = new Vue({
+        el:"#htmlId",
+        data:{
+            search:{ order:'' },
+            commission:[],
+            order_list:[],
+            commissionPagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            orderPagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+    },
+    watch:{
+        'commissionPagerConf.currPage':function () {
+            this.getCommission(false);
+        },
+
+        'orderPagerConf.currPage':function () {
+            this.getOrder_list(false);
+        }
+    },
+    methods:{
+        sort_order:function(order){
+            vm.search.order=order;
+            this.getCommission(true);
+        },
+        getCommission: function (search) {
+            var p = search == true ? 1 : this.moneyPagerConf.currPage;
+            $.getJSON("{:U('child_list')}",{member_id:"{:I('get.member_id')}",p:p, order:this.search.order},function (data) {
+                if (data.status == 1) {
+                    vm.commission = data.info.list;
+                    vm.commissionPagerConf.totalPage = data.info.total_page;
+                }
+            })
+        },
+        getOrder_list: function (search) {
+            var p = search == true ? 1 : this.orderPagerConf.currPage;
+            $.getJSON("{:U('get_order_list')}",{member_id:"{:I('get.member_id')}",p:p},function (data) {
+                if (data.status == 1) {
+                    vm.order_list =data.info.list;
+                    vm.orderPagerConf.totalPage =  data.info.total_page;
+                }
+            })
+        }
+    },
+    created: function () {
+        //this.getInfo();
+        this.getCommission(true);
+        this.getOrder_list(true);
+    }
+    });
+</script>
+</body>
+</html>
+<script src="__PUBLIC__/js/common.js"></script>

@@ -1,0 +1,242 @@
+<admintpl file="header"/>
+<body>
+<div id="wrapper">
+    <admintpl file="left_menu"/>
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <admintpl file="top"/>
+        <div class="row content-tabs">
+            <button class="roll-nav roll-left J_tabLeft" id="task-pre"><i class="fa fa-backward"></i></button>
+            <nav class="page-tabs J_menuTabs" id="task-content">
+                <div class="page-tabs-content" id="task-content-inner">
+                    <a href="javascript:;" class="active J_menuTab noclose">首页</a>
+                    <a href="javascript:;" class="active J_menuTab" ><span>大发生大发的</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>大是的发送到</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab" ><span>是的发生大发啥的发生的发生大法师打发</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab" ><span>大法师</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>撒</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>试试</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>大是的发送到</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>大是的发送到</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>大是的发送到</span> <i class="fa fa-times-circle"></i></a>
+                    <a href="javascript:;" class="active J_menuTab"  ><span>大是的发送到</span> <i class="fa fa-times-circle"></i></a>
+
+                </div>
+            </nav>
+            <button class="roll-nav roll-right J_tabRight" id="task-next"><i class="fa fa-forward"></i></button>
+            <div class="btn-group roll-nav roll-right" id="task-action">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+
+                </button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive">
+                        <a>定位当前选项卡</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseActive">
+                        <a>关闭其他选项卡</a>
+                    </li>
+                    <li class="J_tabCloseAll">
+                        <a>关闭全部选项卡</a>
+                    </li>
+                    <li class="J_tabCloseOther">
+                        <a>关闭其他选项卡</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="roll-nav roll-right J_tabExit" id="refresh_wrapper" style="cursor: pointer"><i class="fa fa fa-refresh"></i> 刷新</a>
+        </div>
+        <div class="row J_mainContent" id="content-main">
+            <iframe class="J_iframe appiframe" name="iframe0" width="100%" height="100%" src="index_v1.html?v=4.1.0" frameborder="0" data-id="index_v1.html" seamless></iframe>
+        </div>
+        <admintpl file="footer"/>
+    </div>
+</div>
+<admintpl file="js"/>
+<script>
+    $loading=$("#Loading");
+    //var tabwidth=118;
+    var task_item_tpl ='<a href="javascript:;" class="active J_menuTab" ' +
+            ' ><span></span> <i class="fa fa-times-circle"></i></a>';
+
+    var appiframe_tpl='<iframe style="width:100%;height: 100%;" frameborder="0" class="J_iframe appiframe"></iframe>';
+    function get_tab_width(){
+        var width =0;
+        $.each($(".J_menuTabs a"),function(i,item){
+            width+=$(item).outerWidth(true);
+        });
+        return width;
+    }
+    function calcTaskitemsWidth() {
+        var width=get_tab_width();
+        $("#task-content-inner").width(width);
+        var hs_width=$(".content-tabs").width()-$("#task-pre").outerWidth(true)-$("#task-next").outerWidth(true)-$("#refresh_wrapper").outerWidth(true)-$("#task-action").outerWidth(true);
+        if (hs_width< width) {
+            $("#task-content").width(hs_width);
+            $("#task-next,#task-pre").show();
+        } else {
+            $("#task-next,#task-pre").hide();
+            $("#task-content").width(width);
+        }
+    }
+    calcTaskitemsWidth();
+    function close_current_app(){
+        closeapp($(".J_menuTabs .active"));
+    }
+
+    function closeapp($this){
+        if(!$this.is(".noclose")){
+            $this.prev().click();
+            $this.remove();
+            $("#appiframe-"+$this.attr("app-id")).remove();
+            calcTaskitemsWidth();
+            $("#task-next").click();
+        }
+
+    }
+
+    $("#task-next").click(function () {
+        var marginleft = $("#task-content-inner").css("margin-left");
+        marginleft = marginleft.replace("px", "");//已经滚动了多少可能是0或负数
+        marginleft = -marginleft;//负数转整数
+        var width = get_tab_width();//所有选项宽度和
+        var content_width = $("#task-content").width();//显示区域宽度
+        if((marginleft+content_width)<width){
+            var step=100;
+            if((width-marginleft-content_width) < step ){
+                step=(width-marginleft-content_width);
+            }
+            $("#task-content-inner").stop();
+            $("#task-content-inner").animate({ "margin-left":"-="+ step + "px" }, 300, 'swing');
+        }
+    });
+    $("#task-pre").click(function () {
+        var marginleft = $("#task-content-inner").css("margin-left");
+        marginleft = parseInt(marginleft.replace("px", ""));
+        var step=100;
+        if(marginleft<0){
+            if(-marginleft<step){
+                step=-marginleft;
+            }
+            $("#task-content-inner").stop();
+            $("#task-content-inner").animate({ "margin-left": "+="+step + "px" }, 300, 'swing');
+        }
+    });
+
+    $("body").on('click',".J_menuTabs a", function () {
+        openapp($(this).attr("app-url"), $(this).attr("app-id"), $(this).attr("app-name"));
+        return false;
+    });
+
+    $("body").on("dblclick",".J_menuTabs a",function () {
+        closeapp($(this));
+        return false;
+
+    });
+    $("body").on("click",".J_menuTabs a i",function () {
+        closeapp($(this).parent());
+        return false;
+    });
+
+
+
+
+    function openapp(url, appid, appname, refresh) {
+        var $app = $(".J_menuTabs a[app-id='"+appid+"']");
+        $(".J_menuTabs a.active").removeClass("active");
+        if ($app.length == 0) {
+            var task = $(task_item_tpl).attr("app-id", appid).attr("app-url",url).attr("app-name",appname).addClass("active");
+            task.find("span").text(appname);
+            task.attr("title",appname);
+            $(".J_menuTabs .page-tabs-content ").append(task);
+            $(".appiframe").hide();
+            $loading.show();
+            $appiframe=$(appiframe_tpl).attr("src",url).attr("id","appiframe-"+appid);
+            $appiframe.appendTo("#content-main");
+            $appiframe.load(function(){
+                $loading.hide();
+            });
+            calcTaskitemsWidth();
+        } else {
+            $app.addClass("active");
+            $(".appiframe").hide();
+            var $iframe=$("#appiframe-"+appid);
+            var src=$iframe.get(0).contentWindow.location.href;
+            src=src.substr(src.indexOf("://")+3);
+            if(refresh===true){
+                $loading.show();
+                $iframe.attr("src",url);
+                $iframe.load(function(){
+                    $loading.hide();
+                });
+            }
+            $iframe.show();
+        }
+
+        //
+        var itemoffset=0;
+        //当前选中的选项卡到之前的宽度
+        var width=0;
+        //所有选项的宽度
+        var index=$(".J_menuTabs a[app-id='"+appid+"']").index();
+
+        $.each($(".J_menuTabs a"),function(i,item){
+            if(i<=index){
+                itemoffset+=$(item).width();
+            }
+            width+=$(item).width();
+        });
+
+        var content_width = $("#task-content").width();
+        //显示区域宽度
+        //内容的宽度
+        var offset=itemoffset-content_width;
+        //选择的宽度和显示区域宽度差多少
+
+        var lesswidth = content_width - width;
+
+        var marginleft = $("#task-content-inner").css("margin-left");
+        marginleft =parseInt( marginleft.replace("px", "") );
+        var copymarginleft=marginleft;
+        if(offset>0){
+            //显示区域不够需要把内容向左移动
+            marginleft=marginleft>-offset?-offset:marginleft;
+        }else{
+            //显示区域够了，那么内容+已经移动的大于0,就移动0，
+            marginleft=itemoffset+marginleft>=0?marginleft:-itemoffset;
+        }
+
+        if(-itemoffset==marginleft){
+            marginleft = marginleft > 0 ? 0 : marginleft ;
+        }
+
+        //alert("cddd:"+(content_width-copymarginleft)+" dddd:"+(-itemoffset));
+        if(content_width-copymarginleft==itemoffset){
+            marginleft = marginleft <= lesswidth ? lesswidth : marginleft ;
+        }
+
+        $(".J_menuTabs .page-tabs-content ").animate({ "margin-left": marginleft + "px" }, 300, 'swing');
+
+    }
+    $(function(){
+        $(".J_tabCloseActive").click(function(){
+            close_current_app();
+        });
+        $("#refresh_wrapper").click(function(){
+            var $current_iframe=$("#content-main iframe:visible");
+            $loading.show();
+            $current_iframe[0].contentWindow.location.reload();
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

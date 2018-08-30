@@ -1,0 +1,325 @@
+<admintpl file="header" />
+<style>
+    .form-required{ color: red}
+    body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {margin:0;padding:0;-webkit-text-size-adjust: none}
+    h1, h2, h3, h4, h5, h6{font-size:12px;font-weight:normal}
+    body>div{margin:0 auto}
+    div {text-align:left}
+    a img {border:0}
+    body { color: #333; text-align: center; font: 12px "宋体"; }
+    ul, ol, li {list-style-type:none;vertical-align:0}
+    a {outline-style:none;color:#535353;text-decoration:none}
+    a:hover { color: #D40000; text-decoration: none}
+    .selectbox{width:600px;height:220px;margin:0px auto;}
+    .selectbox div{float:left;}
+    .selectbox .select-bar{padding:0 20px;}
+    .selectbox .select-bar select{width:200px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
+    .btn-bar{}
+    .btn-bar p{margin-top:16px;}
+    .btn-bar p .btn{width:50px;height:30px;cursor:pointer;font-family:simsun;font-size:14px;}
+    .spec-sub {
+        margin-right: 20px;
+        float: left;
+    }
+    .controls span{
+        margin-right: 10px;
+    }
+    .ueditorbox{
+        height: auto;
+    }
+    .ueditorbox .ued
+    {
+        width: 800px;
+        height: 500px;
+        overflow-y:scroll;
+        margin-bottom: 200px;
+    }
+    .delchildbox {
+        color: red;
+        cursor: pointer;
+    }
+    .inputboxlist{
+        width: 100px;
+    }
+    .addhybtn
+    {
+        display: inline-block;padding: 4px 12px;margin-bottom: 0;font-size: 14px;
+        line-height: 20px;color: #333;text-align: center;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.75);    vertical-align: middle;
+        cursor: pointer;
+        background-color: #2fa4e7;
+        color: #FFF;
+        margin-bottom: 1px;
+    }
+    .delchildbox {
+        color: red;
+        cursor: pointer;
+    }
+    #photos li{ float: left; margin: 10px;}
+    .left,.right{
+        margin-left: 10%;font-size: 14px;font-weight: normal;line-height: 20px;
+    }
+    .imglist{
+        width: 160px;
+        margin-left: 10px;
+    }
+    table{
+        font-size: 14px;font-weight: normal;line-height: 20px;
+        margin-left: 80px;
+    }
+    table td
+    {
+        height: 50px;
+        padding-left: 10px;
+        color: #333;
+        font-size: 14px;font-weight: normal;line-height: 20px;
+    }
+    .textTit{
+        text-align: right;
+        padding-left: 200px;
+    }
+    .control-group  .fristtd{
+        text-align: right;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="seckill">
+    <ul class="nav nav-tabs">
+        <li ><a href="javascript:history.back()">文章列表</a></li>
+        <li class="active"><a>文章详情</a></li>
+    </ul>
+    <form  class="form-horizontal"  method="post" @submit.prevent="submit_form">
+        <div class="control-group" >
+            <table>
+
+                <tr> <td class="fristtd">所属标签：</td> <td>{$info.label}</td></tr>
+                <tr> <td class="fristtd">文章性质：</td><td>{$info.isyc}</td><td class="textTit">浏览量:</td><td>{$info.shownum}</td> </tr>
+                <tr> <td class="fristtd">评论数量：</td><td>{$info.pls}</td><td class="textTit">点赞数量:</td><td>{$info.dzs}</td> </tr>
+
+            </table>
+        </div>
+    <div class="control-group" >
+        <label class="control-label">发布时间：</label>
+        <div class="controls">
+            <span>{$info.create_time}</span>
+        </div>
+    </div>
+    <div class="control-group" >
+        <label class="control-label">标题：</label>
+        <div class="controls">
+            <span>{$info.title}</span>
+        </div>
+    </div>
+    <div class="control-group" >
+        <label class="control-label">列表展示图：</label>
+        <div class="controls">
+
+            <volist name="info.piclist" id="pic">
+                <img class="imglist" src="{$pic}" alt="">
+            </volist>
+        </div>
+    </div>
+
+        <div class="control-group" >
+            <label class="control-label">内容：</label>
+            <div class="controls">
+                <span>{$info.content}</span>
+            </div>
+        </div>
+        <div class="control-group" >
+            <label class="control-label">关联广告：</label>
+            <div class="controls">
+                <span> </span>
+            </div>
+        </div>
+        <div class="control-group" >
+            <label class="control-label">全部评论：</label>
+            <div class="controls">
+                <style type="text/css">
+                    .commentList{
+                        border-bottom: 3px solid #F0F5F9;
+                        width: 60%;
+                        margin-bottom: 30px;
+                    }
+                    .commentList .lists
+                    {
+                        background-color: #F6F6F6;padding-bottom: 5px;padding-top: 5px;margin-top: 5px;width: 100%;
+                        margin-left: 20px;
+                    }
+                    .commentList a ,  .commentList span{
+                        margin-left: 10px;
+                    }
+                    .deleteArtiDq ,.deleteArti{
+                        cursor: pointer;
+                        color: red;
+                    }
+                    .lists .title{
+                        margin-top: 10px;
+                    }
+                </style>
+
+                <volist name="info.comment" id="comment">
+                    <div class="commentList"  >
+                        <div class="title">
+                            <span>{$comment['nickname']}:</span>
+                            <span>{$comment['content']}</span>
+                            <a data-id="{$comment['id']}" class="backArti">回复</a>
+                            <span><if condition="$comment['dzs'] gt 0">{$comment['dzs']}赞</if></span>
+                        </div>
+                        <if condition="$comment['lists'] neq null">
+                            <div class="lists" style="">
+                                <volist name="comment.lists" id="comments">
+                                    <div class="title">
+                                        <if condition="$comments['iszz'] eq 1">
+                                            <span style="color: #0b6cbc;">({$comments['nickname']}):</span>
+                                            <else/>
+                                            <span>{$comments['nickname']}:</span>
+                                        </if>
+
+                                        <span>{$comments['content']}</span>
+                                        <a data-id="{$comments['id']}" class="backArtiAs">回复</a>
+                                        <span> <if condition="$comments['dzs'] gt 0">{$comments['dzs']}赞</if></span>
+                                    </div>
+                                </volist>
+                            </div>
+                        </if>
+                    </div>
+                </volist>
+            </div>
+
+
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vue1.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<input type="hidden" class="aid" value="{$info['id']}">
+
+
+<input type="hidden" class="status" value="{$status}">
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">回复</h4>
+            </div>
+            <div class="modal-body">
+                <textarea name="" id="textar" cols="60" rows="10"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="sentBtn" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<input type="hidden" class="type" value="">
+<input type="hidden" class="aid" value="">
+<input type="hidden" class="id" value="">
+
+
+<script>
+    $(function () {
+        // 第一级回复
+        $('.backArti').click(function () {
+            var status = $('.status').val();
+            if (status == 0) {
+                $.dialog({id: 'popup', lock: true, icon: "warning", content: "账号已被冻结！不能进行此操作!", t: 2});
+                return false;
+
+            } else {
+                var id = $(this).attr('data-id');
+                var aid = $('.aid').val();
+                $('.id').val(id);
+                $('.aid').val(aid);
+                $('.type').val(2);
+                $('#myModal').modal('show');
+            }
+
+
+        });
+
+
+        // 子级回复
+        $('.backArtiAs').click(function () {
+            var status = $('.status').val();
+            if (status == 0) {
+                $.dialog({id: 'popup', lock: true, icon: "warning", content: "账号已被冻结！不能进行此操作!", t: 2});
+                return false;
+
+            } else {
+                var id = $(this).attr('data-id');
+                var aid = $('.aid').val();
+                $('.id').val(id);
+                $('.aid').val(aid);
+                $('.type').val(3);
+                $('#myModal').modal('show');
+            }
+        });
+
+
+        $('#sentBtn').click(function () {
+            var status = $('.status').val();
+            if (status == 0) {
+                $.dialog({id: 'popup', lock: true, icon: "warning", content: "账号已被冻结！不能进行此操作!", t: 2});
+                return false;
+
+            } else
+            {
+
+                var id = $('.id').val();
+                var aid = $('.aid').val();
+                var type = $('.type').val();
+                var textar = $('#textar').val();
+                $.ajax({
+                    url: "{:U('addComment')}",
+                    type: "POST",
+                    data: {id: id, aid: aid, type: type, textar: textar},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 1) {
+                            Wind.use('noty', 'noty', function () {
+                                var n = noty({
+                                    text: data.info,
+                                    type: 'success'
+                                });
+                            });
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000)
+                        } else {
+                            Wind.use('artDialog', function () {
+                                art.dialog({
+                                    content: data.info,
+                                    icon: 'error',
+                                    id: 'popup',
+                                    lock: true,
+                                    time: 2
+                                });
+                            })
+                        }
+                    }
+                })
+            }
+        });
+
+        
+    })
+
+
+    
+    
+
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>

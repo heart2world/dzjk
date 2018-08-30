@@ -1,0 +1,98 @@
+<admintpl file="header" />
+
+</head>
+
+<body>
+
+	<div class="wrap">
+
+		<ul class="nav nav-tabs">
+
+			<li><a href="{:U('user/index')}">{:L('ADMIN_USER_INDEX')}</a></li>
+
+			<li class="active"><a ><if condition="ACTION_NAME eq 'add'">添加<else/>编辑</if>后台用户</a></li>
+
+		</ul>
+
+		<form method="post" class="form-horizontal js-ajax-form" >
+
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">姓名</label>
+					<div class="controls">
+						<input type="text" name="user_nicename" value="{$user.user_nicename}">
+						<span style="color:red">*</span>
+					</div>
+				</div>
+				<div class="control-group"  >
+					<label class="control-label">手机号</label>
+					<div class="controls">
+						<input type="number" name="mobile" value="{$user.mobile}">
+						<span style="color:red">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">登录账号</label>
+					<div class="controls">
+						<if condition="ACTION_NAME eq 'add'">
+						<input type="text" name="user_login" value="{$user.user_login}">
+						<span style="color:red">*</span>
+						<else/>
+							{$user.user_login}
+						</if>
+					</div>
+				</div>
+				<input type="hidden" name="user_pass" value="123456">
+				<div class="control-group">
+					<label class="control-label">所属角色</label>
+					<div class="controls">
+						<select class="select" name="group_id" id="group_id">
+							<foreach name="roles" item="vo">
+								<option value="{$vo.id}"  <if condition="in_array($vo['id'],$group_list)">selected</if> >{$vo.title}</option>
+							</foreach>
+						</select>
+						<span style="color:red">*</span>
+					</div>
+				</div>
+					<!--<div class="control-group" id="admin_box">-->
+						<!--<label class="control-label">超级管理员</label>-->
+						<!--<div class="controls">-->
+							<!--<label class="checkbox inline"><input id="is_administrator" <if condition="$user['is_administrator'] eq 1">checked</if>-->
+								<!--value="1" type="checkbox" name="is_administrator">是</label>-->
+						<!--</div>-->
+					<!--</div>-->
+				<span style="color: red;margin-left: 14%;">新增操作员默认密码 123456</span>
+
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+
+			</div>
+            <if condition="ACTION_NAME neq 'add'">
+                <input type="hidden" name="id" value="{$user.id}" />
+            </if>
+
+		</form>
+
+	</div>
+
+	<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+<script>
+	function check_group_id(){
+		var group_id=$("#group_id").val();
+		if(group_id==19){
+			$("#admin_box").hide();
+			$("#is_administrator").prop("checked",false);
+		}else{
+			$("#admin_box").show();
+		}
+	}
+	$("#group_id").change(function(){
+		check_group_id();
+	});
+	check_group_id();
+</script>
+</html>

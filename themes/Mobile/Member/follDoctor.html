@@ -1,0 +1,110 @@
+<include file="Public:header" title="番茄医学"/>
+<style>
+    .left span{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 2rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
+<body>
+<section class="flex_column w-height100">
+    <div class="w-bgcolor44D397">
+        <include file="Public:back"/>
+        <a  href="javascritp:;" class="headRight"></a>
+        <span class="headTit">我的关注</span>
+    </div>
+
+    <div class="w-flexitem1 w-section w-sectionD">
+        <div class="my_guanzhu p_both15 back-fff" id="datalist">
+
+        </div>
+        <div style="display: none;" class="noData w-bgcolorFFF">暂无数据</div>
+    </div>
+</section>
+</body>
+</html>
+<include file="Public:js"/>
+<script type="text/javascript">
+
+    //到医生首页
+    function jumpDoctIndex(id) {
+
+        location.href = "/Doctor/index/id/"+id;
+
+    }
+    function qxgz(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Member/qxFoll',
+            data: {id:id},
+            success: function (e) {
+                if(e.status == 1)
+                {
+                     go_alert2(e.info);
+                    urlJump();
+                }else{
+                    go_alert2(e.info);
+                }
+            },
+        });
+    }
+    
+    urlJump();
+    function urlJump()
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/Member/follDoctor',
+            data: {p:1},
+            success: function (e) {
+                if(e)
+                {
+                    $('#datalist').html(e);
+                }else{
+                    $('.noData').show();
+                    $('#datalist').html('');
+                }
+            },
+        });
+    }
+    $(".w-sectionD").on('scroll',function()
+    {
+        var nScrollHight = 0;
+        var nScrollTop = 0;
+        var nDivHight = $(".w-sectionD").height();
+        nScrollHight = $(this)[0].scrollHeight;
+        nScrollTop = $(this)[0].scrollTop;
+        var paddingBottom = parseInt($(this).css('padding-bottom')), paddingTop = parseInt($(this).css('padding-top'));
+        if (nScrollTop + paddingBottom + paddingTop + nDivHight >= nScrollHight - 10) {
+            urlJumpMore();
+        }
+    });
+    var isget = true;
+    var page = 1;
+    function urlJumpMore()
+    {
+        if(isget)
+        {
+            isget = false;
+            page = parseInt(page) +1;
+            $.ajax({
+                type: 'POST',
+                url: '/Member/follDoctor',
+                data: {p:page},
+                success: function (e) {
+                    if(e)
+                    {
+                        isget = true;
+                        $('#datalist').append(e);
+                    }else{
+                        $('#datalist').append('<li style="display: block;text-align:center;" class="loadMore">没有更多了...</li>');
+                        isget = false;
+                    }
+                },
+            });
+        }
+    }
+</script>

@@ -1,0 +1,262 @@
+<admintpl file="header"/>
+<style>
+    .cl{ clear: both}
+    .ask_list,.ask_list li{ list-style-type: none; margin: 0px; padding: 0px;}
+    .ask_list li{ margin-top: 20px}
+    .scroll_content{ border: solid 1px #bfc6cb; width: 640px; margin: 0px auto; height:650px; overflow-y: auto; padding: 10px; position: relative}
+    .ask_list li .head{ float: left; width: 70px; height: 70px;}
+    .ask_list li .head img{ width: 70px; height:70px; border-radius: 35px;}
+    .ask_list li .ask_content{  float: right; width:550px; }
+    .ask_list li.ask_right .head{ float: right}
+    .ask_list li.ask_right .ask_content{ float: left}
+    .ask_list li .ask_content .time{ height: 30px; line-height: 30px;}
+    .ask_list li.ask_right .ask_content .time{ text-align: right}
+    .ask_list li .left_jiantou{ width: 20px; height: 20px; float: left; background:url(__PUBLIC__/assets/images/left_jiantou.png) no-repeat center;}
+    .ask_list li .content{ float: left;  border: solid 1px #065785; border-radius: 5px; padding: 10px;
+        height: auto !important; min-height: 18px; height: 18px;}
+    .ask_list li .content .text{ font-size: 14px; line-height: 22px}
+    .ask_list li .content .pic { text-align: left; margin-top:10px; }
+    .ask_list li .content .pic img{ width: 120px; height: 120px; }
+    .ask_list li.ask_right .left_jiantou{ float: right;background:url(__PUBLIC__/assets/images/right_jiantou.png) no-repeat center;}
+    .ask_list li.ask_right .content .pic{ text-align: right}
+    .ask_list li.ask_right .content{ float: right}
+    #loading{ width: 620px; text-align: center; position: absolute; left: 0px; top: 0px; height: 30px; line-height: 30px; z-index: 1}
+</style>
+</head>
+<body>
+<div id="seckill">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li><a href="javascript:history.back()">返回</a></li>
+            <li class="active"><a >聊天记录</a></li>
+        </ul>
+        <table class="table">
+            <tr>
+                <td><div class="scroll_content">
+                    <div id="loading" class="hide">{{search.loadContent}}</div>
+                    <div class="box_content">
+                        <ul class="ask_list">
+                            <li v-cloak v-for="item in list" :class="item.uid>0?'ask_right':''">
+                                <div class="head">
+                                    <img :src="item.headimg" v-if="item.uid==0" onerror="this.src='__PUBLIC__/images/headicon.png'">
+                                    <img src="__PUBLIC__/images/headicon.png" v-if="item.member_id==0"/>
+                                </div>
+                                <div class="ask_content">
+                                    <div class="time">{{item.create_time}}</div>
+                                    <div class="content_box">
+                                        <div class="left_jiantou"></div>
+                                        <div class="content">
+                                            <div class="text" v-if="item.content">
+                                                {{item.content}}
+                                            </div>
+                                            <div class="pic" v-if="item.pic_list">
+                                                <img :src="item.pic_list" >
+                                            </div>
+                                        </div>
+                                        <div class="cl"></div>
+                                    </div>
+                                </div>
+                                <div class="cl"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div></td>
+                <td>
+                    <form class="form-horizontal"  method="post" id="thisForm" style="margin-top:20px ">
+                    <div class="control-group">
+                        <label class="control-label">内容：</label>
+                        <div class="controls">
+                            <textarea  id="content" name="content" style="width: 240px; height: 80px"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group" id="upload_pic">
+                        <label class="control-label">上传图片：</label>
+                        <div class="controls">
+                            <input type="hidden"  name="pic_list" value=""  id="pic_list" >
+                            <a href="javascript:void(0);"
+                               onclick="flashupload('thumb_images', '附件上传','pic_list',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1920','kflog','','');return false;">
+                                <img onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" src=""  id="pic_list_preview" width="135" style="cursor: hand"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button  type="button" id="submit" class="btn btn-primary">回复</button>
+                    </div>
+                    <input id="kf_id" type="hidden" name="kf_id" value="{$kf_id}"  >
+                </form>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script type="text/javascript">
+    //单图上传
+    function thumb_images2(uploadid, returnid) {
+        //取得iframe对象
+        var d = uploadid.iframe.contentWindow;
+        //取得选择的图片
+        var in_content = d.$("#att-status").html().substring(1);
+        if (in_content == '') return false;
+        if (!IsImg(in_content)) {
+            isalert('选择的类型必须为图片类型！');
+            return false;
+        }
+        $("#pic_list").val(in_content);
+        $("#pic_list_preview").attr('src',in_content);
+    }
+    Wind.use("artDialog", function () {
+    });
+    window.onload = function () {
+        msg_list_loading = false;
+        var vm = new Vue({
+            el: "#seckill",
+            data: {
+                list: [],
+                last_message_id:0,
+                search: {
+                    p: 0,
+                    totalPage: 1,
+                    loadContent: '加载中'
+                }
+            },
+            methods: {
+                getData: function (search) {
+                    if (search) {
+                        this.list = [];
+                        this.search.p = 0;
+                        this.search.totalPage = 1;
+                    }
+                    msg_list_loading = true;
+                    if (this.search.p < this.search.totalPage) {
+                        $("#loading").show();
+                        var p = this.search.p == 0 ? this.search.p = 1 : this.search.p += 1;
+                        $.getJSON("{:U('detail')}/t/" + new Date().getTime(), {
+                            p: p,
+                            kf_id: "{$kf_id}"
+                        }, function (data) {
+                            if (data.status == 1) {
+                                vm.list = data.info.list.concat(vm.list);
+                                vm.search.totalPage = data.info.total_page;
+                                if(p==1){
+                                    vm.last_message_id=vm.list[vm.list.length-1].id?parseInt(vm.list[vm.list.length-1].id):0;
+                                }
+                                $("#loading").hide();
+                                if (vm.search.p >= vm.search.totalPage) {
+                                    vm.search.loadContent = '没有更多了';
+                                    $("#loading").show();
+                                }
+                                msg_list_loading = false;
+                                setTimeout(function(){
+                                    $(".scroll_content").scrollTop(1);
+                                },100);
+                            } else {
+                                $.dialog({
+                                    id: 'popup', icon: 'error', lock: true, content: res.info, ok: function () {
+                                        if (res.url != '') {
+                                            location.href = res.url;
+                                        }
+                                    }
+                                });
+                            }
+
+                        })
+                    }
+
+                },
+                //全选
+                select: function () {
+                    if ($(".select").attr('checked')) {
+                        $(".checkbox").attr("checked", true);
+                    } else {
+                        $(".checkbox").attr("checked", false);
+                    }
+                },
+
+
+            },
+            created: function () {
+                this.getData(true);
+                setTimeout(function(){
+                    $(".scroll_content").scrollTop($(".scroll_content").height()+100);
+                },1000);
+            }
+        });
+        $(".scroll_content").scroll(function () {
+            //得到整个页面高度
+            //var html_height = $("#list_content").height();
+
+            //加上底部导航的高度
+            //html_height = html_height + $("#foot").height();//1031
+
+            //得到当前屏幕高度
+            //var screen_height = document.documentElement.clientHeight;//363
+
+            //得到滚动条到顶部的距离
+            var scroll_height = $(".scroll_content").scrollTop();//760
+
+            if (scroll_height<=0) {
+                //$(document).scrollTop(scroll_height - 1);
+                //调用请求数据
+                if (!msg_list_loading) {
+                    vm.getData(false);
+                }
+            };
+        });
+        $('#submit').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: "{:U('reply')}",
+                dataType: 'json',
+                data: $("#thisForm").serialize(),
+                success: function (res) {
+                    if (res.status == 1) {
+                        vm.list.push(res.info[0]);
+                        //vm.last_message_id=res.info[0].id;
+                        $("#content").val('');
+                        $("#pic_list").val('');
+                        $("#pic_list_preview").attr('src','__TMPL__Public/assets/images/default-thumbnail.png');
+                        setTimeout(function(){
+                            $(".scroll_content").scrollTop($(".box_content").height()-$(".scroll_content").height()+100);
+                        },100);
+                    }else{
+                        $.dialog({
+                            id: 'popup', icon: 'error', lock: true, content: res.info, ok: function () {
+                                if (res.url != '') {
+                                    location.href = res.url;
+                                }
+                            }
+                        });
+                    }
+                },
+            });
+        });
+        //定时获取其他人发送的消息
+        setInterval(function(){
+            $.getJSON("{:U('get_last')}/t/" + new Date().getTime(), {
+                last_id: vm.last_message_id,
+                kf_id:"{$kf_id}"
+            }, function (res) {
+                if (res.status == 1) {
+                    if(res.info){
+                        vm.list.push(res.info);
+                        vm.last_message_id=res.info.id;
+                        setTimeout(function(){
+                            $(".scroll_content").scrollTop($(".box_content").height()-$(".scroll_content").height()+100);
+                        },100);
+                    }
+                }
+            })
+        },5000);
+
+
+    }
+
+
+</script>
+</body>
+</html>

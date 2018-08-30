@@ -1,0 +1,71 @@
+<script type="text/javascript" src="__TMPL__Public/Mobile/lib/jquery.1.11.3.min.js" ></script>
+<script type="text/javascript" src="__TMPL__Public/Mobile/lib/swiper.min.js"></script>
+<script type="text/javascript" src="__TMPL__Public/Mobile/lib/vue.min.js"></script>
+<script type="text/javascript" src="__TMPL__Public/Mobile/lib/con_js.6.23.js"></script>
+<script type="text/javascript" src="__TMPL__Public/Mobile/lib/dropload.min.js"></script>
+<script type="text/javascript" src="__TMPL__Public/Mobile/lib/vue.js"></script>
+
+<script type="text/javascript">
+
+  $(function () {
+      $(".wx_pic_upload_single").click(function()
+      {
+          var target = $(this).attr('target');
+          var module = $(this).attr('module');
+          var action = $(this).attr("action");
+          if(!action){
+              action="";
+          }
+          location.href="/upload_app_single_img?target="+target+"&module="+module+"&action="+action;
+      });
+  })
+
+  //多图上传成功后的处理函数
+  function upload_success(pic_list,target,obj,temp,thumb_list){
+      if(!obj){
+          obj=$("#wx_pic_upload");
+      }
+      $.each(pic_list,function(i,item){
+          var str="";
+          if(temp){
+
+              var temp_str=temp;
+              str += temp_str.replace(/\[target\]/g,target).replace(/\[img\]/g,item);
+          }else{
+              str += "<div  class='w-position "+target+"'><img ";
+              str += " src='"+thumb_list[i]+"' ><input type='hidden' name='"+target+"[]' value='"+item+"'>";
+              str += "<b class='imgDelete2'></b></div>";
+          }
+          obj.before(str);
+      });
+
+      var current_count=obj.parent().find('.'+target).length;
+      var count=obj.attr("count");
+
+      if(count<=current_count){
+          obj.hide();
+      }
+      var cookie_path=obj.attr("cookie_path");
+
+      if(cookie_path){
+          var all_pic_list=[];
+          $.each(obj.parent().find('.'+target+' input'),function(i,item){
+              all_pic_list.push($(item).val());
+          });
+          $.ajax({
+              type: "GET",
+              url: cookie_path+"?t="+new Date().getTime(),
+              data: {img:all_pic_list},
+              dataType: "json",
+              success: function (res)
+              {
+              },
+          });
+      }
+  }
+
+  function back() {
+      WebViewJavascriptBridge.back();
+  }
+
+</script>

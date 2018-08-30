@@ -1,0 +1,372 @@
+<include file="Public:header" title="医生主页"/>
+<style>
+    #datalist>a{
+        display: block;
+    }
+    .hide111{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 2rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
+     .w-onlyline em.w-marginRight02{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 2rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
+<body>
+<section class="flex_column w-height100 w-bgcolorf7f7f7">
+    <div class="w-bgcolor44D397">
+    <include file="Public:back"/>
+    <a href="javascritp:;" class="headRight"></a>
+
+        <if condition="$memberInfo['truename'] neq '官方发布'">
+                 <span class="headTit">医生主页</span>
+            <else/>
+            <span class="headTit">平台主页</span>
+        </if>
+    </div>
+    <div class="w-flexitem1 w-section w-sectionD">
+        <div class="w-paddingLeftRight02 w-marginBottom01 w-bgcolorFFF">
+            <div class="w-paddingTopBottom02 w-borderBeee">
+                <div class="w-flex w-marginBottom02">
+
+                    <if condition="$memberInfo['truename'] neq '官方发布'">
+                    <div class="header2 w-marginRight02" style="background-image: url({$memberInfo.avatar});"><b></b></div>
+                        <else/>
+                        <div class="header2 w-marginRight02" style="background-image: url(/logo.png);"><b></b></div>
+                    </if>
+                    <div class="w-flexitem1 w-paddingTopBottom01">
+                        <h4 class="w-font14 w-color000">
+
+                            <if condition="$memberInfo['truename'] neq '官方发布'">
+                            <em class="w-verticalMiddle hide111">{$memberInfo.nickname}</em>
+                                <else/>
+                                <em class="w-verticalMiddle newName">官方发布</em>
+                                </if>
+
+
+                            <if condition="$memberInfo['zy'] neq null">
+                                <span class="w-btn1 w-marginRight02">{$memberInfo.zy}</span>
+
+                            </if>
+
+
+
+                        </h4>
+                        <span class="w-block w-height04 w-font12 w-color999 w-onlyline">{$memberInfo.hosp}{$memberInfo.zw}</span>
+                    </div>
+
+
+                    <if condition="$memberInfo.showgz eq 1">
+
+                        <label  class="iconCollect w-paddingTopBottom01">
+                        <if condition="$memberInfo.isgz eq 1">
+                            <input name="checkbox" type="checkbox" disabled checked >
+                            <else/>
+                            <input name="checkbox" type="checkbox" disabled >
+                        </if>
+                        <span id="gzbtn"></span>
+                        </label>
+
+                    </if>
+                </div>
+                <h4 class=" w-line04 w-font14 w-color333">{$memberInfo.grjs}</h4>
+            </div>
+            <div class="w-paddingTopBottom02 w-flex">
+                <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">粉丝：{$memberInfo.fss}</span>
+                <b class="grayLine"></b>
+                <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">动态：{$memberInfo.dynas}</span>
+                <b class="grayLine"></b>
+                <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">文章：{$memberInfo.wzs}</span>
+            </div>
+        </div>
+        <div class="w-flex navBox">
+            <a href="javascript:;" data-id="all" class="w-flexitem1 navBoxAce">全部</a>
+            <a href="javascript:;" data-id="wz" class="w-flexitem1">文章</a>
+            <a href="javascript:;" data-id="dt" class="w-flexitem1">动态</a>
+        </div>
+        <div id="datalist" >
+
+
+        </div>
+        <div style="display: none;" class="noData">暂无数据</div>
+    </div>
+
+</section>
+</body>
+
+
+<!--分享四按钮弹框-->
+<div class="shareBox" style="display: none;">
+    <div class="share">
+        <div class="w-borderBeee w-paddingTopBottom02">
+            <h4 class="w-height07 w-marginBottom02 w-textalignC w-font15 w-color333">分享</h4>
+            <div class="w-flex">
+                <a href="javascript:;" id="qq" class="w-flexitem1 w-textalignC">
+                    <b class="iconQQ w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">QQ好友</h4>
+                </a>
+                <a href="javascript:;" id="wx"  class="w-flexitem1 w-textalignC">
+                    <b class="iconWechat w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">微信好友</h4>
+                </a>
+                <a href="javascript:;" id="pyq"  class="w-flexitem1 w-textalignC">
+                    <b class="iconFriend w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">朋友圈</h4>
+                </a>
+                <a href="javascript:;" id="qzone"  class="w-flexitem1 w-textalignC">
+                    <b class="iconQzone w-marginBottom01"></b>
+                    <h4 class="w-height03 w-font13 w-color666">QQ空间</h4>
+                </a>
+            </div>
+        </div>
+        <a href="javascript:;" class="w-block w-height08 w-font15 w-color333 w-textalignC" onclick="$('.shareBox').hide()">取消</a>
+    </div>
+
+</div>
+
+
+<input type="hidden" class="status" value="all">
+<input type="hidden" class="page" value="1">
+<input type="hidden" class="id" value="{$_GET['id']}">
+
+
+<input type="hidden" class="ids" value="">
+<input type="hidden" class="title" value="">
+<input type="hidden" class="isdj" value="{$isdj}">
+
+<input type="hidden" class="member_id" value="{$member_id}">
+
+<include file="Public:js" />
+<script>
+
+    function shareFunc(e)
+    {
+        var title = $(e).attr('data-title');
+        $('.title').val(title);
+        var id = $(e).attr('data-id');
+        $('.ids').val(id);
+
+        var member_id = $('.member_id').val();
+        if(member_id)
+        {
+            if(isdj == 0)
+            {
+                go_alert2('已被冻结，不能执行此操作!');
+            }else
+            {
+                $('.shareBox').show();
+            }
+        }else
+        {
+            location.href = '/Index/login';
+        }
+    }
+
+    function shareFuns(type) {
+        var title = $('.title').val();
+        var id = $('.ids').val();
+        var url = "http://dzjk.server.ehecd.com/Article/infoDyna/id/"+id;
+        WebViewJavascriptBridge.shareAction(title,id,url,type,5);
+    }
+
+    function shareBack(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Public/shareBack',
+            data: {id:id},
+            success: function () {
+
+            },
+        });
+    }
+
+    $('#qq').click(function () {
+        shareFuns('qq');
+    });
+    $('#wx').click(function () {
+        shareFuns('wx');
+
+    });
+    $('#pyq').click(function () {
+        shareFuns('pyq');
+    });
+    $('#qzone').click(function () {
+        shareFuns('qzone');
+    });
+
+    urlJump();
+
+
+
+
+    //关注
+    $('#gzbtn').click(function ()
+    {
+        var id = $('.id').val();
+        var isgz = $('.isgz').val();
+            $.ajax({
+                type: 'POST',
+                url: '/Article/folloAction',
+                data: {id:id,types:'zjgz'},
+                success: function (e) {
+                    if(e.status == 1)
+                    {
+
+                        if(e.info == '关注成功')
+                        {
+                            $("input[name='checkbox']").prop("checked","true");
+
+                        }else if(e.info == '取消关注成功')
+                        {
+                            $("input[name='checkbox']").removeAttr("checked","true");
+                        }
+
+                        go_alert2(e.info);
+                    }else
+                    {
+                        go_alert2(e.info);
+                        if(e.info =='请先登录')
+                        {
+                            location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+                            //location.href ="/Index/login";
+                        }
+                    }
+                },
+            });
+
+    })
+
+
+    //nav切换
+    $('.navBox a').click(function(){
+        $(this).addClass('navBoxAce').siblings('a').removeClass('navBoxAce');
+        $('.status').val($(this).attr('data-id'));
+        $('.page').val(1);
+        urlJump();
+    });
+
+
+    function urlJump()
+    {
+        var status = $('.status').val();
+        var id = $('.id').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Doctor/index',
+            data: {status:status,p:1,id:id},
+            success: function (e) {
+                if(e)
+                {
+                    $('.noData').hide();
+                    $('#datalist').html(e);
+                }else{
+                    $('.noData').show();
+                    $('#datalist').html('');
+                }
+                //判断超过三行“全文” 显示隐藏
+                setTimeout(function () {
+                    $('.threeLine').each(function () {
+                        if ($(this).height() > 60) {
+                            $(this).css('height', '60px');
+                            $(this).children('.threeMark').show();
+                        } else {
+                            $(this).css('height', 'auto');
+                            $(this).children('.threeMark').hide();
+                        }
+                    });
+                    $('.threeMark').click(function (e) {
+                        if ($(this).parents('.threeLine').height() == 60) {
+                            $(this).parents('.threeLine').css('height', 'auto');
+                            $(this).css('position', 'static');
+                            $(this).children('em').text('收起');
+                        } else {
+                            $(this).parents('.threeLine').css('height', '60px');
+                            $(this).css('position', 'absolute');
+                            $(this).children('em').text('全文');
+                        };
+                        e.stopPropagation();
+                    });
+                }, 0)
+            },
+        });
+    }
+
+    //点赞
+    function giveAction(id,el) {
+        $.ajax({
+            type: 'POST',
+            url: '/Article/giveAction',
+            data: {id:id},
+            success: function (e) {
+                if(e.status == 1)
+                {
+                    $('.isz').val(1);
+                    $(el).parent().children('span').html(parseInt($(el).parent().children('span').html())+1);
+                    $(el).prop('disabled','disabled');
+                    $(el).prop("onclick",null).off("click");
+                    $('.imputBtn').attr("disabled", true);
+                    go_alert2(e.info);
+                }else
+                {
+                    go_alert2(e.info);
+                    if(e.info =='请先登录')
+                    {
+                        location.href ="/Index/login?tiaourl="+encodeURI(location.href);
+                     //   location.href ="/Index/login";
+                    }
+                }
+            },
+        });
+    }
+
+    
+    $(".w-sectionD").on('scroll',function()
+    {
+        var nScrollHight = 0;
+        var nScrollTop = 0;
+        var nDivHight = $(".w-sectionD").height();
+        nScrollHight = $(this)[0].scrollHeight;
+        nScrollTop = $(this)[0].scrollTop;
+        var paddingBottom = parseInt($(this).css('padding-bottom')), paddingTop = parseInt($(this).css('padding-top'));
+        if (nScrollTop + paddingBottom + paddingTop + nDivHight >= nScrollHight - 10) {
+            urlJumpMore();
+        }
+    });
+
+    var isget = true;
+    var page = 1;
+    function urlJumpMore()
+    {
+        if(isget)
+        {
+            isget = false;
+            page = parseInt(page) +1;
+            var status = $('.status').val();
+            var id = $('.id').val();
+            $.ajax({
+                type: 'POST',
+                url: '/Doctor/index',
+                data: {status:status,p:page,id:id},
+                success: function (e) {
+                    if(e)
+                    {
+                        isget = true;
+                        $('#datalist').append(e);
+                    }else{
+                        $('#datalist').append('<li style="display: block;text-align:center;" class="loadMore">没有更多了...</li>');
+                        isget = false;
+                    }
+                },
+            });
+        }
+    }
+</script>
+</html>
