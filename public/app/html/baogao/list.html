@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的报告</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+		.weui-dialog__btn:first-child{ color: #999;}
+		.baogaoList .baogaoBox{ border-bottom: 5px solid #f6f6f6;}
+		.weui-dialog__btn:first-child{ color: #999;}
+	</style>
+	<body class="bgf7">
+		<header>
+			<div class="back"></div>
+			<h5>我的报告</h5>
+			<div class="aR">上传报告</div>
+		</header>
+		<section id="app" class="askSec" style="padding-bottom: 0;">
+			<div class="empty center bgf7" v-show="isempty" style="padding-top: 7rem;">
+				<img src="../../img/zanwuxiaoxi@2x.png" width="45" />
+				<div  class="color9 pt10">系统暂无您的体检报告</div>
+			</div>
+			<div class="baogaoList" v-show="!isempty">
+				<div class="baogaoBox pd15" v-for="prop in list">
+		        	<div class="size11 tit">{{prop.name}}<i @click="delBaogao($event)"></i></div>
+		        	<div>{{prop.jigou}}</div>
+		        	<div class="colorc size9">检查时间:{{prop.times}}</div>
+		        	<div class="colorc size9">报告上传时间:{{prop.uptimes}}</div>
+		        </div>
+			</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			isempty:false,    //是否有数据
+			list:[
+				{
+					name:'肝功能检查',
+					jigou:'机构名称',
+					times:'2018.05.16',
+					uptimes:'2018.05.16  20:20:20'
+				},
+				{
+					name:'肝功能检查',
+					jigou:'机构名称',
+					times:'2018.05.16',
+					uptimes:'2018.05.16  20:20:20'
+				}
+			]
+			
+		},
+		methods:{
+			//删除报告
+			delBaogao:function(evt){
+				var self=this;
+				$.modal({
+					title: '',
+					text: '报告删除后不能取消<br/>确认删除？',
+					buttons: [
+					    { text: "再想想",
+					    	onClick: function(){
+					    		
+					    	}
+				    	},
+					    { text: "确认",
+					    	onClick: function(){
+					    		$(evt.target).parents('.baogaoBox').remove();
+					    	}
+					   }
+					]
+				});
+
+			},
+		}
+	})
+	
+	$(function(){
+		
+	})
+</script>
+
+
+
+

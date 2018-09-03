@@ -138,7 +138,7 @@
                         <td v-if="!edit_list">
                             <input type="hidden"  name="pic" value=""   id="pic" >
                             <a href="javascript:void(0);"
-                               onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                               onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','','image');return false;">
                                 <img src="__TMPL__Public/assets/images/default-thumbnail.png"
                                      onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="pic_preview"  id="pic_preview" width="80"
                                      style="cursor: hand; height: 80px !important;"/>
@@ -147,7 +147,7 @@
                         <td v-else>
                             <input type="hidden"  name="pic" :value="edit_list.pic"  id="pic" >
                             <a href="javascript:void(0);"
-                               onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','');return false;">
+                               onclick="flashupload('thumb_images', '附件上传','pic',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1200','banner','','','image');return false;">
                                 <img :src="edit_list.pic"
                                      onerror="this.src='__TMPL__Public/assets/images/default-thumbnail.png'" name="pic_preview"  id="pic_preview" width="80"
                                      style="cursor: hand; height: 80px !important;"/>

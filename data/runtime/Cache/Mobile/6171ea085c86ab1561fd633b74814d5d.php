@@ -22,25 +22,44 @@
 <style>
     .iconSearch2 {
     display: inline-block;
-    width: 1.3rem;
+    width: 1rem;
     height: 0.4rem;
     border: 1px solid #fff;
     line-height: .4rem;
-    border-radius: .2rem;
+    /*border-radius: .2rem;*/
     text-align: center;
     color: #fff;
     background-size: .25rem .25rem;
     background-repeat: no-repeat;
     background-position: .1rem center;
-    position: absolute;
-    top: .18rem;
-    right: .2rem;
+    /*position: absolute;*/
+    /*top: .18rem;*/
+    /*right: .2rem;*/
+   	background: url(../../../public/assets/images/sousuo@2x.png) no-repeat;
+   	background-position: center;
+   	background-size: .5rem;
     padding-left: .3rem;
+    border-left: 1px solid #eee;
+}
+.citys{
+	position: absolute;
+	left: .2rem;
+	top: .18rem;
+	height: .4rem;
+	line-height: .4rem;
+	width: 1rem;
+	color: #fff;
+	font-size: 14px;
+	background: url(../../../public/assets/images/xiala@2x.png) no-repeat;
+	background-position: right center;
+	background-size: .6rem;
+	text-align: left;
 }
 </style>
 <body>
 <section class="flex_column w-height100 w-bgcolorf7f7f7"  id="flex_column">
     <div class="w-bgcolor44D397 w-padding0102 w-textalignC w-font0">
+    	<div class="citys">成都</div>
         <div class="doubleBtnBox">
             <a href="javascript:;" data-id="all"  class="doubleBtnAce">全部</a>
             <b class="grayLine2"></b>
@@ -52,7 +71,7 @@
             <a  data-id="all"  class="seaechNavAce">全部</a>
             <?php if(is_array($labelList)): $i = 0; $__LIST__ = $labelList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$lists): $mod = ($i % 2 );++$i;?><a   data-id="<?php echo ($lists["id"]); ?>" class="lablist"><?php echo ($lists["name"]); ?></a><?php endforeach; endif; else: echo "" ;endif; ?>
         </div>
-        <a href="/Index/search/type/ys" class="iconSearch2">搜索医生</a>
+        <a href="/Index/search/type/ys" class="iconSearch2"></a>
     </div>
     <div class="w-flexitem1 w-section w-sectionD" id="scroll_content" >
         <div class="w-paddingLeftRight02 w-bgcolorFFF">
@@ -217,7 +236,67 @@
 
 <script>
 
-
+	
+	//左右滑动事件
+//	$("#scroll_content").on('touchstart',function(e){
+//		var self=$(this);
+//		var startX = e.originalEvent.targetTouches[0].clientX,//手指触碰屏幕的x坐标
+//			pullDeltaX = 0;
+//			console.log(startX)
+//		self.on('touchmove',function(e){
+//			var x = e.originalEvent.targetTouches[0].clientX;//手指移动后所在的坐标
+//	        pullDeltaX = x - startX;//移动后的位移
+//	        if (!pullDeltaX){
+//	            return;
+//	        }
+//	        e.preventDefault();//阻止手机浏览器默认事件
+//		})
+//		self.on('touchend',function(e){
+//			self.off('touchmove touchend');//解除touchmove和touchend事件
+//	        //所要执行的代码
+//	        e.preventDefault();
+//	        //判断移动距离是否大于30像素
+//	        if (pullDeltaX > 30){
+//				console.log("向右滑，上一条");
+//	            //右滑，往前翻所执行的代码
+//	            var index=$('.seaechNav a.seaechNavAce').index();
+//	            if(index==0){    //当前为第一项
+//	            	return
+//	            }
+//	            else{
+//	            	index--;
+//	            	$('.seaechNav a').eq(index).addClass('seaechNavAce').siblings('a').removeClass('seaechNavAce')
+//	            	var ids=$('.seaechNav a').eq(index).attr('data-id');
+//	            	moveFun(ids);
+//	            }
+//	        }
+//	        //判断当前页面是否为最后一页
+//	        else if (pullDeltaX < -30){
+//				console.log("向左滑，下一条");
+//	            //左滑，往后翻所执行的代码
+//	            var index=$('.seaechNav a.seaechNavAce').index();
+//	            var len=$('.seaechNav a').length;
+//	            if(index==len-1){    //当前为最后一项
+//	            	return
+//	            }
+//	            else{
+//	            	index++;
+//	            	$('.seaechNav a').eq(index).addClass('seaechNavAce').siblings('a').removeClass('seaechNavAce')
+//	            	var ids=$('.seaechNav a').eq(index).attr('data-id');
+//	            	moveFun(ids);
+//	            }
+//	        }
+//		})
+//		console.log(chk_value);
+//	})
+	
+	function moveFun(ids){
+		chk_value = [];
+        chk_value.push(parseInt(ids));
+        page = 1;
+        $('.ggid').val('')
+        urlJump();
+	}
 
     //全部跟已关注切换样式
     // $('.doubleBtnBox a').click(function(){

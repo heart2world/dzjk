@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>报告详情</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="http://jqweui.com/dist/js/swiper.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+	</style>
+	<body class=" bgWhie">
+		<header>
+			<div class="back"></div>
+			<h5>报告详情</h5>
+		</header>
+		<section id="app" class="bgdetailSec" style="padding-bottom: 35px;">
+	        <div class="picBox" v-if="ispic">
+	        	<div class="picItem">
+	        		<img src="../../img/banner@2x.png" />
+	        	</div>
+	        	<div class="picItem">
+	        		<img src="../../img/banner@2x.png" />
+	        	</div>
+	        	<div class="picItem">
+	        		<img src="../../img/banner@2x.png" />
+	        	</div>
+	        	<div class="picItem">
+	        		<img src="../../img/banner@2x.png" />
+	        	</div>
+	        </div>
+	        <div class="pdfBox" v-if="!ispic">
+	        	<img src="../../img/pdf(1)@2x.png" width="80" />
+	        	<div class="chakan">查看报告</div>
+	        </div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			ispic:false,    //是否是图片
+		},
+		methods:{
+			
+		}
+	})
+	
+	$(function(){
+		var wid=$('.picItem').width();
+		$('.picItem').height(wid);
+	})
+	
+	$('.picItem img').on('click',function(){
+		var preview = $.photoBrowser({
+		    items: [
+				$(this).attr('src')
+		    ],
+		    onClose:function(){
+		    	preview.close();
+		    }
+		});
+		preview.open();
+	})
+	
+</script>
+
+
+
+

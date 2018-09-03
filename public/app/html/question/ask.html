@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>提问</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="http://jqweui.com/dist/js/swiper.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells:after,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+		.weui-photo-browser-modal.weui-photo-browser-modal-visible{ z-index: 999;}
+	</style>
+	<body class="mui-ios mui-ios-11 mui-ios-11-0">
+		<header>
+			<div class="back"></div>
+			<h5>提问</h5>
+		</header>
+		<section id="app" class="askSec">
+			<div class="weui-cells">
+	            <div class="weui-cell">
+	                <div class="weui-cell__hd"><img :src="info.headImg" alt="" style="width:50px;height:50px;margin-right:10px;display:block;border-radius: 50%;"></div>
+	                <div class="weui-cell__bd">
+	                    <p class="color3 mb5">{{info.keshi}}{{info.name}}</p>
+	                    <p class="colorc">{{info.title}}</p>
+	                </div>
+	                <div class="weui-cell__ft"></div>
+	            </div>
+	        </div>
+	        <div class="tit bgf7 pd15">提问内容</div>
+	        <div class="audio">
+	        	<div class="audioLine" v-show="luyin==2">
+	        		<div class="line" id="line" data-id="888"></div>
+	        		<div class="pl20">{{times}}s</div>
+	        		<i @click="delluyin($event)"></i>
+	        	</div>
+	        	<div class="audioIcon" v-show="luyin!=2" @click="startAudio($event)"></div>
+	        	<div class="center pt10 colorThem" v-show="luyin==1">{{nowtime}}</div>
+	        	<div class="colorc pd15" v-show="luyin!=2">语音最多120s</div>
+	        </div>
+	        <div class="weui-cell text pd10">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="请输入" rows="3" v-model="desc"></textarea>
+                    <div class="weui-textarea-counter">最多150字</div>
+                </div>
+            </div>
+	        <div class="tit bgf7 pd15">上传图片/报告<span class="color9 size9">（ {{noticeText}} ）</span></div>
+	        <div class="choseWay" v-show="choseType==0">
+	        	<div @click="choseWay($event,1)">上传图片</div>
+	        	<div @click="choseWay($event,2)">选择报告</div>
+	        </div>
+	        <div class="picBox" v-show="choseType==1">
+	        	<div class="picItem picture">
+	        		<img src="../../img/banner@2x.png" />
+	        		<i @click="delPic(event)"></i>
+	        	</div>
+	        	<div class="picItem" @click="upImg($event)">
+	        		<!--<input type="file" accept="image/*" multiple @change="choseImg($event)" />-->
+	        	</div>
+	        </div>
+	        <div class="baogaoBox pd15" v-show="choseType==2">
+	        	<div class="size11 tit">{{baogao.name}}<i @click="delBaogao($event)"></i></div>
+	        	<div>{{baogao.jigou}}</div>
+	        	<div class="colorc size9">检查时间:{{baogao.times}}</div>
+	        	<div class="colorc size9">报告上传时间:{{baogao.uptimes}}</div>
+	        </div>
+	        <div class="bottom disbox">
+	        	<div class="disflex" style="padding: 0 10px;">提问费用 : <span class="colorRed size13">￥25.00</span></div>
+	        	<div class="sub" @click="tijiao($event)">提交问题</div>
+	        </div>
+    		<input type="file" accept="image/*" multiple class="files none" @change="choseImg($event)"/>
+    		<input type="file" accept="image/*" class="cameras none" capture="camera" @change="choseImg($event)"/>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			info:{
+				headImg:'../../img/banner@2x.png',
+				name:'胡军',
+				keshi:'消化科',
+				title:'中医大学附属医院肠胃专家'
+			},
+			noticeText:'图片和报告只能选择一种',
+			choseType:0,    //当前选择的类型（1.图片，2.报告）
+			luyin:0,   //录音状态（0.未录音，1.录音中，2录音结束）
+			totaltime:120,    //最大录音时长
+			nowtime:'',    //当前的录音分秒
+			times:0,    //当前录音时长
+			desc:'',    //文字
+			pic:[],   //图片
+			banben:'',    //手机系统版本
+			baogao:{
+				name:'肝功能检查',
+				jigou:'机构名称',
+				times:'2018.05.16',
+				uptimes:'2018.05.16  20:20:20'
+			},    //报告内容
+		},
+		methods:{
+			//点击录音按钮
+			startAudio:function(evt){
+				var self=this;
+				if(self.luyin==0){   //没有录音
+					self.luyin=1;
+					settime();
+				}
+				else if(self.luyin==1){    //录音中
+					self.luyin=2;
+					console.log($('.audio').width())
+					var num=parseInt(self.times/self.totaltime*$('.audio').width());
+					console.log(num)
+					$('#line').width(num);
+					clearTimeout(temp);
+				}
+			},
+			//删除录音
+			delluyin:function(evt){
+				var self=this;
+				self.luyin=0;
+				self.times=0;
+				self.nowtime='';
+			},
+			//点击上传图片或报告
+			choseWay:function(evt,type){
+				var self=this;
+				self.choseType=type;
+				if(type==1){    //上传图片
+					self.noticeText="最多上传两张图片";
+				}
+				else{    //上传报告
+					self.noticeText="只能选择一个报告";
+				}
+			},
+			//选择方式
+			upImg:function(evt){
+				var self=this;
+				if(self.banben==0){   //安卓
+					$.actions({
+					  actions: [{
+					    text: "拍照",
+					    onClick: function() {
+					    	$('input.cameras').click();
+					    }
+					  },{
+					    text: "从相册选择",
+					    onClick: function() {
+					      $('input.files').click();
+					    }
+					  }]
+					});
+				}
+				else{    //ios
+					$('input.files').click();
+				}
+			},
+			//选择图片
+			choseImg:function(evt){
+				var self=this;
+				var length=evt.target.files.length;
+//				console.log(evt)
+//				console.log(evt.target.files)
+				console.log(evt.target.value)
+				if(length>2){
+					$.toast("最多上传两张图片","text");
+					return
+				}
+				//ajax
+				
+			},
+			//删除图片
+			delPic:function(evt){
+				var self=this;
+				$(evt.target).parents('.picItem').remove();
+				if($('.picture').length<1){    //没有图片了
+					self.choseType=0;
+				}
+			},
+			//删除报告
+			delBaogao:function(evt){
+				var self=this;
+				self.choseType=0;
+				$(evt.target).parents('.baogaoBox').empty();
+			},
+			//点击提交
+			tijiao:function(evt){
+				var self=this;
+				if(self.times==0&&self.desc.length<1&&self.pic.length<1){
+					$.toast("请填写提问内容",'text');
+				}
+			}
+		},
+		watch: {
+		    desc:function(val){
+		    	var self=this;
+		    	if(val.length>=150){
+		    		self.liuyan=val.substr(0,150);
+		    	}
+		    }
+		},
+	})
+	
+	$(function(){
+		
+	})
+function settime(val) {
+	if(app.times == app.totaltime) {    //时间到，录音结束
+		app.luyin=2;
+		return;
+	} else {
+		app.nowtime='0'+parseInt(app.times/60)+":"+(parseInt(app.times%60)<10?'0'+parseInt(app.times%60):parseInt(app.times%60));
+		console.log(app.nowtime);
+		app.times++;
+	}
+	temp=setTimeout(function() {
+		settime(val)
+	}, 1000)
+}
+	var browser = {
+		versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+			return { //移动终端浏览器版本信息 
+				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+				iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+				iPad: u.indexOf('iPad') > -1, //是否iPad 
+			};
+		}(),
+	}
+	if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+		console.log("IOS")
+		app.banben=1;    //手机版本（0.安卓，1.ios）
+		//window.location.href = "http://www.asiayak.cn";
+	}
+	if (browser.versions.android) {
+		//window.location.href = "http://www.qq.com";
+		console.log("安卓")
+		app.banben=0;
+	}
+	
+	//图片点击放大
+	$('.picItem img').on('click',function(){
+		var preview = $.photoBrowser({
+		    items: [
+				$(this).attr('src')
+		    ],
+		    onClose:function(){
+		    	preview.close();
+		    }
+		});
+		preview.open();
+	})
+</script>
+
+
+
+

@@ -1,0 +1,409 @@
+@charset "utf-8";
+html, 
+body {
+	/*height: 100%;*/
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+	width: 0px;
+	height: 0;
+}
+
+body {
+	background-color: #fff;
+	color: #595959;
+	font-family: "Microsoft Yahei", tahoma, arial;
+	font-size: 14px;
+}
+
+li {
+	list-style: none
+}
+
+a {
+	color: #2c2c2c;
+	text-decoration: none;
+	outline: none;
+}
+
+i, em, b {
+	font-style: normal;
+}
+
+ul, li, p {
+	margin: 0px;
+	padding: 0px;
+	color:#595959
+}
+
+input {
+	width: 100%
+}
+
+input, select, textarea, button {
+	font-size: 1.2 ../../../../image;
+	border: 0px;
+	padding: 0px;
+	background-color: transparent;
+	outline: none;
+	font-family: "Microsoft Yahei", tahoma, arial;
+}
+
+input[type=date], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], select, textarea {
+	border: none;
+	padding: 0;
+	background-color: transparent;
+	outline: none;
+	color: #595959;
+}
+
+textarea {
+	resize: none;
+}
+
+input::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: .9rem;
+}
+
+textarea::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0px;
+	font-weight: 100;
+	font-size: 1rem
+}
+
+.pd10{
+	padding: 10px;
+}
+.pd15{
+	padding: 15px;
+}
+.pt10{
+	padding-top: 10px;
+}
+.pl20{
+	padding-left: 20px;
+}
+
+.mb5{
+	margin-bottom: 5px;
+}
+
+.size7{
+	font-size: .7rem;
+}
+.size8{
+	font-size: .8rem;
+}
+.size9{
+	font-size: .9rem;
+}
+.size11{
+	font-size: 1.1rem;
+}
+.size12{
+	font-size: 1.2rem;
+}
+.size13{
+	font-size: 1.3rem;
+}
+
+.color3{
+	color: #333;
+}
+.color9{
+	color: #999;
+}
+.colorc{
+	color: #ccc;
+}
+.colorThem{
+	color: #41D397;
+}
+.colorRed{
+	color: #d34141;
+}
+.colorRed2{
+	color: #e11a1a;
+}
+.bgf7{
+	background: #f7f7f7;
+}
+.bgWhite{
+	background: #fff;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.relative {
+	position: relative;
+}
+
+img {
+	vertical-align: middle;
+}
+
+/** 清除浮动 **/
+
+.clear {
+	height: 0px;
+	font-size: 0px;
+	line-height: 0px;
+	clear: both
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+/* Hides from IE-mac \*/
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
+
+/*media query*/
+
+@media screen and (max-width: 540px) {
+	body, html {
+		font-size: 14px !important;
+	}
+	.weui-cells{
+		font-size: 14px !important;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	body, html {
+		font-size: 14px !important;
+	}
+	.weui-cells{
+		font-size: 14px !important;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	body, html {
+		font-size: 14px !important;
+	}
+	.weui-cells{
+		font-size: 14px !important;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	body, html {
+		font-size: 13px !important;
+	}
+	.weui-cells{
+		font-size: 13px !important;
+	}
+}
+
+.center {
+	text-align: center
+}
+
+.left {
+	text-align: left
+}
+
+.right {
+	text-align: right
+}
+
+/**上下左右居中**/
+
+.middle {
+	text-align: center;
+	-webkit-box-pack: center;
+	box-pack: center;
+	-webkit-box-align: center;
+	box-align: center;
+	display: -webkit-box;
+}
+
+.none {
+	display: none
+}
+
+
+.show {
+	display: block;
+}
+
+
+/**行内布局**/
+
+.disbox {
+	display: -webkit-box;
+	display: -moz-box;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.disflex {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-ms-box-flex: 1;
+	-o-box-flex: 1;
+	box-flex: 1;
+	display: block
+}
+
+.overflow {
+	overflow: hidden
+}
+.lineThrough {
+	text-decoration: line-through
+}
+
+/**超出以省略号代替**/
+
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Line2 {
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	-moz-line-clamp: 2;
+	-ms-line-clamp: 2;
+	-o-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-ms-box-orient: vertical;
+	-o-box-orient: vertical;
+	box-orient: vertical;
+	display: -webkit-box;
+	display: -moz-box;
+	word-break: break-all;
+}
+
+.Line3 {
+	overflow: hidden;
+	-webkit-line-clamp: 3;
+	-moz-line-clamp: 3;
+	-ms-line-clamp: 3;
+	-o-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-ms-box-orient: vertical;
+	-o-box-orient: vertical;
+	box-orient: vertical;
+	display: -webkit-box;
+	display: -moz-box;
+	word-break: break-all;
+}
+
+.Line4 {
+	overflow: hidden;
+	-webkit-line-clamp: 4;
+	-moz-line-clamp: 4;
+	-ms-line-clamp: 4;
+	-o-line-clamp: 4;
+	line-clamp: 4;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-ms-box-orient: vertical;
+	-o-box-orient: vertical;
+	box-orient: vertical;
+	display: -webkit-box;
+	word-break: break-all;
+}
+
+.hiddenBox {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	display: none;
+}
+header{
+	background: #41d397;
+	height: 45px;
+	z-index: 9999;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+}
+header .back{
+	position: absolute;
+	/*left: 10px;*/
+	height: 45px;
+	width: 25px;
+	line-height: 45px;
+	background: url(../img/fanhui@2x.png) no-repeat;
+	background-size: 25px;
+	background-position: left center;
+	color: #fff;
+}
+header h5{
+	text-align: center;
+	color: #fff;
+	font-size: 1.3rem;
+	height: 45px;
+	line-height: 45px;
+}
+header .aR{
+	position: absolute;
+	right: 10px;
+	height: 45px;
+	top: 0;
+	line-height: 45px;
+	color: #fff;
+}
+footer{
+	z-index: 9999;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的报告</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+		.weui-dialog__btn:first-child{ color: #999;}
+		.baogaoList .baogaoBox{ border-bottom: 5px solid #f6f6f6;}
+		.weui-dialog__btn:first-child{ color: #999;}
+		.weui-cells_radio .weui-icon-checked:before{ content: ""; background: url(../../img/weixuanzhong@2x.png) no-repeat; background-size: cover; width: 30px; height: 30px; font-size: 16px}
+	</style>
+	<body class="bgf7">
+		<header>
+			<div class="back"></div>
+			<h5>我的报告</h5>
+		</header>
+		<section id="app" class="askSec" style="padding-bottom: 0;">
+			<div class="empty center bgf7" v-show="isempty" style="padding-top: 7rem;">
+				<img src="../../img/zanwuxiaoxi@2x.png" width="45" />
+				<div  class="color9 pt10">系统暂无您的体检报告</div>
+			</div>
+			<div class="weui-cells weui-cells_radio baogaoList" v-show="!isempty">
+	            <label class="weui-cell weui-check__label" v-for="prop in list" style="padding: 0;border-bottom: 5px solid #f6f6f6">
+		            <div class="weui-cell__hd">
+		            	<input type="radio" class="weui-check" :value="prop.ids" v-model="check" @change="choseFn($event)">
+	                    <span class="weui-icon-checked"></span>
+		            </div>
+	                <div class="weui-cell__bd baogaoBox" style="padding: 10px 15px; border: none;">
+	                     <div class="size11 tit">{{prop.name}}</div>
+			        	<div>{{prop.jigou}}</div>
+			        	<div class="colorc size9">检查时间:{{prop.times}}</div>
+			        	<div class="colorc size9">报告上传时间:{{prop.uptimes}}</div>
+	                </div>
+	                <div class="weui-cell__ft"></div>
+	            </label>
+	        </div>
+	        <div class="bottom2" @click="sendFn($event)">确定</div>
+			
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			isempty:false,    //是否有数据
+			check:'',     //选择某项
+			list:[
+				{
+					ids:1,
+					name:'肝功能检查',
+					jigou:'机构名称',
+					times:'2018.05.16',
+					uptimes:'2018.05.16  20:20:20'
+				},
+				{
+					ids:2,
+					name:'肝功能检查',
+					jigou:'机构名称',
+					times:'2018.05.16',
+					uptimes:'2018.05.16  20:20:20'
+				}
+			]
+			
+		},
+		methods:{
+			//选择报告
+			choseFn:function(evt){
+				var self=this;
+				console.log(self.check)
+			},
+			//点击确定
+			sendFn:function(evt){
+				var self=this;
+				if(self.check.length<1){
+					$.toast("请选择报告","text");
+					return
+				}
+			}
+		}
+	})
+	
+	$(function(){
+		
+	})
+</script>
+
+
+
+

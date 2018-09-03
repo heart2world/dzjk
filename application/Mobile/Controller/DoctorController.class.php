@@ -38,8 +38,7 @@ class DoctorController extends CommonController
 
         }else
         {
-            //        M('Member')->field('truename,')->where(array('id'=>$id,'types'=>2))->find();
-
+            
             if($id == 0)
             {
                 $memberInfo = array();
@@ -56,10 +55,6 @@ class DoctorController extends CommonController
                     ->join('LEFT JOIN __MEMBER_INTRO__ MI on M.id = MI.pid')
                     ->where(array('M.id'=>$id,'M.types'=>2,'M.is_delete'=>0))
                     ->find();
-
-
-
-
             }
 
             $memberInfo['fss'] = M('MemberFollo')->where(array('to_id'=>$id))->count();
@@ -73,8 +68,6 @@ class DoctorController extends CommonController
             {
                 $memberInfo['showgz'] = 1;
             }
-//            $memberInfo['showgz'] = 1;  //测试
-
 
             $isgz = M('MemberFollo')
                 ->where(array('member_id'=>$this->member['member_id'],'to_id'=>$id))->find();
@@ -85,21 +78,46 @@ class DoctorController extends CommonController
            {
                $memberInfo['isgz'] = 0;
            }
-
-
-
             $minfo = M('Member')->field('status')->where(array('id'=>$mid))->find();
             $this->isdj = $minfo['status'];
 
             $this->memberInfo = $memberInfo;
             $this->display();
         }
-
-
-
-
-
     }
 
+    /**
+     * [changecity 切换城市]
+     * @return [type] [description]
+     */
+    public function changecity()
+    {
+        $this->assign('current_provinceName',$_SESSION['current_provinceName']);
+        $this->assign('current_cityName',$_SESSION['current_cityName']);
+        $this->display();
+    }
 
+    public function getprocitylist()
+    {
+        // 省级数组
+        $province =M('region')->where("is_delete=0 and parent_id=0")->order('region_id asc')->select();
+        $provincestr=array();
+        $citystr2=array();
+         $citystr=array();
+        foreach ($province as $key => $val) {
+            $provincestr[$key]['name'] =$val['region_name'];
+            $provincestr[$key]['ids'] ="#citys".$val['region_id'];
+            $citystr[$key]['name'] =$val['region_name'];
+            $citystr[$key]['ids'] ="citys".$val['region_id'];
+            $city =M('region')->where("parent_id='".$val['region_id']."' and is_delete=0")->order('region_id asc')->select();
+            foreach ($city as $k => $value) {
+                $citystr2[$k]['name'] =$value['region_name'];
+            }
+            $citystr[$key]['arr']=$citystr2;
+            $citystr2=array();
+        }
+
+        $data =array('province'=>$provincestr,'citystr'=>$citystr);
+        $this->ajaxReturn($data);
+    }
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>支付成功</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+	</style>
+	<body class="">
+		<header>
+			<div class="back"></div>
+			<h5>支付成功</h5>
+		</header>
+		<section id="app" class="paySec">
+			<div class="center" style="margin-top: 8rem;">
+				<img src="../../img/zhifuchenggong@2x.png" width="55" />
+				<div class="pt10">支付成功！</div>
+				<div class="colorc">支付金额 : {{money}}</div>
+				<div class="colorc">医生会在{{times}}小时内回应你，未回</div>
+				<div class="colorc">应则原路退回至您的微信账户</div>
+			</div>
+			<div class="btn backHome">返回首页</div>
+			<div class="btn checkMine">查看我的提问</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			times:5,   //回应时间
+			money:'25.00',    //支付金额
+		},
+		methods:{
+			
+		}
+	})
+	
+</script>
+
+
+
+

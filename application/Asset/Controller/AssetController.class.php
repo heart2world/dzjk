@@ -23,7 +23,7 @@ class AssetController extends AdminbaseController {
         if (IS_POST) {
                 $module=I('module');
                 $thumb_size=I('thumb_size',0,'intval');
-                $filetype =I('filetype','','trim');
+                $filetype =I('filetype','image','trim');
                 $savepath='banner/'.date('Ymd').'/';
                 if($filetype == 'image')
                 {

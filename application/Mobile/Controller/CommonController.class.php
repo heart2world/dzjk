@@ -108,6 +108,24 @@ class CommonController extends MobilebaseController
         $this->success($data);
     }
 
+    public function  set_location_city(){
+        $city=I('city_name','成都','trim');
+        $city=str_replace('市','',$city);
+        $info=M('region')->where("region_name='$city'")->find();
+        if($info)
+        {
+            $parentname =M('region')->where("parent_id='".$info['region_id']."'")->getField('region_name');
+        }
+        
+        $data=array(
+           'current_cityName'=>$city,
+           'current_cityId'=>$info['region_id']
+        );
+        session("current_cityId",$info['region_id']);
+        session("current_cityName",$city);
+        session("current_provinceName",$parentname);
+        $this->success($data);
+    }
 
     public function wechat_login(){
         $state = I("get.state");

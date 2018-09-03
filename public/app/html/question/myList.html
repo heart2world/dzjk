@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的提问</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-cell{ position: relative;}
+		.weui-cell:after{content: " "; position: absolute; left: 10px; right: 10px; bottom: 0; height: 1px; background: #f7f7f7;}
+		.weui-textarea{ background: #f6f6f6}
+	</style>
+	<body class="bgf7">
+		<header>
+			<div class="back"></div>
+			<h5>我的提问</h5>
+		</header>
+		<section id="app" class="questionListSec">
+			<div class="selectBox" @click="choseFn($event)">
+				<div class="all" :class="ischose?'active':''">{{choseText}}<i></i></div>
+				<div class="xiala" v-show="ischose">
+					<div @click="chose($event,0)">全部提问</div>
+					<div @click="chose($event,1)">待回应</div>
+					<div @click="chose($event,2)">咨询中</div>
+					<div @click="chose($event,3)">已取消</div>
+					<div @click="chose($event,4)">已结束</div>
+				</div>
+			</div>
+			<div class="empty center bgf7" v-show="isempty" style="padding-top: 5rem;">
+				<img src="../../img/zanwuxiaoxi@2x.png" width="45" />
+				<div  class="color9 pt10">暂无提问</div>
+			</div>
+			<div class="weui-cells questionListItem" v-show="!isempty" v-for="prop in list">
+	            <div class="weui-cell">
+	                <div class="weui-cell__hd"><img :src="prop.headImg" alt="" style="width:35px;height:35px; border-radius:50%;object-fit: cover; margin-right:5px;display:block"></div>
+	                <div class="weui-cell__bd">
+	                    <p>{{prop.keshi}}{{prop.name}}</p>
+	                </div>
+	                <div class="weui-cell__ft colorThem" v-if="prop.status==1">
+	                	<i v-if="prop.zt==0"></i>待回应
+	                </div>
+	                <div class="weui-cell__ft colorThem" v-if="prop.status==2">
+	                	<i v-if="prop.zt==0"></i>咨询中
+	                </div>
+	                <div class="weui-cell__ft colorc" v-if="prop.status==3">
+	                	<i v-if="prop.zt==0"></i>已取消
+	                </div>
+	                <div class="weui-cell__ft" v-if="prop.status==4" style="color: #595959;">
+	                	<i v-if="prop.zt==0"></i>已结束
+	                </div>
+	            </div>
+                <div class="content">
+                	<div class="ellipsis">问题内容：{{prop.content}}</div>
+                	<div class="size9 color9">提问时间：{{prop.times}}</div>
+                	<div>支付金额：<span class="colorRed2 bold">￥{{prop.money}}</span></div>
+                </div>
+                <a href="javascript:;" class="zhuanfa" v-if="prop.status==3">将问题转发给其他医生</a>
+	        </div>
+	        <div class="meng" v-show="ischose" @click="ischose=false"></div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			ischose:false,    //是否出现选择下拉框
+			choseText:'全部提问',   //当前选项
+			isempty:false,    //是否为空
+			list:[
+				{
+					headImg:'../../img/banner@2x.png',
+					name:'胡军1',
+					keshi:'消化科',
+					title:'中医大学附属医院肠胃专家',
+					content:'问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容',
+					times:'2018.08.08  20:20:20',
+					money:'25.00',
+					zt:0,    //读取状态（0.未读，1.已读）
+					status:1,     //（1.待回应，2.咨询中，3.已取消，4.已结束）
+				},
+				{
+					headImg:'../../img/banner@2x.png',
+					name:'胡军2',
+					keshi:'消化科',
+					title:'中医大学附属医院肠胃专家',
+					content:'问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容',
+					times:'2018.08.08  20:20:20',
+					money:'25.00',
+					zt:1,    //读取状态（0.未读，1.已读）
+					status:2,     //（1.待回应，2.咨询中，3.已取消，4.已结束）
+				},
+				{
+					headImg:'../../img/banner@2x.png',
+					name:'胡军3',
+					keshi:'消化科',
+					title:'中医大学附属医院肠胃专家',
+					content:'问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容',
+					times:'2018.08.08  20:20:20',
+					money:'25.00',
+					zt:0,    //读取状态（0.未读，1.已读）
+					status:3,     //（1.待回应，2.咨询中，3.已取消，4.已结束）
+				},
+				{
+					headImg:'../../img/banner@2x.png',
+					name:'胡军4',
+					keshi:'消化科',
+					title:'中医大学附属医院肠胃专家',
+					content:'问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容',
+					times:'2018.08.08  20:20:20',
+					money:'25.00',
+					zt:1,    //读取状态（0.未读，1.已读）
+					status:4,     //（1.待回应，2.咨询中，3.已取消，4.已结束）
+				},
+			],
+		},
+		methods:{
+			//点击打开下拉框
+			choseFn:function(evt){
+				var self=this;
+				self.ischose=true;
+			},
+			chose:function(evt,type){
+				var self=this;
+				console.log(type);
+				$(evt.target).addClass('active').siblings().removeClass('active');
+				self.choseText=$(evt.target).text();
+				self.ischose=false;
+				console.log(self.ischose)
+			}
+		}
+	})
+	
+</script>
+
+
+
+

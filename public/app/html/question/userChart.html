@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>咨询中</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="http://jqweui.com/dist/js/swiper.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-cell{ position: relative;}
+		.weui-cell:after{content: " "; position: absolute; left: 10px; right: 10px; bottom: 0; height: 1px; background: #f7f7f7;}
+		.weui-textarea{ background: #f6f6f6}
+		.weui-mask{ z-index: 10000;}
+		.weui-dialog, .weui-toast{ z-index: 10001;}
+		.clicks{ position: fixed; right: 0; bottom: 20%; width: 2rem; height: 2rem; background: #41D397; border-radius: 50%;}
+	</style>
+	<body class="bgf7">
+		<section id="app" class="chartSec" style="padding-bottom: 0;">
+			<header>
+				<div class="back"></div>
+				<h5 v-if="status==1">待回应</h5>
+				<h5 v-if="status==2">咨询中</h5>
+				<h5 v-if="status==3">已取消</h5>
+				<h5 v-if="status==4">已结束</h5>
+				<div class="aR" v-if="status==2" @click="stopFn($event)">终止问诊</div>
+				<div class="aR" v-if="status==1&&userstate==1" @click="refuseFn($event)">拒接回答</div>
+			</header>
+			<div class="chartList" id="chartList">
+				<div class="chartBox" :id="prop.id" :class="prop.state==userstate?'rBox':'lBox'" v-for="prop in chart">
+					<div class="tit">
+						<div class="headImg">
+							<img :src="prop.headImg" />
+						</div>
+						<div style="padding: 0 10px;">{{prop.name}}</div>
+					</div>
+					<div class="content">
+						<div class="text" v-if="prop.type==0">{{prop.content}}</div>
+						<div class="audio" v-if="prop.type==1">
+							<span style="width: 50%;"></span><i>{{prop.times}}s</i>
+						</div>
+						<div class="pic" v-if="prop.type==2">
+							<img :src="prop.content" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bottom" v-if="userstate==0">
+				<div class="weui-flex" v-if="status==2">
+		            <div class="weui-flex__item" @click="upImg($event)">
+		            	<div class="placeholder fapic">发图片</div>
+		            </div>
+		            <div class="weui-flex__item">
+		            	<div class="placeholder fatext">发文字</div>
+		            </div>
+		            <div class="weui-flex__item">
+		            	<div class="placeholder faaudio">发语音</div>
+		            </div>
+		        </div>
+		        <div class="wait" v-if="status==1">待医生回应</div>
+		        <template v-if="status==3">
+		        	<div class="zhuan">将问题转发给其他医生</div>
+		        	<div class="wait">提问已取消</div>
+		        </template>
+		        <div class="over" v-if="status==4">问诊已结束</div>
+			</div>
+			<div class="bottom" v-if="userstate==1">
+		        <div class="over" v-if="status==3">提问已取消</div>
+		        <div class="over" v-else-if="status==4">问诊已结束</div>
+				<div class="weui-flex" v-else>
+		            <div class="weui-flex__item" @click="send($event,1)">
+		            	<div class="placeholder fatext">发文字</div>
+		            </div>
+		            <div class="weui-flex__item" @click="send($event,2)">
+		            	<div class="placeholder faaudio">发语音</div>
+		            </div>
+		      </div>
+			</div>
+			<!--<a :href="codeid" class="clicks"></a>-->
+    		<input type="file" accept="image/*" multiple class="files none" @change="choseImg($event)"/>
+    		<input type="file" accept="image/*" class="cameras none" capture="camera" @change="choseImg($event)"/>
+			<div class="meng" v-show="isshow" style="z-index: 9999;"></div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			isshow:false,    //是否显示蒙层
+			userstate:1,    //当前用户的身份（0.用户，1.医生）
+			status:1,     //当前聊天状态（1.待回应，2.咨询中，3.已取消，4.已结束）
+			banben:'',    //手机系统版本
+			codeid:'#content6',
+			chart:[
+				{
+					id:'content1',
+					state:0,// (0.用户，1.医生)
+					name:'咚巴拉',
+					headImg:'../../img/banner@2x.png',
+					type:0,    //消息类型(0.文字，1.语音，2.图片)
+					content:'消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容',
+				},
+				{
+					id:'content2',
+					state:0,// (0.用户，1.医生)
+					name:'咚巴拉',
+					headImg:'../../img/banner@2x.png',
+					type:1,    //消息类型(0.文字，1.语音，2.图片)
+					content:'',
+					times:100,     //语音时间
+				},
+				{
+					id:'content3',
+					state:0,// (0.用户，1.医生)
+					name:'咚巴拉',
+					headImg:'../../img/banner@2x.png',
+					type:2,    //消息类型(0.文字，1.语音，2.图片)
+					content:'../../img/banner@2x.png',    //图片内容
+				},
+				{
+					id:'content4',
+					state:1,// (0.用户，1.医生)
+					name:'张医生',
+					headImg:'../../img/banner@2x.png',
+					type:0,    //消息类型(0.文字，1.语音，2.图片)
+					content:'消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容',
+				},
+				{
+					id:'content5',
+					state:1,// (0.用户，1.医生)
+					name:'张医生',
+					headImg:'../../img/banner@2x.png',
+					type:1,    //消息类型(0.文字，1.语音，2.图片)
+					content:'',
+					times:100,     //语音时间
+				},
+				{
+					id:'content6',
+					state:1,// (0.用户，1.医生)
+					name:'张医生',
+					headImg:'../../img/banner@2x.png',
+					type:2,    //消息类型(0.文字，1.语音，2.图片)
+					content:'../../img/banner@2x.png',    //图片内容
+				},
+				{
+					id:'content4',
+					state:1,// (0.用户，1.医生)
+					name:'张医生',
+					headImg:'../../img/banner@2x.png',
+					type:0,    //消息类型(0.文字，1.语音，2.图片)
+					content:'消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容',
+				},
+				{
+					id:'content5',
+					state:1,// (0.用户，1.医生)
+					name:'张医生',
+					headImg:'../../img/banner@2x.png',
+					type:1,    //消息类型(0.文字，1.语音，2.图片)
+					content:'',
+					times:100,     //语音时间
+				},
+				{
+					id:'content6',
+					state:1,// (0.用户，1.医生)
+					name:'张医生',
+					headImg:'../../img/banner@2x.png',
+					type:2,    //消息类型(0.文字，1.语音，2.图片)
+					content:'../../img/banner@2x.png',    //图片内容
+				},
+			],
+		},
+		methods:{
+			//选择方式
+			upImg:function(evt){
+				var self=this;
+				if(self.banben==0){   //安卓
+					$.actions({
+					  actions: [{
+					    text: "拍照",
+					    onClick: function() {
+					    	$('input.cameras').click();
+					    }
+					  },{
+					    text: "从相册选择",
+					    onClick: function() {
+					      $('input.files').click();
+					    }
+					  }]
+					});
+				}
+				else{    //ios
+					$('input.files').click();
+				}
+			},
+			//选择图片
+			choseImg:function(evt){
+				var self=this;
+				var length=evt.target.files.length;
+//				console.log(evt)
+//				console.log(evt.target.files)
+				console.log(evt.target.value)
+				if(length>2){
+					$.toast("最多上传两张图片","text");
+					return
+				}
+				//ajax
+				
+			},
+			//终止问诊
+			stopFn:function(evt){
+				var self=this;
+				$.modal({
+				  title: '',
+				  text: '确认结束问诊？',
+				  buttons: [
+				    { text: "取消",
+				    	onClick: function(){
+				    		
+				    	}
+			    	},
+				    { text: "确认",
+				    	onClick: function(){
+				    		$.toast("问诊已结束","text");
+				    		self.status=4;
+				    	}
+				   }
+				  ]
+				});
+			},
+			//拒绝回答
+			refuseFn:function(evt){
+				var self=this;
+				$.modal({
+				  title: '',
+				  text: '拒绝回答后问题将取消<br/>您将无法获得问题对应的报酬',
+				  buttons: [
+				    { text: "取消",
+				    	onClick: function(){
+				    		
+				    	}
+			    	},
+				    { text: "确认",
+				    	onClick: function(){
+				    		$.toast("提问已取消","text");
+				    		self.status=3;
+				    	}
+				   }
+				  ]
+				});
+			},
+			//医生选择发文字或语音
+			send:function(evt){
+				var self=this;
+				if(self.status==1){   //待回应
+					$.modal({
+					  title: '',
+					  text: '发送文字或语音代表您接受患者的提问',
+					  buttons: [
+					    { text: "取消",
+					    	onClick: function(){
+					    		
+					    	}
+				    	},
+					    { text: "确认",
+					    	onClick: function(){
+					    		
+					    	}
+					   }
+					  ]
+					});
+				}
+			}
+		}
+	})
+	$(function(){
+//		var hei=$('.bottom').height();
+//		$('#app').css('padding-bottom',hei);
+		var hei2=document.documentElement.clientHeight;
+		var headhei=$('header').height();
+		var bottomhei=$('.bottom').height();
+		var height=hei2-headhei-bottomhei;
+		$('#chartList').height(height).css('overflow','auto');
+		var div = document.getElementById('chartList');
+		div.scrollTop = div.scrollHeight;
+//		console.log(div.scrollHeight)
+//		console.log(div.scrollTop)
+	})
+	$(window).scroll(function(){
+		var hei=$(window).scrollTop();
+		console.log(hei)
+	})
+	var browser = {
+		versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+			return { //移动终端浏览器版本信息 
+				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+				iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+				iPad: u.indexOf('iPad') > -1, //是否iPad 
+			};
+		}(),
+	}
+	if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+		console.log("IOS")
+		app.banben=1;    //手机版本（0.安卓，1.ios）
+		//window.location.href = "http://www.asiayak.cn";
+	}
+	if (browser.versions.android) {
+		//window.location.href = "http://www.qq.com";
+		console.log("安卓")
+		app.banben=0;
+	}
+	
+	//图片点击放大
+	$('body img').on('click',function(){
+		var preview = $.photoBrowser({
+		    items: [
+				$(this).attr('src')
+		    ],
+		    onClose:function(){
+		    	preview.close();
+		    }
+		});
+		preview.open();
+	})
+</script>
+
+
+
+

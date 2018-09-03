@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>发语音</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.askSec .audio{ position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); border: none; margin: 0;}
+	</style>
+	<body class="bgWhie">
+		<header>
+			<div class="back"></div>
+			<h5>发语音</h5>
+		</header>
+		<section id="app" class="askSec paySec">
+			<div class="audio">
+	        	<div class="audioLine" v-show="luyin==2">
+	        		<div class="line" id="line" data-id="888"></div>
+	        		<div class="pl20">{{times}}s</div>
+	        		<i @click="delluyin($event)"></i>
+	        	</div>
+	        	<div class="audioIcon" v-show="luyin!=2" @click="startAudio($event)"></div>
+	        	<div class="center pt10 colorThem" v-show="luyin==1">{{nowtime}}</div>
+	        	<div class="colorc pd15" v-show="luyin!=2">语音最多120s</div>
+	        </div>
+            <div class="bottom" @click="sendFn($event)">发送</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			luyin:0,   //录音状态（0.未录音，1.录音中，2录音结束）
+			totaltime:120,    //最大录音时长
+			nowtime:'',    //当前的录音分秒
+			times:0,    //当前录音时长
+		},
+		methods:{
+			//点击录音按钮
+			startAudio:function(evt){
+				var self=this;
+				if(self.luyin==0){   //没有录音
+					self.luyin=1;
+					settime();
+				}
+				else if(self.luyin==1){    //录音中
+					self.luyin=2;
+					console.log($('.audio').width())
+					var num=parseInt(self.times/self.totaltime*$('.audio').width());
+					console.log(num)
+					$('#line').width(num);
+					clearTimeout(temp);
+				}
+			},
+			//删除录音
+			delluyin:function(evt){
+				var self=this;
+				self.luyin=0;
+				self.times=0;
+				self.nowtime='';
+			},
+			//发送
+			sendFn:function(evt){
+				var self=this;
+				if(self.luyin==1){    //正在录音状况下
+					$.toast("请先结束录音","text");
+					return
+				}
+				else{
+					if(self.times<1){
+						$.toast("请先进行录音","text");
+						return
+					}
+					//ajax
+				}
+			}
+		}
+	})
+	function settime(val) {
+		if(app.times == app.totaltime) {    //时间到，录音结束
+			app.luyin=2;
+			return;
+		} else {
+			app.nowtime='0'+parseInt(app.times/60)+":"+(parseInt(app.times%60)<10?'0'+parseInt(app.times%60):parseInt(app.times%60));
+			console.log(app.nowtime);
+			app.times++;
+		}
+		temp=setTimeout(function() {
+			settime(val)
+		}, 1000)
+	}
+	
+</script>
+
+
+
+

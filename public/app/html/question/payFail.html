@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>支付失败</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+		.weui-dialog__btn:first-child{ color: #999;}
+	</style>
+	<body class="">
+		<header>
+			<div class="back"></div>
+			<h5>支付失败</h5>
+		</header>
+		<section id="app" class="paySec">
+			<div class="center" style="margin-top: 8rem;">
+				<img src="../../img/zhifushibai@2x.png" width="55" />
+				<div class="pt10">支付失败！</div>
+				<div class="colorc">支付出现问题</div>
+			</div>
+			<div class="btn backHome">再试试</div>
+			<div class="btn checkMine" @click="giveUp($event)">放弃提问</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			times:5,   //回应时间
+			money:'25.00',    //支付金额
+		},
+		methods:{
+			//放弃提问
+			giveUp:function(evt){
+				$.modal({
+				  title: '',
+				  text: '放弃提问则填写的文字语音内容不再保存，确认放弃？',
+				  buttons: [
+				    { text: "取消",
+				    	onClick: function(){
+				    		
+				    	}
+			    	},
+				    { text: "确认",
+				    	onClick: function(){
+				    	
+				    	}
+				   }
+				  ]
+				});
+			}
+		}
+	})
+	
+</script>
+
+
+
+

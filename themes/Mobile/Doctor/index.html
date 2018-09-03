@@ -19,6 +19,15 @@
         display: inline-block;
         vertical-align: middle;
     }
+    .zixun{
+    	padding: .1rem;
+    	background: #41d397;
+    	border-radius: 5px;
+    	color: #fff;
+    	position: absolute;
+    	right: 0;
+    	bottom: 0;
+    }
 </style>
 <body>
 <section class="flex_column w-height100 w-bgcolorf7f7f7">
@@ -35,7 +44,7 @@
     <div class="w-flexitem1 w-section w-sectionD">
         <div class="w-paddingLeftRight02 w-marginBottom01 w-bgcolorFFF">
             <div class="w-paddingTopBottom02 w-borderBeee">
-                <div class="w-flex w-marginBottom02">
+                <div class="w-flex w-marginBottom02" style="position: relative;">
 
                     <if condition="$memberInfo['truename'] neq '官方发布'">
                     <div class="header2 w-marginRight02" style="background-image: url({$memberInfo.avatar});"><b></b></div>
@@ -66,7 +75,7 @@
 
                     <if condition="$memberInfo.showgz eq 1">
 
-                        <label  class="iconCollect w-paddingTopBottom01">
+                        <label  class="iconCollect w-paddingTopBottom01" style="padding: 0;">
                         <if condition="$memberInfo.isgz eq 1">
                             <input name="checkbox" type="checkbox" disabled checked >
                             <else/>
@@ -76,6 +85,7 @@
                         </label>
 
                     </if>
+                    <div class="zixun">向他咨询</div>
                 </div>
                 <h4 class=" w-line04 w-font14 w-color333">{$memberInfo.grjs}</h4>
             </div>
@@ -85,6 +95,8 @@
                 <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">动态：{$memberInfo.dynas}</span>
                 <b class="grayLine"></b>
                 <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">文章：{$memberInfo.wzs}</span>
+                <b class="grayLine"></b>
+                <span class="w-flexitem1 w-height04 w-textalignC w-font14 w-color333 w-onlyline">回答数：{$memberInfo.wzs}</span>
             </div>
         </div>
         <div class="w-flex navBox">

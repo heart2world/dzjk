@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>支付</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+	</style>
+	<body class="bgf7">
+		<header>
+			<div class="back"></div>
+			<h5>支付</h5>
+		</header>
+		<section id="app" class="paySec">
+			<div class="tit">
+				<div>支付金额</div>
+				<div class="colorRed2 size13 bold">￥25.00</div>
+			</div>
+			<div class="weui-cells">
+	            <div class="weui-cell">
+	                <div class="weui-cell__hd"><img :src="info.headImg" alt="" style="width:50px;height:50px;margin-right:10px;display:block;border-radius: 50%;"></div>
+	                <div class="weui-cell__bd">
+	                    <p class="color3 mb5">{{info.keshi}}{{info.name}}</p>
+	                    <p class="colorc">{{info.title}}</p>
+	                </div>
+	                <div class="weui-cell__ft"></div>
+	            </div>
+	       	</div>
+	       	<div class="pd10 bgWhite">
+		       	<div>提问时间 : <span class="color9">{{times}}</span></div>
+		       	<div>提问内容 : <span class="color9">{{content}}</span></div>
+	      	</div>
+	       	<div class="bgf7 pd15">选择支付方式</div>
+	       	<div class="weui-cells weui-cells_radio">
+		       	<label class="weui-cell weui-check__label" for="x12">
+		       		<div class="weui-cell__hd">
+		       			<img src="../../img/weixinzhifu@2x.png" alt="" style="width:26px;margin-right:5px;display:block">
+		       		</div>
+	                <div class="weui-cell__bd">
+	                    <p>微信支付</p>
+	                </div>
+	                <div class="weui-cell__ft">
+	                    <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
+	                    <span class="weui-icon-checked"></span>
+	                </div>
+	            </label>
+            </div>
+            <div class="bottom">去支付</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			info:{
+				headImg:'../../img/banner@2x.png',
+				name:'胡军',
+				keshi:'消化科',
+				title:'中医大学附属医院肠胃专家'
+			},
+			times:'2018.05.05  13:13:13',    //提问时间
+			content:'提问内容提问内容提问内容提问内容提问内容提问内容'
+		},
+		methods:{
+			
+		}
+	})
+	
+</script>
+
+
+
+

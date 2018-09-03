@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>发文字</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+	</style>
+	<body class="bgWhie">
+		<header>
+			<div class="back"></div>
+			<h5>发文字</h5>
+		</header>
+		<section id="app" class="paySec">
+			<div class="weui-cell" style="padding: 10px;">
+                <div class="weui-cell__bd bgf7">
+                    <textarea class="weui-textarea" style="padding: 10px;" placeholder="请输入" rows="3" v-model="texts"></textarea>
+                    <div class="weui-textarea-counter" style="padding: 0 10px 10px 0;">最多150字</div>
+                </div>
+            </div>
+            <div class="bottom" @click="sendFn($event)">发送</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			texts:'',
+		},
+		methods:{
+			//发送
+			sendFn:function(evt){
+				var self=this;
+				if(self.texts.length<1){
+					$.toast("请输入内容","text");
+					return
+				}
+			}
+		},
+		watch: {
+		    texts:function(val){
+		    	var self=this;
+		    	console.log(val)
+		    	if(val.length>=150){
+		    		self.texts=val.substr(0,150);
+		    	}
+		    }
+		},
+	})
+	
+</script>
+
+
+
+

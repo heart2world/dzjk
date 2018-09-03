@@ -39,7 +39,7 @@
             </div>
             <a href="javascript:;" class="iconAdd"></a>
         </div>
-        <div class="w-flexitem1 w-section w-sectionD">
+        <div class="w-flexitem1 w-section w-sectionD" id="listContent">
 
             <div id="dataList">
 
@@ -519,8 +519,67 @@
         $('.ggid').val('')
         urlJump();
     });
-
-
+	
+	//左右滑动事件
+	$("#listContent").on('touchstart',function(e){
+		var self=$(this);
+		var startX = e.originalEvent.targetTouches[0].clientX,//手指触碰屏幕的x坐标
+			pullDeltaX = 0;
+			console.log(startX)
+		self.on('touchmove',function(e){
+			var x = e.originalEvent.targetTouches[0].clientX;//手指移动后所在的坐标
+	        pullDeltaX = x - startX;//移动后的位移
+	        if (!pullDeltaX){
+	            return;
+	        }
+	        e.preventDefault();//阻止手机浏览器默认事件
+		})
+		self.on('touchend',function(e){
+			self.off('touchmove touchend');//解除touchmove和touchend事件
+	        //所要执行的代码
+	        e.preventDefault();
+	        //判断移动距离是否大于30像素
+	        if (pullDeltaX > 30){
+				console.log("向右滑，上一条");
+	            //右滑，往前翻所执行的代码
+	            var index=$('.seaechNav a.seaechNavAce').index();
+	            if(index==0){    //当前为第一项
+	            	return
+	            }
+	            else{
+	            	index--;
+	            	$('.seaechNav a').eq(index).addClass('seaechNavAce').siblings('a').removeClass('seaechNavAce')
+	            	var ids=$('.seaechNav a').eq(index).attr('data-id');
+	            	moveFun(ids);
+	            }
+	        }
+	        //判断当前页面是否为最后一页
+	        else if (pullDeltaX < -30){
+				console.log("向左滑，下一条");
+	            //左滑，往后翻所执行的代码
+	            var index=$('.seaechNav a.seaechNavAce').index();
+	            var len=$('.seaechNav a').length;
+	            if(index==len-1){    //当前为最后一项
+	            	return
+	            }
+	            else{
+	            	index++;
+	            	$('.seaechNav a').eq(index).addClass('seaechNavAce').siblings('a').removeClass('seaechNavAce')
+	            	var ids=$('.seaechNav a').eq(index).attr('data-id');
+	            	moveFun(ids);
+	            }
+	        }
+		})
+		console.log(chk_value);
+	})
+	
+	function moveFun(ids){
+		chk_value = [];
+        chk_value.push(parseInt(ids));
+        page = 1;
+        $('.ggid').val('')
+        urlJump();
+	}
 
     //选择感兴趣标签
     $('.iconAdd').click(function(){

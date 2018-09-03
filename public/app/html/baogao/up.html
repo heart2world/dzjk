@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>上传报告</title>
+	    <link rel="stylesheet" href="../../lib/weui/weui.min.css" />
+	    <link rel="stylesheet" href="../../lib/weui/jquery-weui.css" />
+	    <link rel="stylesheet" href="../../lib/mui/mui.min.css" />
+	    <link rel="stylesheet" href="../../lib/mui/mui.picker.min.css" />
+	    <link rel="stylesheet" href="../../lib/mui/mui.poppicker.css" />
+	    <link rel="stylesheet" href="../../css/public.css" />
+	    <link rel="stylesheet" href="../../css/style.css" />
+	    <script type="text/javascript" src="../../lib/jq/jquery-1.10.2.js" ></script>
+	    <script type="text/javascript" src="../../lib/weui/jquery-weui.js" ></script>
+	    <script type="text/javascript" src="../../lib/mui/mui.js" ></script>
+	    <script type="text/javascript" src="../../lib/mui/mui.picker.min.js" ></script>
+	    <script type="text/javascript" src="../../lib/mui/mui.poppicker.js" ></script>
+	    <script type="text/javascript" src="http://jqweui.com/dist/js/swiper.js" ></script>
+	    <script type="text/javascript" src="../../js/v.min.js" ></script>
+	    <script type="text/javascript" src="../../js/common.js" ></script>
+	</head>
+	<style>
+		.weui-cells{ margin-top: 0;}
+		.weui-cells:after,.weui-cells:before,.weui-cell:before{ display: none;}
+		.weui-textarea{ background: #f6f6f6}
+		.weui-dialog__btn:first-child{ color: #999;}
+		.baogaoList .baogaoBox{ border-bottom: 5px solid #f6f6f6;}
+		.weui-dialog__btn:first-child{ color: #999;}
+		.weui-cell_access .weui-cell__ft:after{ border-width: 1px 1px 0 0;border-color:#595959;margin-top: -2px;}
+		
+		/*更新mui样式*/
+		input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea{
+			height: auto; margin: 0;
+		}
+		.mui-dtpicker, .mui-poppicker{ background-color: #f7f7f7;}
+		.mui-picker{ background-color: #fff;}
+		.mui-dtpicker-title{ display: none;}
+		.mui-btn, button, input[type=button], input[type=reset], input[type=submit]{ color: #ccc; background: none; border: 0; font-size: 1rem;}
+		.mui-btn-blue, .mui-btn-primary, input[type=submit]{ color: #41D397; background: none; border: 0; font-size: 1rem;}
+	</style>
+	<body class="bgf7">
+		<header>
+			<div class="back"></div>
+			<h5>上传报告</h5>
+		</header>
+		<section id="app" class="bgSec" style="padding-bottom: 35px;">
+	        <div class="bgf7 pd10 size11">报告</div>
+	        <div class="weui-cells weui-cells_form">
+	            <div class="weui-cell">
+	                <div class="weui-cell__hd">
+	                	<label class="weui-label">
+	                		<span class="colorRed2">*</span>报告名称
+	                	</label>
+	                </div>
+	                <div class="weui-cell__bd">
+	                    <input class="weui-input right" v-model="bgname" type="text" placeholder="请填写报告名称">
+	                </div>
+	            </div>
+	            <div class="weui-cell">
+	                <div class="weui-cell__hd">
+	                	<label class="weui-label">
+	                		<span class="colorRed2">*</span>检测机构
+	                	</label>
+	                </div>
+	                <div class="weui-cell__bd">
+	                    <input class="weui-input right" v-model="bgjigou" type="text" placeholder="请填写检测机构">
+	                </div>
+	            </div>
+	            <div class="weui-cell weui-cell_access">
+	                <div class="weui-cell__hd">
+	                	<label class="weui-label">
+	                		<span class="colorRed2">*</span>检测时间
+	                	</label>
+	                </div>
+	                <div class="weui-cell__bd">
+	                    <input class="weui-input right" id='datetimepicker' v-model="bgtimes" type="text" placeholder="请选择检测时间" readonly>
+	                </div>
+	                <div class="weui-cell__ft"></div>
+	            </div>
+	        </div>
+	        <div class="bgf7 pd10 size11">报告图片<span class="color9 size9"> (至少一张，最多9张)</span></div>
+	        <div class="picBox bgWhite">
+	            <div class="picItem">
+	            	<div>
+		            	<img src="../../img/banner@2x.png" />
+		            	<i @click="delPic($event)"></i>
+		            	<input type="hidden" />
+	            	</div>
+	            </div>
+	            <div class="picItem">
+	            	<div>
+		            	<img src="../../img/banner@2x.png" />
+		            	<i @click="delPic($event)"></i>
+		            	<input type="hidden" />
+	            	</div>
+	            </div>
+	            <div class="picItem">
+	            	<div>
+		            	<img src="../../img/banner@2x.png" />
+		            	<i @click="delPic($event)"></i>
+		            	<input type="hidden" />
+	            	</div>
+	            </div>
+	            <div class="picItem camera" @click="upImg($event)">
+	            	<div>
+	            		<!--<input type="file" accept="image/*" multiple @change="choseImg($event)" />-->
+	            	</div>
+	            </div>
+	        </div>
+    		<input type="file" accept="image/*" multiple class="files none" @change="choseImg($event)"/>
+    		<input type="file" accept="image/*" class="cameras none" capture="camera" @change="choseImg($event)"/>
+	        <div class="bottom" @click="upBaogao($event)">上传报告</div>
+		</section>
+	</body>
+</html>
+<script>
+	var temp;
+	var app = new Vue({
+		el:'#app',
+		data:{
+			bgname:'',     //报告名称
+			bgtimes:'',     //报告时间
+			bgjigou:'',      //检测机构
+			picurls:[],    //图片路径
+			banben:'',    //手机系统版本
+		},
+		methods:{
+			//选择方式
+			upImg:function(evt){
+				var self=this;
+				if(self.banben==0){   //安卓
+					$.actions({
+					  actions: [{
+					    text: "拍照",
+					    onClick: function() {
+					    	$('input.cameras').click();
+					    }
+					  },{
+					    text: "从相册选择",
+					    onClick: function() {
+					      $('input.files').click();
+					    }
+					  }]
+					});
+				}
+				else{    //ios
+					$('input.files').click();
+				}
+			},
+			//选择图片
+			choseImg:function(evt){
+				var self=this;
+				var length=evt.target.files.length;
+//				console.log(evt)
+//				console.log(evt.target.files)
+				console.log(evt.target.value)
+				if(length>9){
+					$.toast("最多上传九张图片","text");
+					return
+				}
+				//ajax
+				
+			},
+			//删除图片
+			delPic:function(evt){
+				var self=this;
+				$(evt.target).parents('.picItem').remove();
+			},
+			//上传报告
+			upBaogao:function(evt){
+				var self=this;
+				if(self.bgname.length<1||self.bgjigou.length<1||self.bgtimes.length<1||self.picurls.length<1){
+					$.toast("填写的信息不完整，<br/>请检查后上传","text");
+					return
+				}
+				//ajax
+			}
+		},
+		watch: {
+		    picurls:function(val){
+		    	var self=this;
+		    	if(val.length==9){
+		    		$('.picItem.camera').hide();
+		    	}
+		    }
+		},
+	})
+	
+	$(function(){
+		var wid=$('.picItem').width();
+		$('.picItem').height(wid);
+		$('#datetimepicker').click(function() {
+			var dtpickerStartTime = new mui.DtPicker({
+				type : "date",
+				beginDate:new Date(1970,00,01),
+				endDate:new Date(),
+				customData : {
+				}
+			})
+			$('.mui-dtpicker-header').addClass('disbox');
+			$('.mui-dtpicker').each(function(){
+				$(this).find('.mui-dtpicker-header .mui-btn').eq(0).after("<h5 class='disflex' style='line-height: 30px; text-align: center; color:#595959'>选择日期</h5>");
+			})
+			dtpickerStartTime.show(function(e) {//开始时间
+				app.bgtimes=e.value;
+				console.log(e)
+			})
+		})
+	})
+	var browser = {
+		versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+			return { //移动终端浏览器版本信息 
+				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+				iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+				iPad: u.indexOf('iPad') > -1, //是否iPad 
+			};
+		}(),
+	}
+	if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+		console.log("IOS")
+		app.banben=1;    //手机版本（0.安卓，1.ios）
+		//window.location.href = "http://www.asiayak.cn";
+	}
+	if (browser.versions.android) {
+		//window.location.href = "http://www.qq.com";
+		console.log("安卓")
+		app.banben=0;
+	}
+	
+	//图片点击放大
+	$('.picItem img').on('click',function(){
+		var preview = $.photoBrowser({
+		    items: [
+				$(this).attr('src')
+		    ],
+		    onClose:function(){
+		    	preview.close();
+		    }
+		});
+		preview.open();
+	})
+</script>
+
+
+
+
